@@ -20,8 +20,8 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: 'Forge Eleven — Creative Digital Agency',
-  description: 'Cinematic web experiences for ambitious brands.',
+  title: 'The Black Pearch — Fine Dining',
+  description: 'An intimate, cinematic dining experience.',
 }
 
 export default function RootLayout({

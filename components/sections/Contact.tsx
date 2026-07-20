@@ -179,18 +179,18 @@ export default function Contact() {
       >
         <span style={{ display: 'block', overflow: 'hidden' }}>
           <span className="line-inner" style={{ display: 'block' }}>
-            Let&apos;s create something
+            Your table awaits
           </span>
         </span>
         <span style={{ display: 'block', overflow: 'hidden' }}>
           <span className="line-inner" style={{ display: 'block' }}>
-            <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>unforgettable.</span>
+            <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>an unforgettable evening.</span>
           </span>
         </span>
       </h2>
 
       <a
-        href="mailto:hello@forgeleven.com"
+        href="mailto:reservations@theblackpearch.com"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
@@ -205,7 +205,7 @@ export default function Contact() {
           transition: 'color 0.4s ease, border-color 0.4s ease',
         }}
       >
-        hello@forgeleven.com
+        reservations@theblackpearch.com
       </a>
 
       {/* ── Contact Form ──────────────────────────────────────── */}
@@ -398,7 +398,7 @@ export default function Contact() {
           letterSpacing: '0.1em',
           color: 'rgba(240,237,230,0.25)',
         }}>
-          © 2024 Forge Eleven. All rights reserved.
+          © 2024 The Black Pearch. All rights reserved.
         </span>
         <span style={{
           fontFamily: 'var(--font-dm-sans), sans-serif',
