@@ -8,7 +8,7 @@ import GlassBadge from '@/components/ui/GlassBadge'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const WORDS = ['Crafting', 'Digital', 'Experiences']
+const WORDS = ['Your', 'Everyday', 'Chill', 'Spot']
 
 const GRAIN = {
   backgroundImage:
@@ -36,78 +36,23 @@ export default function Hero() {
 
       const tl = gsap.timeline({ delay: 0.4 })
 
-      tl.to(lineRef.current, {
-        opacity: 1,
-        scaleX: 1,
-        duration: 1.2,
-        ease: 'power4.inOut',
-      })
-
-      tl.to(
-        labelRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-        },
-        '-=0.5'
-      )
-
-      tl.to(
-        subRef.current,
-        {
-          opacity: 1,
-          duration: 0.6,
-          ease: 'power3.out',
-        },
-        '-=0.3'
-      )
-
-      tl.to(
-        words || [],
-        {
-          y: '0%',
-          opacity: 1,
-          duration: 1.1,
-          stagger: 0.13,
-          ease: 'power4.out',
-        },
-        '-=0.2'
-      )
-
-      tl.to(
-        bottomRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-        },
-        '-=0.4'
-      )
+      tl.to(lineRef.current, { opacity: 1, scaleX: 1, duration: 1.2, ease: 'power4.inOut' })
+        .to(labelRef.current, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+        .to(subRef.current, { opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.3')
+        .to(words || [], { y: '0%', opacity: 1, duration: 1.1, stagger: 0.13, ease: 'power4.out' }, '-=0.2')
+        .to(bottomRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4')
 
       gsap.to(bgRef.current, {
         yPercent: 20,
         ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true },
       })
 
       gsap.to(headingRef.current, {
         y: -80,
         opacity: 0,
         ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: '10% top',
-          end: '50% top',
-          scrub: true,
-        },
+        scrollTrigger: { trigger: sectionRef.current, start: '10% top', end: '50% top', scrub: true },
       })
     }, sectionRef)
 
@@ -127,14 +72,15 @@ export default function Hero() {
         justifyContent: 'center',
       }}
     >
+      {/* [VID-HERO-BACKGROUND-LOOP] — 24s muted loop per Hub spec.
+          Mobile: swap to [IMG-HERO-MOBILE-VERTICAL] via media query, per doc's data-saving note. */}
       <div ref={bgRef} style={{ position: 'absolute', inset: 0, top: '-20%', bottom: '-20%' }}>
         <div style={{ position: 'absolute', inset: 0, background: '#080808' }} />
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background:
-              'radial-gradient(ellipse 70% 40% at 60% 0%, rgba(201,169,110,0.13) 0%, transparent 70%)',
+            background: 'linear-gradient(to bottom, rgba(11,12,16,0.6), rgba(11,12,16,0.9))',
           }}
         />
         <div style={{ position: 'absolute', inset: 0, opacity: 0.04, ...GRAIN }} />
@@ -145,16 +91,10 @@ export default function Hero() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
           <div
             ref={lineRef}
-            style={{
-              width: '56px',
-              height: '1px',
-              background: '#c9a96e',
-              transform: 'scaleX(1)',
-              transformOrigin: 'left center',
-            }}
+            style={{ width: '56px', height: '1px', background: '#c9a96e', transform: 'scaleX(1)', transformOrigin: 'left center' }}
           />
           <div ref={labelRef}>
-            <GlassBadge>Creative Studio</GlassBadge>
+            <GlassBadge>Milimani, Meru</GlassBadge>
           </div>
         </div>
 
@@ -169,23 +109,30 @@ export default function Hero() {
             marginBottom: '32px',
           }}
         >
-          Est. 2024
+          Open 24/7
         </p>
 
         <h1
           ref={headingRef}
           style={{
             fontFamily: 'var(--font-cormorant), serif',
-            fontSize: 'clamp(4rem,11vw,10rem)',
-            lineHeight: 0.9,
+            fontSize: 'clamp(3.2rem,9vw,8.5rem)',
+            lineHeight: 0.95,
             color: '#f0ede6',
             marginBottom: '64px',
             fontWeight: 300,
           }}
         >
           {WORDS.map((word, i) => (
-            <span key={i} style={{ display: 'inline-block', overflow: 'hidden', marginRight: '0.2em' }}>
-              <span className="word" style={{ display: 'inline-block' }}>
+            <span key={i} style={{ display: 'inline-block', overflow: 'hidden', marginRight: '0.25em' }}>
+              <span
+                className="word"
+                style={{
+                  display: 'inline-block',
+                  color: i === 2 || i === 3 ? '#c9a96e' : undefined,
+                  fontStyle: i === 2 || i === 3 ? 'italic' : undefined,
+                }}
+              >
                 {word}
               </span>
             </span>
@@ -198,29 +145,52 @@ export default function Hero() {
               fontFamily: 'var(--font-dm-sans), sans-serif',
               fontSize: '13px',
               color: 'rgba(240,237,230,0.4)',
-              maxWidth: '260px',
+              maxWidth: '340px',
               lineHeight: 1.7,
             }}
           >
-            Bespoke digital experiences for brands that refuse to be ordinary.
+            From daytime coffee meetings and relaxing spa treatments to vibrant family lunches
+            and the ultimate nightlife experience.
           </p>
 
-          <a
-            href="/work"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '20px',
-              fontFamily: 'var(--font-dm-sans), sans-serif',
-              fontSize: '11px',
-              letterSpacing: '0.25em',
-              textTransform: 'uppercase',
-              color: 'rgba(240,237,230,0.6)',
-            }}
-          >
-            <span>View Work</span>
-            <span style={{ display: 'block', width: '64px', height: '1px', background: 'currentColor' }} />
-          </a>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+            
+              href="#reserve"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px',
+                fontFamily: 'var(--font-dm-sans), sans-serif',
+                fontSize: '11px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                fontWeight: 600,
+                color: '#080808',
+                background: '#c9a96e',
+                padding: '16px 32px',
+                transition: 'transform 0.3s ease',
+              }}
+            >
+              Book a Table
+            </a>
+            
+              href="#pillars"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px',
+                fontFamily: 'var(--font-dm-sans), sans-serif',
+                fontSize: '11px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: 'rgba(240,237,230,0.7)',
+                border: '2px solid rgba(240,237,230,0.5)',
+                padding: '14px 32px',
+              }}
+            >
+              Explore Our Services
+            </a>
+          </div>
         </div>
       </div>
 
@@ -236,45 +206,12 @@ export default function Hero() {
           gap: '12px',
         }}
       >
-        <span
-          style={{
-            fontFamily: 'var(--font-dm-sans), sans-serif',
-            fontSize: '9px',
-            letterSpacing: '0.4em',
-            textTransform: 'uppercase',
-            color: 'rgba(240,237,230,0.2)',
-          }}
-        >
+        <span style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '9px', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'rgba(240,237,230,0.2)' }}>
           Scroll
         </span>
-        <div
-          style={{
-            width: '1px',
-            height: '56px',
-            background: 'rgba(240,237,230,0.08)',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            className="animate-scroll-line"
-            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#c9a96e' }}
-          />
+        <div style={{ width: '1px', height: '56px', background: 'rgba(240,237,230,0.08)', position: 'relative', overflow: 'hidden' }}>
+          <div className="animate-scroll-line" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#c9a96e' }} />
         </div>
-      </div>
-
-      <div style={{ position: 'absolute', top: '96px', right: '80px' }}>
-        <span
-          style={{
-            fontFamily: 'var(--font-dm-sans), sans-serif',
-            fontSize: '9px',
-            letterSpacing: '0.3em',
-            color: 'rgba(240,237,230,0.12)',
-            textTransform: 'uppercase',
-          }}
-        >
-          001 / Hero
-        </span>
       </div>
     </section>
   )

@@ -20,8 +20,8 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: 'The Black Pearch — Fine Dining',
-  description: 'An intimate, cinematic dining experience.',
+  title: 'The Black Pearch — Meru\'s Premier Lifestyle & Entertainment Hub',
+  description: 'Lounge, cafe, spa, creamery, and auto care — one destination in Milimani, Meru. Open 24/7.',
 }
 
 export default function RootLayout({
