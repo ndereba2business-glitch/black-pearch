@@ -72,8 +72,6 @@ export default function Hero() {
         justifyContent: 'center',
       }}
     >
-      {/* [VID-HERO-BACKGROUND-LOOP] — 24s muted loop per Hub spec.
-          Mobile: swap to [IMG-HERO-MOBILE-VERTICAL] via media query, per doc's data-saving note. */}
       <div ref={bgRef} style={{ position: 'absolute', inset: 0, top: '-20%', bottom: '-20%' }}>
         <div style={{ position: 'absolute', inset: 0, background: '#080808' }} />
         <div
@@ -154,7 +152,7 @@ export default function Hero() {
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-            
+            <a
               href="#reserve"
               style={{
                 display: 'inline-flex',
@@ -174,6 +172,7 @@ export default function Hero() {
               Book a Table
             </a>
             
+            <a
               href="#pillars"
               style={{
                 display: 'inline-flex',
