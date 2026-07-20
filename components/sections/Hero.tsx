@@ -3,12 +3,11 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import FloatingShapes from '@/components/ui/FloatingShapes'
-import GlassBadge from '@/components/ui/GlassBadge'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const WORDS = ['Your', 'Everyday', 'Chill', 'Spot']
+const HEADLINE_LINES = ['Your Everyday', 'Chill Spot']
+const SUB_PHRASES = ['Coffee By Day.', 'Cocktails By Night.', 'Indulge Always.']
 
 const GRAIN = {
   backgroundImage:
@@ -21,35 +20,31 @@ export default function Hero() {
   const headingRef = useRef<HTMLHeadingElement>(null)
   const subRef = useRef<HTMLParagraphElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
-  const labelRef = useRef<HTMLDivElement>(null)
   const bgRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set([lineRef.current, labelRef.current, subRef.current, bottomRef.current], {
-        opacity: 0,
-      })
+      gsap.set([lineRef.current, subRef.current, bottomRef.current], { opacity: 0 })
 
-      const words = headingRef.current?.querySelectorAll('.word')
-      gsap.set(words || [], { y: '110%', opacity: 0 })
+      const lines = headingRef.current?.querySelectorAll('.line-inner')
+      gsap.set(lines || [], { y: '110%' })
 
       const tl = gsap.timeline({ delay: 0.4 })
 
       tl.to(lineRef.current, { opacity: 1, scaleX: 1, duration: 1.2, ease: 'power4.inOut' })
-        .to(labelRef.current, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
-        .to(subRef.current, { opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.3')
-        .to(words || [], { y: '0%', opacity: 1, duration: 1.1, stagger: 0.13, ease: 'power4.out' }, '-=0.2')
+        .to(lines || [], { y: '0%', duration: 1.1, stagger: 0.15, ease: 'power4.out' }, '-=0.6')
+        .to(subRef.current, { opacity: 1, duration: 0.7, ease: 'power3.out' }, '-=0.5')
         .to(bottomRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4')
 
       gsap.to(bgRef.current, {
-        yPercent: 20,
+        yPercent: 15,
         ease: 'none',
         scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true },
       })
 
       gsap.to(headingRef.current, {
-        y: -80,
+        y: -60,
         opacity: 0,
         ease: 'none',
         scrollTrigger: { trigger: sectionRef.current, start: '10% top', end: '50% top', scrub: true },
@@ -61,6 +56,7 @@ export default function Hero() {
 
   return (
     <section
+      id="home"
       ref={sectionRef}
       style={{
         position: 'relative',
@@ -69,148 +65,115 @@ export default function Hero() {
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
       }}
     >
-      <div ref={bgRef} style={{ position: 'absolute', inset: 0, top: '-20%', bottom: '-20%' }}>
-        <div style={{ position: 'absolute', inset: 0, background: '#080808' }} />
+      <div ref={bgRef} style={{ position: 'absolute', inset: 0, top: '-15%', bottom: '-15%' }}>
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(11,12,16,0.6), rgba(11,12,16,0.9))',
+            background:
+              'radial-gradient(ellipse 90% 60% at 50% 20%, rgba(60,48,26,0.35) 0%, transparent 60%), #060605',
           }}
         />
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.04, ...GRAIN }} />
-      </div>
-      <FloatingShapes />
-
-      <div className="hero-content-padding" style={{ position: 'relative', zIndex: 10, padding: '80px 0 0 0' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
-          <div
-            ref={lineRef}
-            style={{ width: '56px', height: '1px', background: '#c9a96e', transform: 'scaleX(1)', transformOrigin: 'left center' }}
-          />
-          <div ref={labelRef}>
-            <GlassBadge>Milimani, Meru</GlassBadge>
-          </div>
-        </div>
-
-        <p
-          ref={subRef}
+        <div
           style={{
-            fontFamily: 'var(--font-dm-sans), sans-serif',
-            fontSize: '11px',
-            letterSpacing: '0.25em',
-            textTransform: 'uppercase',
-            color: 'rgba(240,237,230,0.3)',
-            marginBottom: '32px',
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to top, rgba(6,6,5,0.97) 0%, rgba(6,6,5,0.55) 45%, rgba(6,6,5,0.75) 100%)',
           }}
-        >
-          Open 24/7
-        </p>
+        />
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.05, ...GRAIN }} />
+      </div>
+
+      <div
+        className="hero-content-padding section-padding"
+        style={{ position: 'relative', zIndex: 10, paddingBottom: '140px', maxWidth: '900px' }}
+      >
+        <div
+          ref={lineRef}
+          style={{ width: '56px', height: '1px', background: '#c9a96e', transform: 'scaleX(1)', transformOrigin: 'left center', marginBottom: '28px' }}
+        />
 
         <h1
           ref={headingRef}
           style={{
             fontFamily: 'var(--font-cormorant), serif',
-            fontSize: 'clamp(3.2rem,9vw,8.5rem)',
-            lineHeight: 0.95,
+            fontSize: 'clamp(2.6rem,6.5vw,5.5rem)',
+            lineHeight: 1.05,
             color: '#f0ede6',
-            marginBottom: '64px',
             fontWeight: 300,
+            textTransform: 'uppercase',
+            letterSpacing: '0.01em',
+            marginBottom: '32px',
           }}
         >
-          {WORDS.map((word, i) => (
-            <span key={i} style={{ display: 'inline-block', overflow: 'hidden', marginRight: '0.25em' }}>
-              <span
-                className="word"
-                style={{
-                  display: 'inline-block',
-                  color: i === 2 || i === 3 ? '#c9a96e' : undefined,
-                  fontStyle: i === 2 || i === 3 ? 'italic' : undefined,
-                }}
-              >
-                {word}
-              </span>
+          {HEADLINE_LINES.map((line, i) => (
+            <span key={i} style={{ display: 'block', overflow: 'hidden' }}>
+              <span className="line-inner" style={{ display: 'block' }}>{line}</span>
             </span>
           ))}
         </h1>
 
-        <div ref={bottomRef} style={{ display: 'flex', flexDirection: 'column', gap: '32px', opacity: 0 }}>
-          <p
+        <p
+          ref={subRef}
+          style={{
+            fontFamily: 'var(--font-dm-sans), sans-serif',
+            fontSize: '12px',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'rgba(240,237,230,0.55)',
+            marginBottom: '48px',
+          }}
+        >
+          {SUB_PHRASES.join('  ')}
+        </p>
+
+        <div ref={bottomRef} style={{ opacity: 0 }}>
+          <a
+            href="#reserve"
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '14px',
               fontFamily: 'var(--font-dm-sans), sans-serif',
-              fontSize: '13px',
-              color: 'rgba(240,237,230,0.4)',
-              maxWidth: '340px',
-              lineHeight: 1.7,
+              fontSize: '11px',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: '#f0ede6',
+              border: '1px solid rgba(240,237,230,0.4)',
+              padding: '18px 32px',
+              transition: 'border-color 0.3s ease, color 0.3s ease',
             }}
           >
-            From daytime coffee meetings and relaxing spa treatments to vibrant family lunches
-            and the ultimate nightlife experience.
-          </p>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-            <a
-              href="#reserve"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '12px',
-                fontFamily: 'var(--font-dm-sans), sans-serif',
-                fontSize: '11px',
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                fontWeight: 600,
-                color: '#080808',
-                background: '#c9a96e',
-                padding: '16px 32px',
-                transition: 'transform 0.3s ease',
-              }}
-            >
-              Book a Table
-            </a>
-            
-            <a
-              href="#pillars"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '12px',
-                fontFamily: 'var(--font-dm-sans), sans-serif',
-                fontSize: '11px',
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: 'rgba(240,237,230,0.7)',
-                border: '2px solid rgba(240,237,230,0.5)',
-                padding: '14px 32px',
-              }}
-            >
-              Explore Our Services
-            </a>
-          </div>
+            Reserve A Table
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
 
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '40px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '12px',
-        }}
-      >
-        <span style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '9px', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'rgba(240,237,230,0.2)' }}>
+      <div style={{ position: 'absolute', bottom: '40px', left: 'clamp(24px, 8%, 80px)', display: 'flex', alignItems: 'center', gap: '16px', zIndex: 10 }}>
+        {['IG', 'FB', 'TT'].map((s, i, arr) => (
+          <span key={s} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <a href="#" style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '11px', letterSpacing: '0.15em', color: 'rgba(240,237,230,0.5)' }}>
+              {s}
+            </a>
+            {i < arr.length - 1 && <span style={{ color: 'rgba(240,237,230,0.2)' }}>|</span>}
+          </span>
+        ))}
+        <span style={{ width: '48px', height: '1px', background: 'rgba(240,237,230,0.2)' }} />
+      </div>
+
+      <div style={{ position: 'absolute', bottom: '36px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', zIndex: 10 }}>
+        <span style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '9px', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'rgba(240,237,230,0.35)' }}>
           Scroll
         </span>
-        <div style={{ width: '1px', height: '56px', background: 'rgba(240,237,230,0.08)', position: 'relative', overflow: 'hidden' }}>
+        <span style={{ fontSize: '11px', color: 'rgba(240,237,230,0.3)' }}>↓</span>
+        <div style={{ width: '1px', height: '40px', background: 'rgba(240,237,230,0.08)', position: 'relative', overflow: 'hidden' }}>
           <div className="animate-scroll-line" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#c9a96e' }} />
         </div>
+        <span style={{ width: '6px', height: '6px', borderRadius: '50%', border: '1px solid rgba(240,237,230,0.3)' }} />
       </div>
     </section>
   )
