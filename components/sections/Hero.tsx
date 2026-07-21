@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Instagram, Facebook, MapPin, Clock, ArrowDown } from 'lucide-react'
+import { IconInstagram, IconFacebook, IconMapPin, IconClock, IconArrowDown } from '@/components/ui/icons'
 
 import GlassBadge from '@/components/ui/GlassBadge'
 import GrainOverlay from '@/components/ui/GrainOverlay'
@@ -139,7 +139,7 @@ export default function Hero() {
         <div ref={imageRef} style={{ position: 'absolute', inset: 0 }}>
           {!imageFailed && (
             <Image
-              src="/hero/black-perch-hero-desktop.jpg"
+              src="/hero/black-perch-hero-desktop.png"
               alt="The Black Perch — cinematic restaurant interior at night"
               fill
               priority
@@ -252,11 +252,11 @@ export default function Hero() {
           style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginBottom: '44px' }}
         >
           <GlassBadge>
-            <Clock size={12} style={{ marginRight: 2 }} />
+            <IconClock width={12} height={12} style={{ marginRight: 2 }} />
             Open 24/7
           </GlassBadge>
           <GlassBadge>
-            <MapPin size={12} style={{ marginRight: 2 }} />
+            <IconMapPin width={12} height={12} style={{ marginRight: 2 }} />
             Milimani Road, Meru
           </GlassBadge>
         </div>
@@ -329,10 +329,10 @@ export default function Hero() {
       >
         <span style={{ width: '1px', height: '48px', background: 'rgba(240,237,230,0.2)' }} />
         <a href="#" aria-label="Instagram" style={{ color: 'rgba(240,237,230,0.5)' }}>
-          <Instagram size={16} />
+          <IconInstagram />
         </a>
         <a href="#" aria-label="Facebook" style={{ color: 'rgba(240,237,230,0.5)' }}>
-          <Facebook size={16} />
+          <IconFacebook />
         </a>
         <span style={{ width: '1px', height: '48px', background: 'rgba(240,237,230,0.2)' }} />
       </div>
@@ -350,7 +350,7 @@ export default function Hero() {
         }}
         className="hero-scroll-indicator"
       >
-        <ArrowDown size={14} color="rgba(240,237,230,0.35)" />
+        <IconArrowDown width={14} height={14} color="rgba(240,237,230,0.35)" />
         <span
           style={{
             fontFamily: 'var(--font-dm-sans), sans-serif',

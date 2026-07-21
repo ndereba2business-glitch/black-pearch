@@ -98,16 +98,19 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Inner dot — snappy, precise */}
+      {/* Inner dot — snappy, precise. Sized up + glow so it reads on a
+          near-black theme regardless of what's underneath it. */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-2 h-2 bg-forge-eleven-accent rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
+        className="fixed top-0 left-0 w-3 h-3 bg-forge-eleven-accent rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2"
+        style={{ boxShadow: '0 0 12px 2px rgba(201,169,110,0.55)' }}
       />
 
       {/* Outer ring — lagged, expands on hover */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 w-8 h-8 border border-forge-eleven-accent rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2"
+        className="fixed top-0 left-0 w-11 h-11 border-[1.5px] border-forge-eleven-accent rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2"
+        style={{ opacity: 0.8, boxShadow: '0 0 12px 2px rgba(201,169,110,0.55)' }}
       />
     </>
   )
