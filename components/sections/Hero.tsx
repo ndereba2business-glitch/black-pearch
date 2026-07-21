@@ -1,62 +1,124 @@
-﻿'use client'
+﻿// components/sections/Hero.tsx
+'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Instagram, Facebook, MapPin, Clock, ArrowDown } from 'lucide-react'
+
+import GlassBadge from '@/components/ui/GlassBadge'
+import GrainOverlay from '@/components/ui/GrainOverlay'
+import CinematicFog from '@/components/ui/CinematicFog'
+import CursorGlow from '@/components/ui/CursorGlow'
+import AmbientParticles from '@/components/ui/AmbientParticles'
+import { heroImageReveal, heroHeadingReveal, fadeUp, magneticHover } from '@/lib/animations'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const HEADLINE_LINES = ['Your Everyday', 'Chill Spot']
-const SUB_PHRASES = ['Coffee By Day.', 'Cocktails By Night.', 'Indulge Always.']
-
-const GRAIN = {
-  backgroundImage:
-    "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E\")",
-  backgroundSize: '200px 200px',
-}
+const TITLE_WORDS = ['The', 'Black', 'Perch']
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
+  const imageWrapRef = useRef<HTMLDivElement>(null)
+  const imageRef = useRef<HTMLDivElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const subRef = useRef<HTMLParagraphElement>(null)
+  const metaRowRef = useRef<HTMLDivElement>(null)
+  const ctaRowRef = useRef<HTMLDivElement>(null)
+  const labelRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
-  const bgRef = useRef<HTMLDivElement>(null)
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const primaryBtnRef = useRef<HTMLAnchorElement>(null)
+  const secondaryBtnRef = useRef<HTMLAnchorElement>(null)
 
+  const [imageFailed, setImageFailed] = useState(false)
+
+  // ── Entrance timeline + scroll parallax ─────────────────────
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set([lineRef.current, subRef.current, bottomRef.current], { opacity: 0 })
+      // Layer 1 — Ken Burns background reveal
+      heroImageReveal(imageRef.current)
 
-      const lines = headingRef.current?.querySelectorAll('.line-inner')
-      gsap.set(lines || [], { y: '110%' })
-
-      const tl = gsap.timeline({ delay: 0.4 })
-
-      tl.to(lineRef.current, { opacity: 1, scaleX: 1, duration: 1.2, ease: 'power4.inOut' })
-        .to(lines || [], { y: '0%', duration: 1.1, stagger: 0.15, ease: 'power4.out' }, '-=0.6')
-        .to(subRef.current, { opacity: 1, duration: 0.7, ease: 'power3.out' }, '-=0.5')
-        .to(bottomRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4')
-
-      gsap.to(bgRef.current, {
-        yPercent: 15,
-        ease: 'none',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: 'bottom top', scrub: true },
+      gsap.set([lineRef.current, labelRef.current, subRef.current, metaRowRef.current, ctaRowRef.current], {
+        opacity: 0,
       })
 
+      const words = headingRef.current?.querySelectorAll('.word')
+
+      const tl = gsap.timeline({ delay: 0.5 })
+
+      tl.to(lineRef.current, { opacity: 1, scaleX: 1, duration: 1.2, ease: 'power4.inOut' })
+        .to(labelRef.current, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+        .add(() => heroHeadingReveal(words || null), '-=0.3')
+        .to(subRef.current, { opacity: 1, duration: 0.7, ease: 'power3.out' }, '-=0.6')
+        .to(metaRowRef.current, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
+        .to(ctaRowRef.current, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4')
+
+      // Layer 1 — subtle scroll parallax on the background image
+      gsap.to(imageWrapRef.current, {
+        yPercent: 18,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+
+      // Heading + content lift out as user scrolls past
       gsap.to(headingRef.current, {
         y: -60,
         opacity: 0,
         ease: 'none',
-        scrollTrigger: { trigger: sectionRef.current, start: '10% top', end: '50% top', scrub: true },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: '10% top',
+          end: '55% top',
+          scrub: true,
+        },
       })
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
 
+  // ── Soft floating camera movement based on mouse position ───
+  useEffect(() => {
+    const wrap = imageWrapRef.current
+    if (!wrap) return
+    if (window.matchMedia('(hover: none)').matches) return // skip on touch
+
+    const xTo = gsap.quickTo(wrap, 'x', { duration: 1.4, ease: 'power3.out' })
+    const yTo = gsap.quickTo(wrap, 'y', { duration: 1.4, ease: 'power3.out' })
+
+    const onMove = (e: MouseEvent) => {
+      const relX = e.clientX / window.innerWidth - 0.5
+      const relY = e.clientY / window.innerHeight - 0.5
+      xTo(relX * 24) // small, deliberate range — never exaggerated
+      yTo(relY * 14)
+    }
+
+    window.addEventListener('mousemove', onMove)
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+
+  // ── Magnetic hover on CTAs ───────────────────────────────────
+  useEffect(() => {
+    const cleanups = [
+      magneticHover(primaryBtnRef.current, 0.3),
+      magneticHover(secondaryBtnRef.current, 0.3),
+    ]
+    return () => cleanups.forEach((fn) => fn())
+  }, [])
+
+  const scrollToId = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault()
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <section
-      id="home"
       ref={sectionRef}
       style={{
         position: 'relative',
@@ -66,52 +128,105 @@ export default function Hero() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',
+        background: '#080808', // shows through instantly if the hero image is missing/loading
       }}
     >
-      <div ref={bgRef} style={{ position: 'absolute', inset: 0, top: '-15%', bottom: '-15%' }}>
+      {/* ══════════════ LAYER 1 — Cinematic background image ══════════════ */}
+      <div
+        ref={imageWrapRef}
+        style={{ position: 'absolute', inset: 0, top: '-10%', bottom: '-10%', willChange: 'transform' }}
+      >
+        <div ref={imageRef} style={{ position: 'absolute', inset: 0 }}>
+          {!imageFailed && (
+            <Image
+              src="/hero/black-perch-hero-desktop.jpg"
+              alt="The Black Perch — cinematic restaurant interior at night"
+              fill
+              priority
+              sizes="100vw"
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+              onError={() => setImageFailed(true)}
+            />
+          )}
+          {/* Fallback wash so the frame still reads as intentional if the asset is missing */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background:
+                'radial-gradient(ellipse 80% 60% at 50% 20%, rgba(60,45,20,0.35) 0%, transparent 60%), linear-gradient(160deg, #0f0d0a 0%, #080808 60%)',
+            }}
+          />
+        </div>
+
+        {/* Readability + mood overlay */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
             background:
-              'radial-gradient(ellipse 90% 60% at 50% 20%, rgba(60,48,26,0.35) 0%, transparent 60%), #060605',
+              'linear-gradient(to bottom, rgba(8,8,8,0.55) 0%, rgba(8,8,8,0.35) 35%, rgba(8,8,8,0.75) 80%, rgba(8,8,8,0.95) 100%)',
           }}
         />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(to top, rgba(6,6,5,0.97) 0%, rgba(6,6,5,0.55) 45%, rgba(6,6,5,0.75) 100%)',
-          }}
-        />
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.05, ...GRAIN }} />
       </div>
 
+      {/* ══════════════ LAYER 2 — Drifting fog ══════════════ */}
+      <CinematicFog />
+
+      {/* ══════════════ LAYER 3 — Film grain ══════════════ */}
+      <GrainOverlay opacity={0.045} />
+
+      {/* Ambient embers, sitting alongside the grain/fog atmosphere layers */}
+      <AmbientParticles />
+
+      {/* ══════════════ LAYER 4 — Cursor-reactive golden glow ══════════════ */}
+      <CursorGlow range={36} />
+
+      {/* ══════════════ LAYER 5 — Hero content ══════════════ */}
       <div
-        className="hero-content-padding section-padding"
-        style={{ position: 'relative', zIndex: 10, paddingBottom: '140px', maxWidth: '900px' }}
+        className="hero-content-padding"
+        style={{ position: 'relative', zIndex: 10, padding: '0 80px 120px 80px' }}
       >
-        <div
-          ref={lineRef}
-          style={{ width: '56px', height: '1px', background: '#c9a96e', transform: 'scaleX(1)', transformOrigin: 'left center', marginBottom: '28px' }}
-        />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
+          <div
+            ref={lineRef}
+            style={{
+              width: '56px',
+              height: '1px',
+              background: '#c9a96e',
+              transform: 'scaleX(1)',
+              transformOrigin: 'left center',
+            }}
+          />
+          <div ref={labelRef}>
+            <GlassBadge>Fine Dining · Meru</GlassBadge>
+          </div>
+        </div>
 
         <h1
           ref={headingRef}
           style={{
             fontFamily: 'var(--font-cormorant), serif',
-            fontSize: 'clamp(2.6rem,6.5vw,5.5rem)',
-            lineHeight: 1.05,
+            fontSize: 'clamp(3.5rem, 10vw, 8.5rem)',
+            lineHeight: 0.95,
             color: '#f0ede6',
+            marginBottom: '28px',
             fontWeight: 300,
-            textTransform: 'uppercase',
-            letterSpacing: '0.01em',
-            marginBottom: '32px',
+            letterSpacing: '-0.01em',
           }}
         >
-          {HEADLINE_LINES.map((line, i) => (
-            <span key={i} style={{ display: 'block', overflow: 'hidden' }}>
-              <span className="line-inner" style={{ display: 'block' }}>{line}</span>
+          {TITLE_WORDS.map((word, i) => (
+            <span key={i} style={{ display: 'inline-block', overflow: 'hidden', marginRight: '0.28em' }}>
+              <span
+                className="word"
+                style={{
+                  display: 'inline-block',
+                  color: word === 'Perch' ? '#c9a96e' : '#f0ede6',
+                  fontStyle: word === 'Perch' ? 'italic' : 'normal',
+                }}
+              >
+                {word}
+              </span>
             </span>
           ))}
         </h1>
@@ -120,61 +235,148 @@ export default function Hero() {
           ref={subRef}
           style={{
             fontFamily: 'var(--font-dm-sans), sans-serif',
-            fontSize: '12px',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
+            fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)',
             color: 'rgba(240,237,230,0.55)',
-            marginBottom: '48px',
+            maxWidth: '480px',
+            lineHeight: 1.7,
+            marginBottom: '40px',
           }}
         >
-          {SUB_PHRASES.join('  ')}
+          An unforgettable dining experience crafted with passion — lounge, cafe, spa
+          and sherehe nights, all under one roof in Milimani, Meru.
         </p>
 
-        <div ref={bottomRef} style={{ opacity: 0 }}>
+        {/* Meta row — hours + location badges */}
+        <div
+          ref={metaRowRef}
+          style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', marginBottom: '44px' }}
+        >
+          <GlassBadge>
+            <Clock size={12} style={{ marginRight: 2 }} />
+            Open 24/7
+          </GlassBadge>
+          <GlassBadge>
+            <MapPin size={12} style={{ marginRight: 2 }} />
+            Milimani Road, Meru
+          </GlassBadge>
+        </div>
+
+        {/* CTA row */}
+        <div ref={ctaRowRef} style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
           <a
+            ref={primaryBtnRef}
             href="#reserve"
+            onClick={scrollToId('reserve')}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '14px',
+              gap: '10px',
               fontFamily: 'var(--font-dm-sans), sans-serif',
-              fontSize: '11px',
+              fontSize: '12px',
+              fontWeight: 500,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: '#0b0c10',
+              background: '#c9a96e',
+              padding: '18px 36px',
+              borderRadius: '8px',
+              transition: 'transform 0.3s ease',
+            }}
+          >
+            Reserve Table
+          </a>
+
+          <a
+            ref={secondaryBtnRef}
+            href="#menu"
+            onClick={scrollToId('menu')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '10px',
+              fontFamily: 'var(--font-dm-sans), sans-serif',
+              fontSize: '12px',
+              fontWeight: 500,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               color: '#f0ede6',
-              border: '1px solid rgba(240,237,230,0.4)',
-              padding: '18px 32px',
-              transition: 'border-color 0.3s ease, color 0.3s ease',
+              background: 'transparent',
+              border: '1.5px solid rgba(240,237,230,0.4)',
+              padding: '18px 36px',
+              borderRadius: '8px',
+              transition: 'background 0.3s ease, border-color 0.3s ease',
             }}
           >
-            Reserve A Table
-            <span aria-hidden="true">→</span>
+            Explore Menu
           </a>
         </div>
       </div>
 
-      <div style={{ position: 'absolute', bottom: '40px', left: 'clamp(24px, 8%, 80px)', display: 'flex', alignItems: 'center', gap: '16px', zIndex: 10 }}>
-        {['IG', 'FB', 'TT'].map((s, i, arr) => (
-          <span key={s} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <a href="#" style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '11px', letterSpacing: '0.15em', color: 'rgba(240,237,230,0.5)' }}>
-              {s}
-            </a>
-            {i < arr.length - 1 && <span style={{ color: 'rgba(240,237,230,0.2)' }}>|</span>}
-          </span>
-        ))}
-        <span style={{ width: '48px', height: '1px', background: 'rgba(240,237,230,0.2)' }} />
+      {/* Social icons — right edge */}
+      <div
+        style={{
+          position: 'absolute',
+          right: '40px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 10,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '20px',
+        }}
+        className="hero-social-rail"
+      >
+        <span style={{ width: '1px', height: '48px', background: 'rgba(240,237,230,0.2)' }} />
+        <a href="#" aria-label="Instagram" style={{ color: 'rgba(240,237,230,0.5)' }}>
+          <Instagram size={16} />
+        </a>
+        <a href="#" aria-label="Facebook" style={{ color: 'rgba(240,237,230,0.5)' }}>
+          <Facebook size={16} />
+        </a>
+        <span style={{ width: '1px', height: '48px', background: 'rgba(240,237,230,0.2)' }} />
       </div>
 
-      <div style={{ position: 'absolute', bottom: '36px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', zIndex: 10 }}>
-        <span style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '9px', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'rgba(240,237,230,0.35)' }}>
+      {/* Scroll indicator */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '40px',
+          left: '80px',
+          zIndex: 10,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+        }}
+        className="hero-scroll-indicator"
+      >
+        <ArrowDown size={14} color="rgba(240,237,230,0.35)" />
+        <span
+          style={{
+            fontFamily: 'var(--font-dm-sans), sans-serif',
+            fontSize: '9px',
+            letterSpacing: '0.4em',
+            textTransform: 'uppercase',
+            color: 'rgba(240,237,230,0.35)',
+          }}
+        >
           Scroll
         </span>
-        <span style={{ fontSize: '11px', color: 'rgba(240,237,230,0.3)' }}>↓</span>
-        <div style={{ width: '1px', height: '40px', background: 'rgba(240,237,230,0.08)', position: 'relative', overflow: 'hidden' }}>
-          <div className="animate-scroll-line" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#c9a96e' }} />
-        </div>
-        <span style={{ width: '6px', height: '6px', borderRadius: '50%', border: '1px solid rgba(240,237,230,0.3)' }} />
       </div>
+
+      {/* ══════════════ LAYER 6 — Bottom fade into next section ══════════════ */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: '160px',
+          background: 'linear-gradient(to bottom, transparent 0%, #080808 100%)',
+          pointerEvents: 'none',
+          zIndex: 5,
+        }}
+      />
     </section>
   )
 }

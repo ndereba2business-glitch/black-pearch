@@ -202,10 +202,32 @@ a {
   }
 }
 
-/* Hero: tighten side padding on very small screens */
-@media (max-width: 480px) {
+/* ============================================
+   HERO — layered cinematic hero (bottom-anchored)
+   Replaces the old top-anchored rule that only
+   collapsed the top padding to 60px. The new Hero
+   anchors content to the bottom of the viewport via
+   flex, so padding needs to shrink on all sides.
+   ============================================ */
+@media (max-width: 1024px) {
   .hero-content-padding {
-    padding: 60px 0 0 0 !important;
+    padding: 0 48px 100px 48px !important;
+  }
+
+  /* Vertical social rail competes with content once
+     the viewport narrows — hide from tablet down. */
+  .hero-social-rail {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-content-padding {
+    padding: 0 24px 90px 24px !important;
+  }
+
+  .hero-scroll-indicator {
+    left: 24px !important;
   }
 }
 
