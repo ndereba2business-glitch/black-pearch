@@ -7,18 +7,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const ITEMS = [
-  'Business Website',
-  'Restaurant Website',
-  'Construction Website',
-  'Real Estate Website',
-  'Portfolio Website',
-  'Landing Pages',
-  'Digital Strategy',
-  'Brand Identity',
-  'Medical Website',
-  'E-Commerce Website',
-  'Mobile App Design',
-  'Barbershop Website', 
+  'Lounge & Nightclub🥂',
+  'Luxury spa & Wellness💆',
+  'Coffee Shop☕',
+  'Cream Parlor🍦',
+  'Car Wash🚗',
 ]
 
 const DIAMOND = (

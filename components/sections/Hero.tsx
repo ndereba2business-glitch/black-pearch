@@ -124,7 +124,7 @@ export default function Hero() {
         />
       </div>
 
-      {/* ══════════════ TOP BRAND HEADER — "The Black Perch" / "DINE. DRINK. INDULGE." ══════════════ */}
+      {/* ══════════════ TOP BRAND HEADER — "The Black Perch" / "DINE. CHILL. INDULGE." ══════════════ */}
       <div
         style={{
           position: 'absolute',
@@ -160,7 +160,7 @@ export default function Hero() {
             marginTop: '6px',
           }}
         >
-          DINE. DRINK. INDULGE.
+          DINE. CHILL. INDULGE.
         </span>
       </div>
 
