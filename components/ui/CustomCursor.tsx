@@ -1,117 +1,115 @@
 // components/ui/CustomCursor.tsx
-// ─────────────────────────────────────────────────────────────────
-// Two-layer cursor system:
-// Layer 1 (dot)   → Follows mouse instantly. Snappy and precise.
-// Layer 2 (ring)  → Follows with a slight delay. Creates depth.
-// On hover over links/buttons → ring expands. Luxury interaction.
-// ─────────────────────────────────────────────────────────────────
-
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
+import React from 'react'
+import { useCursor } from '@/hooks/useCursor'
 
 export default function CustomCursor() {
-  const dotRef = useRef<HTMLDivElement>(null)
-  const ringRef = useRef<HTMLDivElement>(null)
+  const { cursorRef, labelRef, isDisabled } = useCursor()
 
-  useEffect(() => {
-    const dot = dotRef.current
-    const ring = ringRef.current
-    if (!dot || !ring) return
-
-    // ── Track mouse position ───────────────────────────────────
-    const onMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e
-
-      // Dot follows instantly
-      gsap.set(dot, { x: clientX, y: clientY })
-
-      // Ring follows with smooth lag — this creates the premium feel
-      gsap.to(ring, {
-        x: clientX,
-        y: clientY,
-        duration: 0.15,
-        ease: 'power2.out',
-      })
-    }
-
-    // ── Hover effect on interactive elements ──────────────────
-    const onMouseEnter = () => {
-      gsap.to(ring, {
-        scale: 2.5,
-        opacity: 0.5,
-        duration: 0.3,
-        ease: 'power2.out',
-      })
-      gsap.to(dot, {
-        scale: 0,
-        duration: 0.3,
-      })
-    }
-
-    const onMouseLeave = () => {
-      gsap.to(ring, {
-        scale: 1,
-        opacity: 1,
-        duration: 0.3,
-        ease: 'power2.out',
-      })
-      gsap.to(dot, {
-        scale: 1,
-        duration: 0.3,
-      })
-    }
-
-    // ── Hide cursor when leaving window ───────────────────────
-    const onMouseLeaveWindow = () => {
-      gsap.to([dot, ring], { opacity: 0, duration: 0.3 })
-    }
-
-    const onMouseEnterWindow = () => {
-      gsap.to([dot, ring], { opacity: 1, duration: 0.3 })
-    }
-
-    // ── Attach all event listeners ────────────────────────────
-    window.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseleave', onMouseLeaveWindow)
-    document.addEventListener('mouseenter', onMouseEnterWindow)
-
-    // Apply hover effect to all links and buttons
-    const interactives = document.querySelectorAll('a, button')
-    interactives.forEach((el) => {
-      el.addEventListener('mouseenter', onMouseEnter)
-      el.addEventListener('mouseleave', onMouseLeave)
-    })
-
-    // ── Cleanup ───────────────────────────────────────────────
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseleave', onMouseLeaveWindow)
-      document.removeEventListener('mouseenter', onMouseEnterWindow)
-      interactives.forEach((el) => {
-        el.removeEventListener('mouseenter', onMouseEnter)
-        el.removeEventListener('mouseleave', onMouseLeave)
-      })
-    }
-  }, [])
+  if (isDisabled) return null
 
   return (
-    <>
-      {/* Inner dot — snappy, precise. Sized up + glow so it reads on a
-          near-black theme regardless of what's underneath it. */}
+    <div
+      ref={cursorRef}
+      aria-hidden="true"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '36px',
+        height: '36px',
+        pointerEvents: 'none',
+        zIndex: 99999,
+        willChange: 'transform, opacity',
+        opacity: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '50%',
+      }}
+    >
+      {/* Outer Thin Matte Ring with Glass Blur */}
       <div
-        ref={dotRef}
-        className="fixed top-0 left-0 w-3 h-3 bg-forge-eleven-accent rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2"
-        style={{ boxShadow: '0 0 12px 2px rgba(201,169,110,0.55)' }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: '50%',
+          border: '1px solid rgba(200, 169, 90, 0.45)',
+          background: 'radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(9, 9, 9, 0.2) 100%)',
+          backdropFilter: 'blur(2px)',
+          boxShadow: '0 0 15px rgba(212, 175, 55, 0.12), inset 0 0 8px rgba(200, 169, 90, 0.1)',
+          transition: 'border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease',
+        }}
       />
 
-      {/* Outer ring — lagged, expands on hover */}
+      {/* Middle Metallic Gold Subtle Highlight */}
       <div
-        ref={ringRef}
-        className="fixed top-0 left-0 w-11 h-11 border-[1.5px] border-forge-eleven-accent rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2"
-        style={{ opacity: 0.8, boxShadow: '0 0 12px 2px rgba(201,169,110,0.55)' }}
+        style={{
+          position: 'absolute',
+          width: '60%',
+          height: '60%',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(229, 199, 107, 0.25) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
       />
-    </>
+
+      {/* Polished Core Dot */}
+      <div
+        style={{
+          width: '5px',
+          height: '5px',
+          borderRadius: '50%',
+          backgroundColor: '#E5C76B',
+          boxShadow: '0 0 8px #D4AF37, 0 0 2px #ffffff',
+          position: 'relative',
+          zIndex: 2,
+        }}
+      />
+
+      {/* Dynamic Text Label (for gallery/view cards) */}
+      <span
+        ref={labelRef}
+        style={{
+          position: 'absolute',
+          fontFamily: 'var(--font-cormorant), serif',
+          fontSize: '9px',
+          fontWeight: 600,
+          letterSpacing: '0.25em',
+          textTransform: 'uppercase',
+          color: '#090909',
+          zIndex: 3,
+          opacity: 0,
+          transition: 'opacity 0.2s ease',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <style jsx global>{`
+        /* Hide standard cursor on desktop devices with fine pointer */
+        @media (pointer: fine) {
+          body, a, button, input, textarea, select, [role="button"] {
+            cursor: none !important;
+          }
+        }
+
+        /* Subtle idle shimmer effect */
+        .cursor-idle > div:first-child {
+          animation: cursorShimmer 3s infinite ease-in-out;
+        }
+
+        @keyframes cursorShimmer {
+          0%, 100% {
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.15), inset 0 0 6px rgba(200, 169, 90, 0.1);
+            border-color: rgba(200, 169, 90, 0.45);
+          }
+          50% {
+            box-shadow: 0 0 22px rgba(229, 199, 107, 0.35), inset 0 0 12px rgba(212, 175, 55, 0.25);
+            border-color: rgba(229, 199, 107, 0.8);
+          }
+        }
+      `}</style>
+    </div>
   )
 }
