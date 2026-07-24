@@ -6,7 +6,21 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Clock, MapPin } from 'lucide-react'
 
+// Safe import fallback for FloatingShapes
+let FloatingShapes: React.ComponentType = () => null
+try {
+  FloatingShapes = require('@/components/ui/FloatingShapes').default
+} catch (e) {
+  // Component not created yet, render null
+}
+
 gsap.registerPlugin(ScrollTrigger)
+
+const GRAIN = {
+  backgroundImage:
+    "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E\")",
+  backgroundSize: '200px 200px',
+}
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -16,6 +30,7 @@ export default function Hero() {
   const badgesRef = useRef<HTMLDivElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
   const socialRef = useRef<HTMLDivElement>(null)
+  const bgRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -40,7 +55,6 @@ export default function Hero() {
         .to(ctaRef.current, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.4')
         .to(socialRef.current, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3')
 
-      // subtle fade of the content block on scroll — doesn't touch your bg layer
       gsap.to(contentRef.current, {
         opacity: 0,
         y: -40,
@@ -49,6 +63,17 @@ export default function Hero() {
           trigger: sectionRef.current,
           start: '10% top',
           end: '55% top',
+          scrub: true,
+        },
+      })
+
+      gsap.to(bgRef.current, {
+        yPercent: 20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
           scrub: true,
         },
       })
@@ -70,12 +95,35 @@ export default function Hero() {
         alignItems: 'flex-end',
       }}
     >
-      {/*
-        ── Background media layer ──────────────────────────────
-        Drop your existing image/video + overlay implementation
-        back in here. Nothing below depends on its structure —
-        it just needs to sit behind this section at zIndex 0-ish.
-      */}
+      {/* ── Background layer ────────────────────────────────── */}
+      <div ref={bgRef} style={{ position: 'absolute', inset: 0, top: '-20%', bottom: '-20%' }}>
+        <div style={{ position: 'absolute', inset: 0, background: '#080808' }} />
+        <img
+          src="/hero/black-perch-exterior.jpg"
+          alt=""
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+          onError={(e) => {
+            ;(e.target as HTMLImageElement).style.display = 'none'
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(to bottom, rgba(11,12,16,0.55) 0%, rgba(11,12,16,0.85) 100%), radial-gradient(ellipse 70% 40% at 60% 0%, rgba(201,169,110,0.13) 0%, transparent 70%)',
+          }}
+        />
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.04, ...GRAIN }} />
+      </div>
+
+      <FloatingShapes />
 
       <div
         ref={contentRef}
@@ -174,7 +222,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Social row */}
       <div
         ref={socialRef}
         style={{
@@ -206,7 +253,6 @@ export default function Hero() {
         <span style={{ width: '40px', height: '1px', background: 'rgba(240,237,230,0.15)', marginLeft: '8px' }} />
       </div>
 
-      {/* Scroll indicator */}
       <div
         style={{
           position: 'absolute',
