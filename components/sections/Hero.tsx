@@ -191,10 +191,10 @@ export default function Hero() {
             marginBottom: '18px',
             fontWeight: 300,
             letterSpacing: '0.04em',
-            textTransform: 'uppercase',
+            textTransform: 'lowercase',
           }}
         >
-          A New Level <br /> Of Indulgence
+          An unforgettable dining <br /> experience crafted with passion
         </h1>
 
         {/* Subtitle */}

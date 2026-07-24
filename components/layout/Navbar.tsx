@@ -1,106 +1,189 @@
-﻿'use client'
+﻿// components/layout/Navbar.tsx
+'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import Link from 'next/link'
+import { Menu, X } from 'lucide-react'
 
-const NAV_ITEMS = [
-  { label: 'Story', id: 'story' },
-  { label: 'Menu', id: 'menu' },
-  { label: 'Gallery', id: 'gallery' },
-  { label: 'Reserve', id: 'reserve' },
+const LEFT_LINKS = [
+  { label: 'Home', href: '#home' },
+  { label: 'Menu', href: '#menu' },
+  { label: 'Reservations', href: '#reservations' },
+]
+
+const RIGHT_LINKS = [
+  { label: 'Our Story', href: '#story' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Contact', href: '#contact' },
 ]
 
 export default function Navbar() {
-const navRef = useRef<HTMLElement>(null)
-const [scrolled, setScrolled] = useState(false)
-const [menuOpen, setMenuOpen] = useState(false)
+  const navRef = useRef<HTMLElement>(null)
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [activeHref, setActiveHref] = useState('#home')
 
-useEffect(() => {
-const ctx = gsap.context(() => {
-gsap.from('.nav-item', {
-y: -20,
-opacity: 0,
-duration: 1,
-stagger: 0.1,
-ease: 'power3.out',
-delay: 1.5,
-})
-}, navRef)
-return () => ctx.revert()
-}, [])
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.nav-item', {
+        y: -20,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.06,
+        ease: 'power3.out',
+        delay: 1.2,
+      })
+    }, navRef)
+    return () => ctx.revert()
+  }, [])
 
-useEffect(() => {
-const handleScroll = () => setScrolled(window.scrollY > 50)
-window.addEventListener('scroll', handleScroll)
-return () => window.removeEventListener('scroll', handleScroll)
-}, [])
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
-const scrollToId = (id: string) => (e: React.MouseEvent) => {
-  e.preventDefault()
-  setMenuOpen(false)
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-}
+  const handleNavClick = (href: string) => (e: React.MouseEvent) => {
+    e.preventDefault()
+    setActiveHref(href)
+    setMenuOpen(false)
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+  }
 
-return (
-<>
-<nav
-ref={navRef}
-className="fixed top-0 left-0 right-0 w-full z-[100] flex items-center justify-between section-padding py-7 transition-all duration-700"
-style={scrolled ? { background: 'rgba(8,8,8,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.05)' } : {}}
->
-<Link href="/" className="nav-item flex items-center gap-[2px]">
-<span className="font-heading text-xl tracking-[0.15em] text-forge-eleven-text uppercase">The Black Perch</span>
-<span className="font-heading text-xl text-forge-eleven-accent">.</span>
-</Link>
+  const linkStyle = (href: string): React.CSSProperties => ({
+    fontFamily: 'var(--font-dm-sans), sans-serif',
+    fontSize: '10px',
+    letterSpacing: '0.25em',
+    textTransform: 'uppercase',
+    color: activeHref === href ? '#f0ede6' : 'rgba(240,237,230,0.45)',
+    position: 'relative',
+    transition: 'color 0.3s ease',
+  })
 
-<div className="hidden md:flex items-center gap-10">
-{NAV_ITEMS.map((item) => (
-<a
-key={item.id}
-href={`#${item.id}`}
-onClick={scrollToId(item.id)}
-className="nav-item relative font-body text-[11px] tracking-[0.2em] uppercase text-forge-eleven-text/50 hover:text-forge-eleven-text transition-colors duration-300 group"
->
-{item.label}
-<span className="absolute -bottom-1 left-0 w-0 h-px bg-forge-eleven-accent group-hover:w-full transition-all duration-500" />
-</a>
-))}
-</div>
+  return (
+    <>
+      <nav
+        ref={navRef}
+        className="fixed top-0 left-0 right-0 w-full z-[100] flex items-center justify-between section-padding py-6 transition-all duration-700"
+        style={
+          scrolled
+            ? {
+                background: 'rgba(8,8,8,0.85)',
+                backdropFilter: 'blur(12px)',
+                borderBottom: '1px solid rgba(255,255,255,0.05)',
+              }
+            : {}
+        }
+      >
+        {/* Left links */}
+        <div className="hidden md:flex items-center gap-8">
+          {LEFT_LINKS.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={handleNavClick(item.href)}
+              className="nav-item"
+              style={linkStyle(item.href)}
+            >
+              {item.label}
+              {activeHref === item.href && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    bottom: '-8px',
+                    left: 0,
+                    width: '100%',
+                    height: '1px',
+                    background: '#c9a96e',
+                  }}
+                />
+              )}
+            </a>
+          ))}
+        </div>
 
-<a
-href="#reserve"
-onClick={scrollToId('reserve')}
-className="nav-item hidden md:flex font-body text-[11px] tracking-[0.2em] uppercase text-forge-eleven-text/60 hover:text-forge-eleven-accent transition-colors duration-300 border border-forge-eleven-text/15 hover:border-forge-eleven-accent px-6 py-3"
->
-Reserve Table
-</a>
+        {/* Centered brand */}
+        <a
+          href="#home"
+          onClick={handleNavClick('#home')}
+          className="nav-item flex flex-col items-center absolute left-1/2 -translate-x-1/2"
+        >
+          <span
+            style={{
+              fontFamily: 'var(--font-cormorant), serif',
+              fontSize: '1.6rem',
+              letterSpacing: '0.02em',
+              color: '#f0ede6',
+              lineHeight: 1,
+            }}
+          >
+            The Black Perch
+          </span>
+          <span
+            style={{
+              fontFamily: 'var(--font-dm-sans), sans-serif',
+              fontSize: '9px',
+              letterSpacing: '0.35em',
+              textTransform: 'uppercase',
+              color: 'rgba(240,237,230,0.4)',
+              marginTop: '4px',
+            }}
+          >
+            Dine. Drink. Indulge.
+          </span>
+        </a>
 
-<button
-className="nav-item md:hidden flex flex-col gap-[5px] p-2"
-onClick={() => setMenuOpen(!menuOpen)}
-aria-label="Toggle menu"
->
-<span className="w-6 h-px bg-forge-eleven-text block" />
-<span className="w-4 h-px bg-forge-eleven-text block" />
-</button>
-</nav>
+        {/* Right links + menu toggle */}
+        <div className="flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-8">
+            {RIGHT_LINKS.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={handleNavClick(item.href)}
+                className="nav-item"
+                style={linkStyle(item.href)}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
 
-<div
-className="fixed inset-0 z-[99] bg-forge-eleven-bg flex flex-col items-center justify-center transition-all duration-500"
-style={{ opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? 'auto' : 'none' }}
->
-{NAV_ITEMS.map((item) => (
-<a
-key={item.id}
-href={`#${item.id}`}
-onClick={scrollToId(item.id)}
-className="font-heading text-6xl text-forge-eleven-text hover:text-forge-eleven-accent transition-colors duration-300 py-4"
->
-{item.label}
-</a>
-))}
-</div>
-</>
-)
+          <button
+            className="nav-item flex items-center justify-center w-10 h-10 rounded-full border transition-colors duration-300"
+            style={{ borderColor: 'rgba(240,237,230,0.25)', color: '#f0ede6' }}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X size={16} /> : <Menu size={16} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile overlay */}
+      <div
+        className="fixed inset-0 z-[99] flex flex-col items-center justify-center gap-6 transition-all duration-500"
+        style={{
+          background: '#080808',
+          opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? 'auto' : 'none',
+        }}
+      >
+        {[...LEFT_LINKS, ...RIGHT_LINKS].map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            onClick={handleNavClick(item.href)}
+            style={{
+              fontFamily: 'var(--font-cormorant), serif',
+              fontSize: '2.5rem',
+              color: '#f0ede6',
+            }}
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </>
+  )
 }
