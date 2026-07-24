@@ -58,22 +58,26 @@ export default function Navbar() {
     color: activeHref === href ? '#f0ede6' : 'rgba(240,237,230,0.45)',
     position: 'relative',
     transition: 'color 0.3s ease',
+    whiteSpace: 'nowrap',
   })
 
   return (
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 right-0 w-full z-[100] flex items-center justify-between section-padding py-6 transition-all duration-700"
-        style={
-          scrolled
+        className="fixed top-0 left-0 right-0 w-full z-[100] section-padding py-6 transition-all duration-700"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr',
+          alignItems: 'center',
+          ...(scrolled
             ? {
                 background: 'rgba(8,8,8,0.85)',
                 backdropFilter: 'blur(12px)',
                 borderBottom: '1px solid rgba(255,255,255,0.05)',
               }
-            : {}
-        }
+            : {}),
+        }}
       >
         {/* Left links */}
         <div className="hidden md:flex items-center gap-8">
@@ -106,7 +110,7 @@ export default function Navbar() {
         <a
           href="#home"
           onClick={handleNavClick('#home')}
-          className="nav-item flex flex-col items-center absolute left-1/2 -translate-x-1/2"
+          className="nav-item flex flex-col items-center justify-self-center"
         >
           <span
             style={{
@@ -115,6 +119,7 @@ export default function Navbar() {
               letterSpacing: '0.02em',
               color: '#f0ede6',
               lineHeight: 1,
+              whiteSpace: 'nowrap',
             }}
           >
             The Black Perch
@@ -127,6 +132,7 @@ export default function Navbar() {
               textTransform: 'uppercase',
               color: 'rgba(240,237,230,0.4)',
               marginTop: '4px',
+              whiteSpace: 'nowrap',
             }}
           >
             Dine. Drink. Indulge.
@@ -134,7 +140,7 @@ export default function Navbar() {
         </a>
 
         {/* Right links + menu toggle */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center justify-end gap-8">
           <div className="hidden md:flex items-center gap-8">
             {RIGHT_LINKS.map((item) => (
               <a
@@ -150,7 +156,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="nav-item flex items-center justify-center w-10 h-10 rounded-full border transition-colors duration-300"
+            className="nav-item flex items-center justify-center w-10 h-10 rounded-full border transition-colors duration-300 shrink-0"
             style={{ borderColor: 'rgba(240,237,230,0.25)', color: '#f0ede6' }}
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"

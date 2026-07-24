@@ -5,6 +5,7 @@ import './globals.css'
 import SmoothScroll from '@/components/layout/SmoothScroll'
 import CustomCursor from '@/components/ui/CustomCursor'
 import Navbar from '@/components/layout/Navbar'
+import SectionNav from '@/components/ui/SectionNav'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -38,6 +39,7 @@ export default function RootLayout({
         <SmoothScroll>
           <CustomCursor />
           <Navbar />
+          <SectionNav />
           {children}
         </SmoothScroll>
       </body>
