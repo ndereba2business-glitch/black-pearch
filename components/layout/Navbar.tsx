@@ -106,39 +106,6 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Centered brand */}
-        <a
-          href="#home"
-          onClick={handleNavClick('#home')}
-          className="nav-item flex flex-col items-center justify-self-center"
-        >
-          <span
-            style={{
-              fontFamily: 'var(--font-cormorant), serif',
-              fontSize: '1.6rem',
-              letterSpacing: '0.02em',
-              color: '#f0ede6',
-              lineHeight: 1,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            The Black Perch
-          </span>
-          <span
-            style={{
-              fontFamily: 'var(--font-dm-sans), sans-serif',
-              fontSize: '9px',
-              letterSpacing: '0.35em',
-              textTransform: 'uppercase',
-              color: 'rgba(240,237,230,0.4)',
-              marginTop: '4px',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Dine. Drink. Indulge.
-          </span>
-        </a>
-
         {/* Right links + menu toggle */}
         <div className="flex items-center justify-end gap-8">
           <div className="hidden md:flex items-center gap-8">
