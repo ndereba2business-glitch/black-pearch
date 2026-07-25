@@ -197,6 +197,17 @@ export default function FeaturedMenu() {
             gap: 56px;
           }
         }
+
+        /* ── Cinematic focus: dim every other card while one is hovered ──
+           Pure CSS (:has), scoped to hover-capable pointers only, so it
+           never touches React state, never re-triggers the AnimatePresence
+           entrance animation above, and never causes "stuck hover" on
+           touch devices. */
+        @media (hover: hover) and (pointer: fine) {
+          .menu-grid:has(.menu-card:hover) :global(.menu-card):not(:hover) {
+            filter: brightness(0.9);
+          }
+        }
       `}</style>
     </section>
   )
