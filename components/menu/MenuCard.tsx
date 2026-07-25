@@ -12,6 +12,7 @@ import type { MenuItem } from '@/types/menu'
 export default function MenuCard({ item }: { item: MenuItem }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const imageWrapRef = useRef<HTMLDivElement>(null)
+  const spotlightRef = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState(false)
 
   const xTo = useRef<((v: number) => void) | null>(null)
@@ -38,6 +39,15 @@ export default function MenuCard({ item }: { item: MenuItem }) {
     const relY = (e.clientY - rect.top) / rect.height - 0.5
     xTo.current(relX * 10)
     yTo.current(relY * 8)
+
+    // Cinematic spotlight — follows the cursor very subtly inside the
+    // hovered card. Updated imperatively (CSS custom properties) rather
+    // than via React state, so it costs nothing extra beyond the parallax
+    // update already happening on this same mousemove tick.
+    if (spotlightRef.current) {
+      spotlightRef.current.style.setProperty('--spot-x', `${(relX + 0.5) * 100}%`)
+      spotlightRef.current.style.setProperty('--spot-y', `${(relY + 0.5) * 100}%`)
+    }
   }
 
   const handleMouseLeave = () => {
@@ -55,6 +65,11 @@ export default function MenuCard({ item }: { item: MenuItem }) {
       onMouseMove={handleMouseMove}
       data-cursor-hover
     >
+      {/* Warm ambient spotlight — sits behind all card content, bleeds
+          past the card edges into the dark background. Hover-capable
+          devices only; see @media (hover: hover) below. */}
+      <div ref={spotlightRef} className="menu-card-spotlight" aria-hidden="true" />
+
       <div ref={imageWrapRef} className="menu-card-image-wrap">
         <Image
           src={item.image}
@@ -108,12 +123,56 @@ export default function MenuCard({ item }: { item: MenuItem }) {
           display: flex;
           flex-direction: column;
           height: 100%;
-          transition: border-color 0.5s ease, box-shadow 0.5s ease;
+          filter: brightness(1);
+          transition: border-color 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
         }
         .menu-card:hover {
           border-color: rgba(201, 169, 110, 0.5);
           box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7),
             0 0 40px -12px rgba(201, 169, 110, 0.15);
+        }
+
+        /* ── Cinematic spotlight ──────────────────────────────────────
+           Sits at z-index: -1 inside the (already position: relative)
+           .menu-card, so it paints above the card's own faint background
+           but behind every normal-flow child (image, text) — nothing is
+           ever washed out. It bleeds past the card's own edges to read
+           as ambient light rather than a card-bound glow. */
+        .menu-card-spotlight {
+          position: absolute;
+          inset: -18% -14%;
+          z-index: -1;
+          opacity: 0;
+          pointer-events: none;
+          background: radial-gradient(
+            circle at var(--spot-x, 50%) var(--spot-y, 30%),
+            rgba(201, 169, 110, 0.16) 0%,
+            rgba(201, 169, 110, 0.07) 35%,
+            transparent 65%
+          );
+          transition: opacity 0.6s ease;
+          will-change: opacity;
+        }
+
+        /* Hover-capable devices only (desktop/laptop with a mouse).
+           Touch devices never get a persistent hover state, so we don't
+           try to fake one here — see the (hover: none) block below. */
+        @media (hover: hover) and (pointer: fine) {
+          .menu-card:hover {
+            filter: brightness(1.04);
+          }
+          .menu-card:hover .menu-card-spotlight {
+            opacity: 1;
+          }
+        }
+
+        /* Touch devices — no spotlight, just a light tap acknowledgement. */
+        @media (hover: none) {
+          .menu-card:active {
+            transform: scale(0.985);
+            box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.6);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+          }
         }
 
         .menu-card-image-wrap {
