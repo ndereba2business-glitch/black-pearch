@@ -3,14 +3,23 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ShieldCheck, Zap, Users } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const STATS = [
-  { number: '04', label: 'Years Experience' },
-  { number: '32', label: 'Projects Delivered' },
-  { number: '18', label: 'Happy Clients' },
-  { number: '100', label: 'Percent Obsession', suffix: '%' },
+const VALUES = [
+  {
+    icon: ShieldCheck,
+    label: 'Absolute Safety',
+  },
+  {
+    icon: Zap,
+    label: 'Exceptional Service Speed',
+  },
+  {
+    icon: Users,
+    label: 'Deep Local Community Connection',
+  },
 ]
 
 export default function About() {
@@ -19,8 +28,6 @@ export default function About() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-
-      // Split statement into lines and animate each one
       const lines = statementRef.current?.querySelectorAll('.line-inner')
       gsap.set(lines || [], { y: '110%' })
 
@@ -48,38 +55,44 @@ export default function About() {
         },
       })
 
-      gsap.from('.stat-item', {
+      gsap.from('.about-copy, .about-cta', {
         opacity: 0,
-        y: 30,
+        y: 20,
         duration: 0.8,
         stagger: 0.1,
         ease: 'power3.out',
         scrollTrigger: {
-          trigger: '.stats-row',
+          trigger: '.about-copy',
           start: 'top 85%',
           toggleActions: 'play none none none',
         },
       })
 
-      // Counter animation for numbers
-      document.querySelectorAll('.stat-number').forEach((el) => {
-        const target = parseInt(el.getAttribute('data-target') || '0')
-        const obj = { val: 0 }
-        gsap.to(obj, {
-          val: target,
-          duration: 1.6,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.stats-row',
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-          onUpdate: () => {
-            el.textContent = Math.round(obj.val).toString()
-          },
-        })
+      gsap.from('.value-item', {
+        opacity: 0,
+        y: 24,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.values-row',
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
       })
 
+      gsap.from('.mosaic-large, .mosaic-small', {
+        opacity: 0,
+        x: 40,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.story-mosaic',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+      })
     }, sectionRef)
 
     return () => ctx.revert()
@@ -96,97 +109,246 @@ export default function About() {
         overflow: 'hidden',
       }}
     >
-
-      <div className="about-label" style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '48px' }}>
+      <div
+        className="about-label"
+        style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '48px' }}
+      >
         <div style={{ width: '40px', height: '1px', background: '#c9a96e' }} />
-        <span style={{
-          fontFamily: 'var(--font-dm-sans), sans-serif',
-          fontSize: '10px',
-          letterSpacing: '0.4em',
-          textTransform: 'uppercase',
-          color: '#c9a96e',
-        }}>
-          About
+        <span
+          style={{
+            fontFamily: 'var(--font-dm-sans), sans-serif',
+            fontSize: '10px',
+            letterSpacing: '0.4em',
+            textTransform: 'uppercase',
+            color: '#c9a96e',
+          }}
+        >
+          Our Story
         </span>
       </div>
 
-      <h2
-        ref={statementRef}
-        style={{
-          fontFamily: 'var(--font-cormorant), serif',
-          fontSize: 'clamp(2rem, 5vw, 4.2rem)',
-          fontWeight: 300,
-          color: '#f0ede6',
-          lineHeight: 1.25,
-          letterSpacing: '-0.01em',
-          maxWidth: '1100px',
-          marginBottom: '120px',
-        }}
-      >
-        <span style={{ display: 'block', overflow: 'hidden' }}>
-          <span className="line-inner" style={{ display: 'block' }}>
-            I design and build digital experiences
-          </span>
-        </span>
-        <span style={{ display: 'block', overflow: 'hidden' }}>
-          <span className="line-inner" style={{ display: 'block' }}>
-            that feel <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>cinematic</span>, intentional,
-          </span>
-        </span>
-        <span style={{ display: 'block', overflow: 'hidden' }}>
-          <span className="line-inner" style={{ display: 'block', color: 'rgba(240,237,230,0.35)' }}>
-            and unmistakably premium.
-          </span>
-        </span>
-      </h2>
-
-      <div
-        className="stats-row responsive-grid-4"
-        style={{
-          borderTop: '1px solid rgba(240,237,230,0.08)',
-          paddingTop: '48px', 
-        }}
-      >
-        {STATS.map((stat, i) => (
-          <div key={i} className="stat-item">
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-              <span
-                className="stat-number"
-                data-target={stat.number}
-                style={{
-                  fontFamily: 'var(--font-cormorant), serif',
-                  fontSize: 'clamp(2.2rem, 4vw, 3.5rem)',
-                  fontWeight: 300,
-                  color: '#f0ede6',
-                  lineHeight: 1,
-                }}
-              >
-                0
+      {/* ── 2-column: narrative left, mosaic right ─────────────── */}
+      <div className="story-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px' }}>
+        {/* ── Left: heading + copy + CTA + values ────────────── */}
+        <div>
+          <h2
+            ref={statementRef}
+            style={{
+              fontFamily: 'var(--font-cormorant), serif',
+              fontSize: 'clamp(2rem, 4.5vw, 3.6rem)',
+              fontWeight: 300,
+              color: '#f0ede6',
+              lineHeight: 1.2,
+              letterSpacing: '-0.01em',
+              marginBottom: '32px',
+            }}
+          >
+            <span style={{ display: 'block', overflow: 'hidden' }}>
+              <span className="line-inner" style={{ display: 'block' }}>
+                Redefining hospitality
               </span>
-              {stat.suffix && (
-                <span style={{
-                  fontFamily: 'var(--font-cormorant), serif',
-                  fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)',
-                  color: '#f0ede6',
-                }}>
-                  {stat.suffix}
-                </span>
-              )}
-            </div>
-            <p style={{
+            </span>
+            <span style={{ display: 'block', overflow: 'hidden' }}>
+              <span className="line-inner" style={{ display: 'block' }}>
+                in the heart of <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Mount Kenya</span> —
+              </span>
+            </span>
+            <span style={{ display: 'block', overflow: 'hidden' }}>
+              <span className="line-inner" style={{ display: 'block', color: 'rgba(240,237,230,0.35)' }}>
+                born in Milimani, Meru Town.
+              </span>
+            </span>
+          </h2>
+
+          <p
+            className="about-copy"
+            style={{
+              fontFamily: 'var(--font-dm-sans), sans-serif',
+              fontSize: '15px',
+              lineHeight: 1.75,
+              color: 'rgba(240,237,230,0.55)',
+              maxWidth: '480px',
+              marginBottom: '20px',
+            }}
+          >
+            To bridge the gap between premium international luxury standards and local cultural authenticity.
+          </p>
+
+          <p
+            className="about-copy"
+            style={{
+              fontFamily: 'var(--font-dm-sans), sans-serif',
+              fontSize: '15px',
+              lineHeight: 1.75,
+              color: 'rgba(240,237,230,0.55)',
+              maxWidth: '480px',
+              marginBottom: '40px',
+            }}
+          >
+            The Black Perch emerged from a clear vision: to create a fluid, premium destination that
+            effortlessly adapts to your day. We believe that modern life shouldn&apos;t be segmented.
+            Your morning remote workspace, your afternoon relaxation hour, and your late-night
+            celebration crew all deserve an uncompromised home. Built on the core values of absolute
+            safety, exceptional service speed, and deep local community connection, we invite you to
+            experience hospitality crafted with intentional luxury.
+          </p>
+
+          {/* ── Fixed CTA Tag ── */}
+          <a
+            href="#"
+            className="about-cta"
+            style={{
+              position: 'relative',
+              display: 'inline-block',
               fontFamily: 'var(--font-dm-sans), sans-serif',
               fontSize: '11px',
-              letterSpacing: '0.1em',
+              letterSpacing: '0.2em',
               textTransform: 'uppercase',
-              color: 'rgba(240,237,230,0.35)',
-              marginTop: '12px',
-            }}>
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </div>
+              color: '#c9a96e',
+              paddingBottom: '6px',
+              marginBottom: '64px',
+            }}
+          >
+            Read Our Full Story
+            <span
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                width: '100%',
+                height: '1px',
+                background: '#c9a96e',
+                transform: 'scaleX(1)',
+                transformOrigin: 'left center',
+              }}
+            />
+          </a>
 
+          {/* ── Core values ── */}
+          <div
+            className="values-row"
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '32px',
+              borderTop: '1px solid rgba(240,237,230,0.08)',
+              paddingTop: '32px',
+            }}
+          >
+            {VALUES.map((value, i) => {
+              const Icon = value.icon
+              return (
+                <div
+                  key={i}
+                  className="value-item"
+                  style={{ display: 'flex', alignItems: 'center', gap: '12px', maxWidth: '180px' }}
+                >
+                  <Icon size={18} color="#c9a96e" strokeWidth={1.5} />
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-dm-sans), sans-serif',
+                      fontSize: '11px',
+                      letterSpacing: '0.05em',
+                      color: 'rgba(240,237,230,0.6)',
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {value.label}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* ── Right: image mosaic ── */}
+        <div className="story-mosaic" style={{ position: 'relative' }}>
+          <div
+            className="mosaic-large"
+            style={{
+              width: '100%',
+              aspectRatio: '4 / 3',
+              background: 'linear-gradient(135deg, #1a1a1a 0%, #101010 100%)',
+              border: '1px dashed rgba(240,237,230,0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '16px',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'var(--font-dm-sans), sans-serif',
+                fontSize: '10px',
+                letterSpacing: '0.1em',
+                color: 'rgba(240,237,230,0.25)',
+                textAlign: 'center',
+                padding: '0 24px',
+              }}
+            >
+              [IMG-ABOUT-MOSAIC-LARGE]
+              <br />
+              Architectural facade at sunset
+            </span>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div
+              className="mosaic-small"
+              style={{
+                aspectRatio: '1 / 1',
+                background: 'linear-gradient(135deg, #1a1a1a 0%, #101010 100%)',
+                border: '1px dashed rgba(240,237,230,0.15)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'var(--font-dm-sans), sans-serif',
+                  fontSize: '9px',
+                  letterSpacing: '0.08em',
+                  color: 'rgba(240,237,230,0.25)',
+                  textAlign: 'center',
+                  padding: '0 12px',
+                }}
+              >
+                [IMG-ABOUT-MOSAIC-SMALL-1]
+                <br />
+                Chef preparing ingredients
+              </span>
+            </div>
+
+            <div
+              className="mosaic-small"
+              style={{
+                aspectRatio: '1 / 1',
+                background: 'linear-gradient(135deg, #1a1a1a 0%, #101010 100%)',
+                border: '1px dashed rgba(240,237,230,0.15)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'var(--font-dm-sans), sans-serif',
+                  fontSize: '9px',
+                  letterSpacing: '0.08em',
+                  color: 'rgba(240,237,230,0.25)',
+                  textAlign: 'center',
+                  padding: '0 12px',
+                }}
+              >
+                [IMG-ABOUT-MOSAIC-SMALL-2]
+                <br />
+                Community charity event
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
