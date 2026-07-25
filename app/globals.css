@@ -241,3 +241,17 @@ html, body {
     cursor: none !important;
   }
 }
+
+/* Our Story: stack mosaic below text, drop secondary images on mobile */
+@media (max-width: 900px) {
+  .story-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .mosaic-small {
+    display: none;
+  }
+}
