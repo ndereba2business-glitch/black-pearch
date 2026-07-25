@@ -65,11 +65,11 @@ export default function Navbar() {
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 right-0 w-full z-[100] section-padding py-6 transition-all duration-700"
+        className="absolute top-0 left-0 right-0 w-full z-[100] section-padding py-6 transition-all duration-700"
         style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr auto 1fr',
+          display: 'flex',
           alignItems: 'center',
+          justifyContent: 'space-between',
           ...(scrolled
             ? {
                 background: 'rgba(8,8,8,0.85)',
@@ -82,7 +82,7 @@ export default function Navbar() {
         {/* Left links */}
         <div className="hidden md:flex items-center gap-8">
           {LEFT_LINKS.map((item) => (
-            <a
+            
               key={item.href}
               href={item.href}
               onClick={handleNavClick(item.href)}
@@ -110,7 +110,7 @@ export default function Navbar() {
         <div className="flex items-center justify-end gap-8">
           <div className="hidden md:flex items-center gap-8">
             {RIGHT_LINKS.map((item) => (
-              <a
+              
                 key={item.href}
                 href={item.href}
                 onClick={handleNavClick(item.href)}
@@ -143,7 +143,7 @@ export default function Navbar() {
         }}
       >
         {[...LEFT_LINKS, ...RIGHT_LINKS].map((item) => (
-          <a
+          
             key={item.href}
             href={item.href}
             onClick={handleNavClick(item.href)}
