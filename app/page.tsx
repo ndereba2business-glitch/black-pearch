@@ -1,6 +1,6 @@
 ﻿import Hero from '@/components/sections/Hero'
 import Marquee from '@/components/sections/Marquee'
-import Work from '@/components/sections/Work'
+import FeaturedMenu from '@/components/sections/FeaturedMenu'
 import About from '@/components/sections/About'
 import Contact from '@/components/sections/Contact'
 
@@ -9,7 +9,7 @@ export default function Home() {
     <main style={{ background: '#080808' }}>
       <Hero />
       <Marquee />
-      <Work />
+      <FeaturedMenu />
       <About />
       <Contact />
     </main>
