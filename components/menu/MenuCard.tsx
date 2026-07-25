@@ -71,12 +71,27 @@ export default function MenuCard({ item }: { item: MenuItem }) {
       <div ref={spotlightRef} className="menu-card-spotlight" aria-hidden="true" />
 
       <div ref={imageWrapRef} className="menu-card-image-wrap">
+        {/* Blurred backdrop — a soft, dimmed duplicate of the same photo,
+            scaled and blurred. This is what fills the space around the
+            main image instead of a hard black bar, so portrait, landscape
+            or square source photos all look intentional, never cropped,
+            never distorted. */}
+        <div
+          className="menu-card-image-backdrop"
+          style={{ backgroundImage: `url(${item.image})` }}
+          aria-hidden="true"
+        />
+        <div className="menu-card-image-scrim" aria-hidden="true" />
+
+        {/* Main image — object-fit: contain guarantees the full dish,
+            plating and composition are always visible, exactly as shot,
+            regardless of aspect ratio. */}
         <Image
           src={item.image}
           alt={item.title}
           fill
           sizes="(max-width: 640px) 88vw, (max-width: 1024px) 44vw, 28vw"
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'contain' }}
         />
       </div>
 
@@ -182,12 +197,39 @@ export default function MenuCard({ item }: { item: MenuItem }) {
           margin: -36px auto 24px auto;
           border-radius: 4px;
           overflow: hidden;
+          background: #0c0c0c;
           box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
           transition: transform 0.5s ease;
           will-change: transform;
         }
         .menu-card:hover .menu-card-image-wrap {
           transform: translateY(-6px) scale(1.03);
+        }
+
+        /* Blurred, dimmed duplicate of the dish photo — fills the frame
+           behind the (uncropped) main image so there's never a hard
+           black letterbox bar, whatever the source photo's orientation. */
+        .menu-card-image-backdrop {
+          position: absolute;
+          inset: 0;
+          background-size: cover;
+          background-position: center;
+          filter: blur(28px) brightness(0.55) saturate(1.15);
+          transform: scale(1.2);
+        }
+
+        /* Warm scrim over the backdrop so it reads as ambient restaurant
+           light rather than a raw blurred photo — ties into the same
+           gold accent used by the spotlight and badges. */
+        .menu-card-image-scrim {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(
+            ellipse at center,
+            transparent 45%,
+            rgba(8, 8, 8, 0.35) 80%,
+            rgba(8, 8, 8, 0.55) 100%
+          );
         }
 
         .menu-card-title {
