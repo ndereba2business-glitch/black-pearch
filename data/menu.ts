@@ -106,7 +106,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'mains',
     description:
       'Twelve-hour braise, red wine jus, root vegetable purée, rosemary oil.',
-    image: '/images/menu/slow-braised-lamb-shank.jpg',
+    image: '/images/menu/slow-braised-lamb-shank.jpeg',
     badge: 'premium-cut',
     dietaryTags: ['gluten-free'],
     pairing: 'Malbec',
