@@ -3,7 +3,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import { Menu, X } from 'lucide-react'
 
 const LEFT_LINKS = [
   { label: 'Home', href: '#home' },
@@ -143,13 +142,55 @@ export default function Navbar() {
           </div>
 
           <button
-            className="nav-item flex items-center justify-center w-10 h-10 rounded-full border transition-colors duration-300 shrink-0"
-            style={{ borderColor: 'rgba(240,237,230,0.25)', color: '#f0ede6' }}
+            className="nav-item"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '4px',
+              width: '40px',
+              height: '40px',
+              flexShrink: 0,
+              borderRadius: '9999px',
+              border: '1px solid rgba(240,237,230,0.25)',
+              background: 'transparent',
+              cursor: 'pointer',
+            }}
             onClick={() => setMobileMenuOpen((v) => !v)}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+            <span
+              style={{
+                display: 'block',
+                width: '16px',
+                height: '1.5px',
+                background: '#f0ede6',
+                transition: 'transform 0.3s ease, opacity 0.3s ease',
+                transform: mobileMenuOpen ? 'translateY(5.5px) rotate(45deg)' : 'none',
+              }}
+            />
+            <span
+              style={{
+                display: 'block',
+                width: '16px',
+                height: '1.5px',
+                background: '#f0ede6',
+                transition: 'opacity 0.3s ease',
+                opacity: mobileMenuOpen ? 0 : 1,
+              }}
+            />
+            <span
+              style={{
+                display: 'block',
+                width: '16px',
+                height: '1.5px',
+                background: '#f0ede6',
+                transition: 'transform 0.3s ease, opacity 0.3s ease',
+                transform: mobileMenuOpen ? 'translateY(-5.5px) rotate(-45deg)' : 'none',
+              }}
+            />
           </button>
         </div>
       </nav>
