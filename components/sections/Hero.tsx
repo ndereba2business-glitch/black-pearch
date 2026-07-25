@@ -14,6 +14,14 @@ import { magneticHover } from '@/lib/animations'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// TODO: paste real profile URLs here when ready, e.g.
+// instagram: 'https://instagram.com/theblackperch'
+// facebook: 'https://facebook.com/theblackperch'
+const SOCIAL_LINKS = {
+  instagram: '',
+  facebook: '',
+}
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const imageWrapRef = useRef<HTMLDivElement>(null)
@@ -126,7 +134,7 @@ export default function Hero() {
         />
       </div>
 
-      {/* ══════════════ TOP BRAND HEADER — "The Black Perch" / "DINE. CHILL. INDULGE." ══════════════ */}
+      {/* ══════════════ TOP BRAND HEADER ══════════════ */}
       <div
         style={{
           position: 'absolute',
@@ -217,7 +225,7 @@ export default function Hero() {
             letterSpacing: '0.12em',
             marginBottom: '28px',
             lineHeight: 1.7,
-            maxWidth: '28rem', // Fixed: was set to '28px' which squished text vertically
+            maxWidth: '28rem',
           }}
         >
           — lounge, cafe, spa and sherehe nights, all under one roof
@@ -286,12 +294,27 @@ export default function Hero() {
         }}
       >
         <span style={{ width: '1px', height: '48px', background: 'rgba(240,237,230,0.2)' }} />
-        <a href="#" aria-label="Instagram" style={{ color: 'rgba(240,237,230,0.5)' }}>
+        
+        <a
+          href={SOCIAL_LINKS.instagram || '#'}
+          target={SOCIAL_LINKS.instagram ? '_blank' : undefined}
+          rel={SOCIAL_LINKS.instagram ? 'noopener noreferrer' : undefined}
+          aria-label="Instagram"
+          style={{ color: 'rgba(240,237,230,0.5)' }}
+        >
           <IconInstagram />
         </a>
-        <a href="#" aria-label="Facebook" style={{ color: 'rgba(240,237,230,0.5)' }}>
+
+        <a
+          href={SOCIAL_LINKS.facebook || '#'}
+          target={SOCIAL_LINKS.facebook ? '_blank' : undefined}
+          rel={SOCIAL_LINKS.facebook ? 'noopener noreferrer' : undefined}
+          aria-label="Facebook"
+          style={{ color: 'rgba(240,237,230,0.5)' }}
+        >
           <IconFacebook />
         </a>
+
         <span style={{ width: '1px', height: '48px', background: 'rgba(240,237,230,0.2)' }} />
       </div>
 
