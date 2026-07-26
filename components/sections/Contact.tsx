@@ -412,7 +412,7 @@ export default function Contact() {
             color: '#f0ede6',
             fontWeight: 300,
           }}>
-            Open for Projects 24/7
+            Open for Reservations 24/7
           </p>
         </div>
 
@@ -428,7 +428,7 @@ export default function Contact() {
             Social media
           </p>
           <div style={{ display: 'flex', gap: '20px' }}>
-            {['Instagram', 'LinkedIn', 'Twitter'].map((s) => (
+            {['Instagram', 'Facebook', 'TikTok'].map((s) => (
               <a
                 key={s}
                 href="#"
