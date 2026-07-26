@@ -18,9 +18,16 @@ const RESERVATION_BENEFITS = [
   { icon: Sparkles, label: 'Perfect for Special Occasions' },
 ]
 
-const RESERVATION_EMAIL = 'reservations@theblackpearch.com'
 const RESERVATION_PHONE_DISPLAY = '+254 118 688 226'
 const RESERVATION_PHONE_TEL = '+254118688226'
+
+// wa.me requires the number in international format with no "+", spaces, or leading zeros
+const RESERVATION_WHATSAPP_NUMBER = '254118688226'
+const RESERVATION_WHATSAPP_MESSAGE =
+  "Hi Black Perch, I'd like to reserve a table."
+const RESERVATION_WHATSAPP_URL = `https://wa.me/${RESERVATION_WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  RESERVATION_WHATSAPP_MESSAGE
+)}`
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -286,9 +293,11 @@ export default function Contact() {
           <div className="reserve-cta-row" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px', marginBottom: '44px' }}>
             <a
               ref={primaryBtnRef}
-              href={`mailto:${RESERVATION_EMAIL}`}
+              href={RESERVATION_WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="reserve-cta-primary"
-              aria-label={`Reserve a table by emailing ${RESERVATION_EMAIL}`}
+              aria-label="Reserve a table via WhatsApp"
             >
               Reserve a Table
             </a>
