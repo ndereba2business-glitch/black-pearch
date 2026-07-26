@@ -1,27 +1,36 @@
 ﻿'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { CalendarCheck, Trees, Lock, Sparkles, Phone } from 'lucide-react'
+import { IconClock } from '@/components/ui/icons'
+import GlassBadge from '@/components/ui/GlassBadge'
+import { magneticHover } from '@/lib/animations'
 
 gsap.registerPlugin(ScrollTrigger)
 
-type FormStatus = 'idle' | 'sending' | 'success' | 'error'
+// ── Reservation copy — edit freely, no structural changes needed ────────
+const RESERVATION_BENEFITS = [
+  { icon: CalendarCheck, label: 'Instant Reservation' },
+  { icon: Trees, label: 'Indoor & Outdoor Seating' },
+  { icon: Lock, label: 'Private Dining Available' },
+  { icon: Sparkles, label: 'Perfect for Special Occasions' },
+]
+
+const RESERVATION_EMAIL = 'reservations@theblackpearch.com'
+const RESERVATION_PHONE_DISPLAY = '+254 118 688 226'
+const RESERVATION_PHONE_TEL = '+254118688226'
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
-  const [hovered, setHovered] = useState(false)
-
-  // ── Form state ──────────────────────────────────────────────
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<FormStatus>('idle')
+  const primaryBtnRef = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
 
+      // ── Reservation headline — line-by-line reveal ─────────────
       const lines = headingRef.current?.querySelectorAll('.line-inner')
       gsap.set(lines || [], { y: '110%' })
 
@@ -37,7 +46,8 @@ export default function Contact() {
         },
       })
 
-      gsap.from('.contact-label', {
+      // ── Reservation eyebrow label ───────────────────────────────
+      gsap.from('.reserve-label', {
         opacity: 0,
         y: 20,
         duration: 0.8,
@@ -49,19 +59,74 @@ export default function Contact() {
         },
       })
 
-      gsap.from('.contact-form-field', {
+      // ── Reservation supporting copy ─────────────────────────────
+      gsap.from('.reserve-copy', {
         opacity: 0,
-        y: 24,
+        y: 20,
         duration: 0.8,
-        stagger: 0.1,
         ease: 'power3.out',
         scrollTrigger: {
-          trigger: '.contact-form',
-          start: 'top 85%',
+          trigger: '.reserve-copy',
+          start: 'top 88%',
           toggleActions: 'play none none none',
         },
       })
 
+      // ── Benefit list ─────────────────────────────────────────────
+      gsap.from('.reserve-benefit-item', {
+        opacity: 0,
+        y: 20,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.reserve-benefits',
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+      })
+
+      // ── CTA row ──────────────────────────────────────────────────
+      gsap.from('.reserve-cta-row', {
+        opacity: 0,
+        y: 24,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.reserve-cta-row',
+          start: 'top 90%',
+          toggleActions: 'play none none none',
+        },
+      })
+
+      // ── Info row ─────────────────────────────────────────────────
+      gsap.from('.reserve-info-item', {
+        opacity: 0,
+        y: 16,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.reserve-info-row',
+          start: 'top 92%',
+          toggleActions: 'play none none none',
+        },
+      })
+
+      // ── Cinematic image reveal ──────────────────────────────────
+      gsap.from('.reserve-image-wrap', {
+        opacity: 0,
+        x: 40,
+        duration: 1.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.reserve-image-wrap',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        },
+      })
+
+      // ── Existing footer content (unchanged) ─────────────────────
       gsap.from('.contact-row', {
         opacity: 0,
         y: 30,
@@ -91,57 +156,23 @@ export default function Contact() {
     return () => ctx.revert()
   }, [])
 
-  // ── Submit handler ──────────────────────────────────────────
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('sending')
+  // ── Magnetic hover on the primary CTA ────────────────────────────
+  useEffect(() => {
+    const cleanup = magneticHover(primaryBtnRef.current, 0.25)
+    return () => cleanup && cleanup()
+  }, [])
 
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
-      })
-
-      if (!res.ok) {
-        throw new Error('Request failed')
-      }
-
-      setStatus('success')
-      setName('')
-      setEmail('')
-      setMessage('')
-    } catch (err) {
-      console.error('Contact form error:', err)
-      setStatus('error')
-    }
-  }
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    background: 'transparent',
-    border: 'none',
-    borderBottom: '1px solid rgba(240,237,230,0.15)',
-    color: '#f0ede6',
+  const infoLabelStyle: React.CSSProperties = {
     fontFamily: 'var(--font-dm-sans), sans-serif',
-    fontSize: '1rem',
-    padding: '14px 0',
-    outline: 'none',
-  }
-
-  const labelStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-dm-sans), sans-serif',
-    fontSize: '10px',
-    letterSpacing: '0.3em',
-    textTransform: 'uppercase',
-    color: 'rgba(240,237,230,0.35)',
-    marginBottom: '10px',
-    display: 'block',
+    fontSize: '12.5px',
+    letterSpacing: '0.04em',
+    color: 'rgba(240,237,230,0.55)',
   }
 
   return (
     <section
       ref={sectionRef}
+      id="reserve"
       className="contact-section-padding"
       style={{
         position: 'relative',
@@ -152,7 +183,8 @@ export default function Contact() {
       }}
     >
 
-      <div className="contact-label" style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '48px' }}>
+      {/* ── Eyebrow ──────────────────────────────────────────────── */}
+      <div className="reserve-label" style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '48px' }}>
         <div style={{ width: '40px', height: '1px', background: '#c9a96e' }} />
         <span style={{
           fontFamily: 'var(--font-dm-sans), sans-serif',
@@ -161,147 +193,170 @@ export default function Contact() {
           textTransform: 'uppercase',
           color: '#c9a96e',
         }}>
-          Get In Touch
+          Reservations
         </span>
       </div>
 
-      <h2
-        ref={headingRef}
-        style={{
-          fontFamily: 'var(--font-cormorant), serif',
-          fontSize: 'clamp(2.8rem, 7vw, 6.5rem)',
-          fontWeight: 300,
-          color: '#f0ede6',
-          lineHeight: 0.98,
-          letterSpacing: '-0.02em',
-          marginBottom: '20px',
-        }}
-      >
-        <span style={{ display: 'block', overflow: 'hidden' }}>
-          <span className="line-inner" style={{ display: 'block' }}>
-            Your table awaits
-          </span>
-        </span>
-        <span style={{ display: 'block', overflow: 'hidden' }}>
-          <span className="line-inner" style={{ display: 'block' }}>
-            <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>an unforgettable evening.</span>
-          </span>
-        </span>
-      </h2>
+      {/* ── Reservation: two-column conversion block ────────────── */}
+      <div className="reserve-grid" style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '80px',
+        alignItems: 'center',
+        marginBottom: '120px',
+      }}>
 
-      <a
-        href="mailto:reservations@theblackpearch.com"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          display: 'inline-block',
-          fontFamily: 'var(--font-dm-sans), sans-serif',
-          fontSize: 'clamp(1rem, 2vw, 1.3rem)',
-          color: hovered ? '#c9a96e' : 'rgba(240,237,230,0.5)',
-          letterSpacing: '0.02em',
-          marginBottom: '80px',
-          borderBottom: hovered ? '1px solid #c9a96e' : '1px solid rgba(240,237,230,0.15)',
-          paddingBottom: '6px',
-          transition: 'color 0.4s ease, border-color 0.4s ease',
-        }}
-      >
-        reservations@theblackpearch.com
-      </a>
-
-      {/* ── Contact Form ──────────────────────────────────────── */}
-      <form
-        onSubmit={handleSubmit}
-        className="contact-form"
-        style={{
-          maxWidth: '640px',
-          marginBottom: '100px',
-          borderTop: '1px solid rgba(240,237,230,0.08)',
-          paddingTop: '48px',
-        }}
-      >
-        <div className="contact-form-field" style={{ marginBottom: '32px' }}>
-          <label style={labelStyle} htmlFor="name">Name</label>
-          <input
-            id="name"
-            type="text"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={inputStyle}
-            placeholder="Your name"
-          />
-        </div>
-
-        <div className="contact-form-field" style={{ marginBottom: '32px' }}>
-          <label style={labelStyle} htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={inputStyle}
-            placeholder="you@example.com"
-          />
-        </div>
-
-        <div className="contact-form-field" style={{ marginBottom: '40px' }}>
-          <label style={labelStyle} htmlFor="message">Message</label>
-          <textarea
-            id="message"
-            required
-            rows={4}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            style={{ ...inputStyle, resize: 'vertical' as const, fontFamily: 'var(--font-dm-sans), sans-serif' }}
-            placeholder="Tell us about your project"
-          />
-        </div>
-
-        <div className="contact-form-field" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-          <button
-            type="submit"
-            disabled={status === 'sending'}
+        {/* ── LEFT — headline, copy, benefits, CTAs, info ───────── */}
+        <div>
+          <h2
+            ref={headingRef}
             style={{
-              fontFamily: 'var(--font-dm-sans), sans-serif',
-              fontSize: '11px',
-              letterSpacing: '0.25em',
-              textTransform: 'uppercase',
-              color: '#080808',
-              background: '#c9a96e',
-              border: 'none',
-              padding: '16px 40px',
-              cursor: status === 'sending' ? 'not-allowed' : 'pointer',
-              opacity: status === 'sending' ? 0.6 : 1,
+              fontFamily: 'var(--font-cormorant), serif',
+              fontSize: 'clamp(2.8rem, 6vw, 5.6rem)',
+              fontWeight: 300,
+              color: '#f0ede6',
+              lineHeight: 0.98,
+              letterSpacing: '-0.02em',
+              marginBottom: '24px',
             }}
           >
-            {status === 'sending' ? 'Sending...' : 'Send Message'}
-          </button>
-
-          {status === 'success' && (
-            <span style={{
-              fontFamily: 'var(--font-dm-sans), sans-serif',
-              fontSize: '12px',
-              color: '#c9a96e',
-              letterSpacing: '0.05em',
-            }}>
-              Message sent — thank you.
+            <span style={{ display: 'block', overflow: 'hidden' }}>
+              <span className="line-inner" style={{ display: 'block' }}>
+                Reserve Your
+              </span>
             </span>
-          )}
-
-          {status === 'error' && (
-            <span style={{
-              fontFamily: 'var(--font-dm-sans), sans-serif',
-              fontSize: '12px',
-              color: '#d98b8b',
-              letterSpacing: '0.05em',
-            }}>
-              Something went wrong. Please try again.
+            <span style={{ display: 'block', overflow: 'hidden' }}>
+              <span className="line-inner" style={{ display: 'block' }}>
+                <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Table.</span>
+              </span>
             </span>
-          )}
+          </h2>
+
+          <p
+            className="reserve-copy"
+            style={{
+              fontFamily: 'var(--font-dm-sans), sans-serif',
+              fontSize: '15px',
+              lineHeight: 1.75,
+              color: 'rgba(240,237,230,0.55)',
+              maxWidth: '440px',
+              marginBottom: '40px',
+            }}
+          >
+            Whether it&apos;s an intimate dinner for two, a joyful family gathering, a milestone
+            celebration or an important business meeting — our team is ready to set the perfect
+            table for you.
+          </p>
+
+          {/* ── Benefits ── */}
+          <ul
+            className="reserve-benefits"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '20px 28px',
+              listStyle: 'none',
+              borderTop: '1px solid rgba(240,237,230,0.08)',
+              borderBottom: '1px solid rgba(240,237,230,0.08)',
+              padding: '32px 0',
+              marginBottom: '40px',
+            }}
+          >
+            {RESERVATION_BENEFITS.map(({ icon: Icon, label }) => (
+              <li
+                key={label}
+                className="reserve-benefit-item"
+                style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
+              >
+                <Icon size={17} color="#c9a96e" strokeWidth={1.5} />
+                <span style={{
+                  fontFamily: 'var(--font-dm-sans), sans-serif',
+                  fontSize: '12.5px',
+                  letterSpacing: '0.03em',
+                  color: 'rgba(240,237,230,0.65)',
+                  lineHeight: 1.4,
+                }}>
+                  {label}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          {/* ── CTAs ── */}
+          <div className="reserve-cta-row" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px', marginBottom: '44px' }}>
+            <a
+              ref={primaryBtnRef}
+              href={`mailto:${RESERVATION_EMAIL}`}
+              className="reserve-cta-primary"
+              aria-label={`Reserve a table by emailing ${RESERVATION_EMAIL}`}
+            >
+              Reserve a Table
+            </a>
+
+            <a
+              href={`tel:${RESERVATION_PHONE_TEL}`}
+              className="reserve-cta-secondary"
+              aria-label={`Call us at ${RESERVATION_PHONE_DISPLAY}`}
+            >
+              <Phone size={14} strokeWidth={1.75} style={{ marginRight: '10px' }} />
+              Call Us
+            </a>
+          </div>
+
+          {/* ── Refined info row ── */}
+          <div
+            className="reserve-info-row"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '14px',
+              borderTop: '1px solid rgba(240,237,230,0.08)',
+              paddingTop: '28px',
+            }}
+          >
+            <div className="reserve-info-item" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <IconClock width={13} height={13} color="rgba(201,169,110,0.8)" />
+              <span style={infoLabelStyle}>Open Daily &middot; 24 Hours</span>
+            </div>
+            <div className="reserve-info-item" style={infoLabelStyle}>
+              Reservations Recommended After 6 PM
+            </div>
+            <div className="reserve-info-item" style={infoLabelStyle}>
+              Private Events &amp; Group Bookings Available
+            </div>
+          </div>
         </div>
-      </form>
 
+        {/* ── RIGHT — cinematic dining photograph ───────────────── */}
+        <div className="reserve-image-wrap">
+          <GlassBadge>
+            <span style={{ display: 'inline' }}>An Intimate Setting</span>
+          </GlassBadge>
+
+          {/* Drop the real photo at /public/images/reservation/candlelit-table.jpg
+              and it will replace this placeholder automatically — no code changes needed. */}
+          <img
+            src="/images/reservation/candlelit-table.jpg"
+            alt="A candlelit table set with fine cutlery and wine glasses at The Black Perch"
+            className="reserve-photo"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+          />
+
+          <div className="reserve-image-placeholder">
+            <span>
+              [IMG-RESERVE-DINING]
+              <br />
+              Candlelit table &middot; fine cutlery &middot; wine glasses &middot; warm ambient light
+            </span>
+          </div>
+
+          <div className="reserve-image-overlay" aria-hidden="true" />
+        </div>
+      </div>
+
+      {/* ── Existing contact/footer details (unchanged) ──────────── */}
       <div
         className="contact-details"
         style={{
