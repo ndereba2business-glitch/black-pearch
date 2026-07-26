@@ -1,51 +1,65 @@
 // data/experience.ts
 //
 // Content for the "Experience The Black Perch" section (sits between
-// Featured Menu and the Brand Heritage / Reservation flow). These are
-// cinematic Unsplash placeholder images representing atmosphere —
-// exterior, interior, guests, cocktails, live music — deliberately NOT
-// food photography, since Featured Menu already covers the cuisine.
+// Featured Menu and the Brand Heritage / Reservation flow).
 //
-// NOTE: These are placeholder stock photo IDs, same spirit as the
-// [IMG-...] placeholder codes in the content spec doc. Swap `src` for
-// real venue photography once it's shot — nothing else needs to change.
+// IMAGES:
+// Drop your files into public/images/experience/ using the exact
+// filenames below (jpg, jpeg, png, or webp — just update the extension
+// in `src` to match what you add). Each `src` is already wired up, so
+// once a file lands at that path it just appears — nothing else to
+// change. Every image should be atmosphere/lifestyle, not food (the
+// Featured Menu section already covers the cuisine):
+//
+//   public/images/experience/exterior-night.jpg     — exterior at night
+//   public/images/experience/interior.jpg            — elegant interior
+//   public/images/experience/candlelit-table.jpg     — candlelit dining table
+//   public/images/experience/guests-dinner.jpg        — guests enjoying dinner together
+//   public/images/experience/friends-cocktails.jpg    — friends sharing cocktails
+//   public/images/experience/live-music.jpg           — live music / DJ ambience
+//   public/images/experience/bartender-craft.jpg      — bartender crafting a cocktail
+//
+// TESTIMONIALS:
+// Paste real Google review text + reviewer first name + last initial
+// into the `quote` / `name` fields below. Keep to 3 — the layout is
+// built around exactly 3 floating testimonial cards.
 
 import type { ExperienceImage, Testimonial } from '@/types/experience'
 
 export const EXPERIENCE_IMAGES: ExperienceImage[] = [
   {
     id: 'exterior-night',
-    src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop',
+    src: '/images/experience/exterior-night.jpg',
     alt: 'The Black Perch exterior glowing warmly at night',
   },
   {
     id: 'interior',
-    src: 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?q=80&w=1400&auto=format&fit=crop',
+    src: '/images/experience/interior.jpg',
     alt: 'Elegant, dimly lit interior seating',
   },
   {
     id: 'candlelit-table',
-    src: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1400&auto=format&fit=crop',
+    src: '/images/experience/candlelit-table.jpg',
     alt: 'A candlelit dining table set for an evening',
   },
   {
     id: 'guests-dinner',
-    src: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=1400&auto=format&fit=crop',
+    src: '/images/experience/guests-dinner.jpg',
     alt: 'Guests laughing together over dinner',
   },
   {
     id: 'friends-cocktails',
-    src: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1400&auto=format&fit=crop',
+    src: '/images/experience/friends-cocktails.jpg',
     alt: 'Friends sharing cocktails at the bar',
   },
   {
     id: 'live-music',
-    src: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1400&auto=format&fit=crop',
+    src: '/images/experience/live-music.jpg',
     alt: 'Live DJ setting the mood for the evening',
   },
   {
     id: 'bartender-craft',
-    src: 'https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=1400&auto=format&fit=crop',
+    src: '/images/experience/bartender-craft.jpg',
     alt: 'A bartender crafting a premium cocktail',
   },
 ]
@@ -53,17 +67,18 @@ export const EXPERIENCE_IMAGES: ExperienceImage[] = [
 export const EXPERIENCE_TESTIMONIALS: Testimonial[] = [
   {
     id: 't1',
-    quote: 'The atmosphere alone is worth the visit. Every detail felt intentional.',
-    name: 'Sarah M.',
+    quote: '',
+    name: '',
   },
   {
     id: 't2',
-    quote: 'Perfect place for our anniversary. Incredible ambience and amazing service.',
-    name: 'Brian K.',
+    quote: '',
+    name: '',
   },
   {
     id: 't3',
-    quote: 'Beautiful interior, fantastic cocktails and one of the best dining experiences in town.',
-    name: 'Faith N.',
+    quote: '',
+    name: '',
   },
 ]
+
