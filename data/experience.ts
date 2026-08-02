@@ -67,18 +67,18 @@ export const EXPERIENCE_IMAGES: ExperienceImage[] = [
 export const EXPERIENCE_TESTIMONIALS: Testimonial[] = [
   {
     id: 't1',
-    quote: '',
-    name: '',
+    quote: 'I had a great time. Fun was had. Your to go place in Meru.',
+    name: 'Sharon Makena',
   },
   {
     id: 't2',
-    quote: '',
-    name: '',
+    quote: 'Awesome place for making good memories.',
+    name: 'Emmanuel Daris Njua',
   },
   {
     id: 't3',
-    quote: '',
-    name: '',
+    quote: 'Perfect place for lunch meetings. Loved the ambience, top notch kwa kweli.',
+    name: 'Isaac Mbugua',
   },
 ]
 
