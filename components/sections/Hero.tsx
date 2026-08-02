@@ -109,7 +109,7 @@ export default function Hero() {
         }}
       >
         <img
-          src="/hero/black-perch-hero-desktop.png"
+          src="/hero/black-perch-hero.png"
           alt="The Black Perch Exterior"
           style={{
             width: '100%',
