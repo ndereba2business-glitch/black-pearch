@@ -29,32 +29,32 @@ import type { ExperienceImage, Testimonial } from '@/types/experience'
 export const EXPERIENCE_IMAGES: ExperienceImage[] = [
   {
     id: 'exterior-night',
-    src: '/images/experience/exterior-night.jpg',
+    src: '/images/experience/exterior-night.png',
     alt: 'The Black Perch exterior glowing warmly at night',
   },
   {
     id: 'interior',
-    src: '/images/experience/interior.jpg',
+    src: '/images/experience/interior.png',
     alt: 'Elegant, dimly lit interior seating',
   },
   {
     id: 'candlelit-table',
-    src: '/images/experience/candlelit-table.jpg',
+    src: '/images/experience/candlelit-table.png',
     alt: 'A candlelit dining table set for an evening',
   },
   {
     id: 'guests-dinner',
-    src: '/images/experience/guests-dinner.jpg',
+    src: '/images/experience/guests-dinner.png',
     alt: 'Guests laughing together over dinner',
   },
   {
     id: 'friends-cocktails',
-    src: '/images/experience/friends-cocktails.jpg',
+    src: '/images/experience/friends-cocktails.png',
     alt: 'Friends sharing cocktails at the bar',
   },
   {
     id: 'live-music',
-    src: '/images/experience/live-music.jpg',
+    src: '/images/experience/live-music.png',
     alt: 'Live DJ setting the mood for the evening',
   },
   {
