@@ -54,7 +54,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'breakfast',
     description:
       'Butter-laminated croissant, slow-poached egg, hollandaise, smoked salmon ribbons.',
-    image: '/images/menu/golden-croissant-benedict.jpg',
+    image: '/images/menu/golden-croissant-benedict.png',
     badge: 'chefs-selection',
     dietaryTags: ['dairy'],
     pairing: 'Fresh Orange Press',
@@ -67,7 +67,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'breakfast',
     description:
       'Charred sourdough, whipped avocado, black truffle oil, chili flake, microgreens.',
-    image: '/images/menu/truffle-avocado-toast.jpg',
+    image: '/images/menu/truffle-avocado-toast.png',
     badge: 'house-favourite',
     dietaryTags: ['vegetarian'],
     rating: 4.7,
@@ -79,7 +79,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'breakfast',
     description:
       'Brioche trio dusted in cinnamon sugar, salted caramel, roasted hazelnut.',
-    image: '/images/menu/artisan-french-toast-flight.jpg',
+    image: '/images/menu/artisan-french-toast-flight.png',
     badge: 'signature-dish',
     dietaryTags: ['dairy', 'contains-nuts'],
     rating: 4.9,
@@ -93,7 +93,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'mains',
     description:
       'Pan-fried artisan chicken with garlic butter cream, fresh coriander, walnuts.',
-    image: '/images/menu/creamy-garlic-chicken.jpg',
+    image: '/images/menu/creamy-garlic-chicken.png',
     badge: 'chefs-selection',
     dietaryTags: ['dairy', 'contains-nuts'],
     pairing: 'Chardonnay',
@@ -119,7 +119,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'mains',
     description:
       'Crisp-skin perch, brown butter, capers, charred lemon, seasonal greens.',
-    image: '/images/menu/pan-seared-nile-perch.jpg',
+    image: '/images/menu/pan-seared-nile-perch.png',
     badge: 'house-favourite',
     dietaryTags: ['gluten-free', 'dairy'],
     pairing: 'Sauvignon Blanc',
@@ -134,23 +134,23 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'pizzas-burgers',
     description:
       'Double-smashed wagyu, aged cheddar, caramelized onion, truffle aioli, brioche bun.',
-    image: '/images/menu/wagyu-smash-burger.jpg',
+    image: '/images/menu/wagyu-smash-burger.png',
     badge: 'signature-dish',
     dietaryTags: ['dairy'],
     rating: 4.9,
     price: 1350,
   },
   {
-    id: 'black-truffle-margherita',
-    title: 'Black Truffle Margherita',
-    category: 'pizzas-burgers',
+    id: 'ugali-and-sukuma',
+    title: 'Ugali and Sukuma',
+    category: 'mains',
     description:
-      'Wood-fired sourdough base, San Marzano tomato, fior di latte, shaved black truffle.',
-    image: '/images/menu/black-truffle-margherita.jpg',
+      'Well cooked maize flour with a side of vegetables and fish.',
+    image: '/images/menu/ugali-and-sukuma.png',
     badge: 'chefs-selection',
     dietaryTags: ['vegetarian', 'dairy'],
     rating: 4.8,
-    price: 1100,
+    price: 800,
   },
   {
     id: 'smoked-bbq-pulled-pork-pizza',
@@ -158,7 +158,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'pizzas-burgers',
     description:
       'Twelve-hour smoked pork, house BBQ glaze, pickled red onion, smoked mozzarella.',
-    image: '/images/menu/smoked-bbq-pulled-pork-pizza.jpg',
+    image: '/images/menu/smoked-bbq-pulled-pork-pizza.png',
     badge: 'house-favourite',
     dietaryTags: ['spicy', 'dairy'],
     rating: 4.6,
@@ -172,7 +172,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'cocktails',
     description:
       'Bourbon, smoked demerara, orange bitters, hand-cut ice, torched orange peel.',
-    image: '/images/menu/black-perch-old-fashioned.jpg',
+    image: '/images/menu/black-perch-old-fashioned.png',
     badge: 'signature-dish',
     rating: 4.9,
     price: 950,
@@ -183,7 +183,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'cocktails',
     description:
       'Prosecco, elderflower, fresh grapefruit, soda, edible gold leaf.',
-    image: '/images/menu/golden-hour-spritz.jpg',
+    image: '/images/menu/golden-hour-spritz.png',
     badge: 'house-favourite',
     rating: 4.7,
     price: 850,
@@ -194,7 +194,7 @@ export const MENU_ITEMS: MenuItem[] = [
     category: 'cocktails',
     description:
       'Rye whiskey, fresh lemon, egg white foam, applewood smoke finish.',
-    image: '/images/menu/smoked-whiskey-sour.jpg',
+    image: '/images/menu/smoked-whiskey-sour.jpeg',
     rating: 4.8,
     price: 1050,
   },
