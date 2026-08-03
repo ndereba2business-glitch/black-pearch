@@ -124,6 +124,7 @@ export default function About() {
   return (
     <section
       ref={sectionRef}
+      id="story"
       style={{
         position: 'relative',
         width: '100%',

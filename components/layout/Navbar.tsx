@@ -7,13 +7,12 @@ import { gsap } from 'gsap'
 const LEFT_LINKS = [
   { label: 'Home', href: '#home' },
   { label: 'Menu', href: '#menu' },
-  { label: 'Reservations', href: '#reservations' },
+  { label: 'Contact', href: '#reserve' },
 ]
 
 const RIGHT_LINKS = [
   { label: 'Our Story', href: '#story' },
   { label: 'Gallery', href: '#gallery' },
-  { label: 'Contact', href: '#contact' },
 ]
 
 export default function Navbar() {

@@ -89,6 +89,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
+      id="home"
       style={{
         position: 'relative',
         height: '100vh',
