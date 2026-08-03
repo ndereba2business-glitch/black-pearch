@@ -120,80 +120,6 @@ export default function Contact() {
         },
       })
 
-        {/* ── RIGHT — cinematic dining photograph ───────────────── */}
-        <div className="reserve-image-wrap">
-          <GlassBadge>
-            <span style={{ display: 'inline' }}>An Intimate Setting</span>
-          </GlassBadge>
-
-          <div className="reserve-photo-frame">
-            {/* Fallback layer — always rendered behind the img, so a
-                missing/404 photo still shows a labeled placeholder
-                instead of a blank box. */}
-            <div className="reserve-image-placeholder">
-              <span>
-                [IMG-RESERVE-DINING]
-                <br />
-                Candlelit table &middot; fine cutlery &middot; wine glasses &middot; warm ambient light
-              </span>
-            </div>
-
-            {/* Drop the real photo at /public/images/reservation/black-perch.jpg
-                and it will replace this placeholder automatically — no code changes needed. */}
-            <img
-              src="/images/reservation/black-perch.jpg"
-              alt="A candlelit table set with fine cutlery and wine glasses at The Black Perch"
-              className="reserve-photo"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-              }}
-            />
-
-            <div className="reserve-image-overlay" aria-hidden="true" />
-          </div>
-
-          <style jsx>{`
-            .reserve-photo-frame {
-              position: relative;
-              width: 100%;
-              aspect-ratio: 4 / 5;
-              overflow: hidden;
-              margin-top: 20px;
-            }
-            .reserve-image-placeholder {
-              position: absolute;
-              inset: 0;
-              background: linear-gradient(135deg, #1a1a1a 0%, #101010 100%);
-              border: 1px dashed rgba(240, 237, 230, 0.15);
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              text-align: center;
-              padding: 0 24px;
-            }
-            .reserve-image-placeholder span {
-              font-family: var(--font-dm-sans), sans-serif;
-              font-size: 10px;
-              letter-spacing: 0.1em;
-              color: rgba(240, 237, 230, 0.25);
-              line-height: 1.6;
-            }
-            .reserve-photo {
-              position: absolute;
-              inset: 0;
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              display: block;
-            }
-            .reserve-image-overlay {
-              position: absolute;
-              inset: 0;
-              background: linear-gradient(180deg, transparent 60%, rgba(8, 8, 8, 0.5) 100%);
-              pointer-events: none;
-            }
-          `}</style>
-        </div>
 
       // ── Existing footer content (unchanged) ─────────────────────
       gsap.from('.contact-row', {
@@ -404,25 +330,16 @@ export default function Contact() {
             <span style={{ display: 'inline' }}>An Intimate Setting</span>
           </GlassBadge>
 
-          {/* Drop the real photo at /public/images/reservation/candlelit-table.jpg
+          {/* Drop the real photo at /public/images/reservation/black-perch.jpg
               and it will replace this placeholder automatically — no code changes needed. */}
           <img
-            src="/images/reservation/candlelit-table.jpg"
-            alt="A candlelit table set with fine cutlery and wine glasses at The Black Perch"
+            src="/images/reservation/black-perch.jpg"
+            alt="The Black Perch official logo"
             className="reserve-photo"
             onError={(e) => {
               e.currentTarget.style.display = 'none'
             }}
           />
-
-          <div className="reserve-image-placeholder">
-            <span>
-              [IMG-RESERVE-DINING]
-              <br />
-              Candlelit table &middot; fine cutlery &middot; wine glasses &middot; warm ambient light
-            </span>
-          </div>
-
           <div className="reserve-image-overlay" aria-hidden="true" />
         </div>
       </div>

@@ -18,8 +18,9 @@ gsap.registerPlugin(ScrollTrigger)
 // instagram: 'https://instagram.com/theblackperch'
 // facebook: 'https://facebook.com/theblackperch'
 const SOCIAL_LINKS = {
-  instagram: '',
-  facebook: '',
+  instagram: 'https://www.instagram.com/the_blackperch/',
+  facebook: 'https://www.facebook.com/p/The-Black-Perch-100054397995777/',
+  tiktok: 'https://www.tiktok.com/@theblackperch',
 }
 
 export default function Hero() {
