@@ -22,23 +22,23 @@ const VALUES = [
   },
 ]
 
-// TODO: drop real photography into /public/images/experience/ using these
+// TODO: drop real photography into /public/images/about/ using these
 // exact filenames, or update the paths below once final assets are ready.
 const MOSAIC_IMAGES = {
   large: {
-    src: '/images/experience/exterior-facade-sunset.png',
+    src: '/images/about/exterior-facade-sunset.png',
     alt: 'The Black Perch architectural facade at sunset',
     label: '[IMG-ABOUT-MOSAIC-LARGE]',
     caption: 'Architectural facade at sunset',
   },
   small1: {
-    src: '/images/experience/chef-preparing-ingredients.png',
+    src: '/images/about/chef-preparing-ingredients.png',
     alt: 'Chef preparing ingredients',
     label: '[IMG-ABOUT-MOSAIC-SMALL-1]',
     caption: 'Chef preparing ingredients',
   },
   small2: {
-    src: '/images/experience/community-charity-event.png',
+    src: '/images/about/community-charity-event.png',
     alt: 'Community charity event',
     label: '[IMG-ABOUT-MOSAIC-SMALL-2]',
     caption: 'Community charity event',
