@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { IconInstagram, IconFacebook, IconMapPin, IconClock, IconArrowDown } from '@/components/ui/icons'
+import { IconInstagram, IconFacebook, IconTiktok, IconMapPin, IconClock, IconArrowDown } from '@/components/ui/icons'
 
 import GlassBadge from '@/components/ui/GlassBadge'
 import GrainOverlay from '@/components/ui/GrainOverlay'
@@ -314,6 +314,16 @@ export default function Hero() {
           style={{ color: 'rgba(240,237,230,0.5)' }}
         >
           <IconFacebook />
+        </a>
+
+        <a
+          href={SOCIAL_LINKS.tiktok || '#'}
+          target={SOCIAL_LINKS.tiktok ? '_blank' : undefined}
+          rel={SOCIAL_LINKS.tiktok ? 'noopener noreferrer' : undefined}
+          aria-label="TikTok"
+          style={{ color: 'rgba(240,237,230,0.5)' }}
+        >
+          <IconTiktok />
         </a>
 
         <span style={{ width: '1px', height: '48px', background: 'rgba(240,237,230,0.2)' }} />
