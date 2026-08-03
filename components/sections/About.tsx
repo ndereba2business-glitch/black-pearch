@@ -22,6 +22,29 @@ const VALUES = [
   },
 ]
 
+// TODO: drop real photography into /public/images/experience/ using these
+// exact filenames, or update the paths below once final assets are ready.
+const MOSAIC_IMAGES = {
+  large: {
+    src: '/images/experience/exterior-facade-sunset.png',
+    alt: 'The Black Perch architectural facade at sunset',
+    label: '[IMG-ABOUT-MOSAIC-LARGE]',
+    caption: 'Architectural facade at sunset',
+  },
+  small1: {
+    src: '/images/experience/chef-preparing-ingredients.png',
+    alt: 'Chef preparing ingredients',
+    label: '[IMG-ABOUT-MOSAIC-SMALL-1]',
+    caption: 'Chef preparing ingredients',
+  },
+  small2: {
+    src: '/images/experience/community-charity-event.png',
+    alt: 'Community charity event',
+    label: '[IMG-ABOUT-MOSAIC-SMALL-2]',
+    caption: 'Community charity event',
+  },
+}
+
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null)
   const statementRef = useRef<HTMLHeadingElement>(null)
@@ -263,40 +286,21 @@ export default function About() {
 
         {/* ── Right: image mosaic ── */}
         <div className="story-mosaic" style={{ position: 'relative' }}>
+          {/* Large mosaic image */}
           <div
             className="mosaic-large"
             style={{
+              position: 'relative',
               width: '100%',
               aspectRatio: '4 / 3',
-              background: 'linear-gradient(135deg, #1a1a1a 0%, #101010 100%)',
-              border: '1px dashed rgba(240,237,230,0.15)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              overflow: 'hidden',
               marginBottom: '16px',
             }}
           >
-            <span
-              style={{
-                fontFamily: 'var(--font-dm-sans), sans-serif',
-                fontSize: '10px',
-                letterSpacing: '0.1em',
-                color: 'rgba(240,237,230,0.25)',
-                textAlign: 'center',
-                padding: '0 24px',
-              }}
-            >
-              [IMG-ABOUT-MOSAIC-LARGE]
-              <br />
-              Architectural facade at sunset
-            </span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div
-              className="mosaic-small"
               style={{
-                aspectRatio: '1 / 1',
+                position: 'absolute',
+                inset: 0,
                 background: 'linear-gradient(135deg, #1a1a1a 0%, #101010 100%)',
                 border: '1px dashed rgba(240,237,230,0.15)',
                 display: 'flex',
@@ -307,44 +311,138 @@ export default function About() {
               <span
                 style={{
                   fontFamily: 'var(--font-dm-sans), sans-serif',
-                  fontSize: '9px',
-                  letterSpacing: '0.08em',
+                  fontSize: '10px',
+                  letterSpacing: '0.1em',
                   color: 'rgba(240,237,230,0.25)',
                   textAlign: 'center',
-                  padding: '0 12px',
+                  padding: '0 24px',
                 }}
               >
-                [IMG-ABOUT-MOSAIC-SMALL-1]
+                {MOSAIC_IMAGES.large.label}
                 <br />
-                Chef preparing ingredients
+                {MOSAIC_IMAGES.large.caption}
               </span>
             </div>
 
+            <img
+              src={MOSAIC_IMAGES.large.src}
+              alt={MOSAIC_IMAGES.large.alt}
+              style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            {/* Small mosaic image 1 */}
             <div
               className="mosaic-small"
               style={{
+                position: 'relative',
                 aspectRatio: '1 / 1',
-                background: 'linear-gradient(135deg, #1a1a1a 0%, #101010 100%)',
-                border: '1px dashed rgba(240,237,230,0.15)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                overflow: 'hidden',
               }}
             >
-              <span
+              <div
                 style={{
-                  fontFamily: 'var(--font-dm-sans), sans-serif',
-                  fontSize: '9px',
-                  letterSpacing: '0.08em',
-                  color: 'rgba(240,237,230,0.25)',
-                  textAlign: 'center',
-                  padding: '0 12px',
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(135deg, #1a1a1a 0%, #101010 100%)',
+                  border: '1px dashed rgba(240,237,230,0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                [IMG-ABOUT-MOSAIC-SMALL-2]
-                <br />
-                Community charity event
-              </span>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-dm-sans), sans-serif',
+                    fontSize: '9px',
+                    letterSpacing: '0.08em',
+                    color: 'rgba(240,237,230,0.25)',
+                    textAlign: 'center',
+                    padding: '0 12px',
+                  }}
+                >
+                  {MOSAIC_IMAGES.small1.label}
+                  <br />
+                  {MOSAIC_IMAGES.small1.caption}
+                </span>
+              </div>
+
+              <img
+                src={MOSAIC_IMAGES.small1.src}
+                alt={MOSAIC_IMAGES.small1.alt}
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            </div>
+
+            {/* Small mosaic image 2 */}
+            <div
+              className="mosaic-small"
+              style={{
+                position: 'relative',
+                aspectRatio: '1 / 1',
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(135deg, #1a1a1a 0%, #101010 100%)',
+                  border: '1px dashed rgba(240,237,230,0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: 'var(--font-dm-sans), sans-serif',
+                    fontSize: '9px',
+                    letterSpacing: '0.08em',
+                    color: 'rgba(240,237,230,0.25)',
+                    textAlign: 'center',
+                    padding: '0 12px',
+                  }}
+                >
+                  {MOSAIC_IMAGES.small2.label}
+                  <br />
+                  {MOSAIC_IMAGES.small2.caption}
+                </span>
+              </div>
+
+              <img
+                src={MOSAIC_IMAGES.small2.src}
+                alt={MOSAIC_IMAGES.small2.alt}
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
             </div>
           </div>
         </div>
