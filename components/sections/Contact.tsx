@@ -138,10 +138,10 @@ export default function Contact() {
               </span>
             </div>
 
-            {/* Drop the real photo at /public/images/reservation/candlelit-table.jpg
+            {/* Drop the real photo at /public/images/reservation/black-perch.jpg
                 and it will replace this placeholder automatically — no code changes needed. */}
             <img
-              src="/images/reservation/candlelit-table.jpg"
+              src="/images/reservation/black-perch.jpg"
               alt="A candlelit table set with fine cutlery and wine glasses at The Black Perch"
               className="reserve-photo"
               onError={(e) => {
