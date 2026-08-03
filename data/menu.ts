@@ -141,12 +141,12 @@ export const MENU_ITEMS: MenuItem[] = [
     price: 1350,
   },
   {
-    id: 'ugali-and-sukuma',
-    title: 'Ugali and Sukuma',
+    id: 'ugali-and-fish',
+    title: 'Ugali and Fish',
     category: 'mains',
     description:
       'Well cooked maize flour with a side of vegetables and fish.',
-    image: '/images/menu/ugali-and-sukuma.png',
+    image: '/images/menu/ugali-and-fish.png',
     badge: 'chefs-selection',
     dietaryTags: ['vegetarian', 'dairy'],
     rating: 4.8,
@@ -175,7 +175,7 @@ export const MENU_ITEMS: MenuItem[] = [
     image: '/images/menu/black-perch-old-fashioned.png',
     badge: 'signature-dish',
     rating: 4.9,
-    price: 950,
+    price: 2000,
   },
   {
     id: 'golden-hour-spritz',
