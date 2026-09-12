@@ -149,8 +149,9 @@ export default function FeaturedMenu() {
           marginBottom: '64px',
         }}
       >
-        Fresh local ingredients elevated through modern culinary artistry. Explore our
-        carefully curated menu using the interactive category filters below.
+        {/* PLACEHOLDER copy pending confirmed menu — refine once real dishes are in. */}
+        Bar bites, grill favourites, pizzas and cocktails — explore the menu using the
+        interactive category filters below.
       </p>
 
       <div className="menu-filter-wrap" style={{ marginBottom: '64px' }}>
