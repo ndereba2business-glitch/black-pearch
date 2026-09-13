@@ -110,14 +110,12 @@ index 8bb99f1..fab8eaa 100644
 -// TODO: paste real profile URLs here when ready, e.g.
 -// instagram: 'https://instagram.com/theblackperch'
 -// facebook: 'https://facebook.com/theblackperch'
-+// Facebook + TikTok confirmed via public search. Instagram handle could not
-+// be verified — paste the real URL here once confirmed; left blank on
-+// purpose so the icon safely links nowhere (`#`) instead of a guess.
++// Facebook + TikTok + Instagaram confirmed via public search. 
  const SOCIAL_LINKS = {
 -  instagram: 'https://www.instagram.com/the_blackperch/',
 -  facebook: 'https://www.facebook.com/p/The-Black-Perch-100054397995777/',
 -  tiktok: 'https://www.tiktok.com/@theblackperch',
-+  instagram: '', // TODO (verify): confirm real Instagram handle
++  instagram: 'https://www.instagram.com/spacenextdoor_nakuru/?hl=en',
 +  facebook: 'https://www.facebook.com/p/Space-Next-Door-Nakuru-61553804610351/',
 +  tiktok: 'https://www.tiktok.com/@spacenextdoornkr',
  }
