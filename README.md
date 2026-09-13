@@ -1,8 +1,12 @@
-# The Black Perch
+# Space Next Door (Sales Demo)
 
-A premium lifestyle hub website for **The Black Perch** — a nightclub/lounge, artisan cafe, spa & wellness, ice cream parlor, and auto care/detailing venue in Milimani, Meru, Kenya. Built as a single-page, scroll-driven, cinematic experience.
+> Branch: `space-next-door-demo` — forked from the Black Perch codebase. The original Black Perch project (`main` branch) is untouched.
 
-Developed under the Forge Eleven portfolio brand, adapted from an original Forge Eleven template.
+A premium sports bar, grill & nightclub website demo for **Space Next Door**, Nakuru, Kenya — built for a Forge Eleven client pitch. Built as a single-page, scroll-driven, cinematic experience.
+
+Developed under the Forge Eleven portfolio brand, adapted from the Black Perch build.
+
+**Status:** Phase A (structural rebrand + placeholders). Real photography, confirmed menu, verified hours, and social links are still pending client-supplied assets — see `[PLACEHOLDER]`/`TODO` markers throughout the code.
 
 ## Getting Started
 
@@ -59,10 +63,10 @@ Set `RESEND_API_KEY` in your deployment environment (Vercel dashboard → Settin
 
 ## Deploy on Vercel
 
-Connect this GitHub repo, add the `RESEND_API_KEY` environment variable in the dashboard, and deploy.
+Connect this GitHub repo (on the `space-next-door-demo` branch), add the `RESEND_API_KEY` environment variable in the dashboard, and deploy as a separate Vercel project so it doesn't overwrite the live Black Perch deployment.
 
-- **Repo:** `github.com/ndereba2business-glitch/black-pearch`
-- **Live:** `the-black-pearch-one.vercel.app`
+- **Repo:** `github.com/ndereba2business-glitch/black-pearch` (branch: `space-next-door-demo`)
+- **Live:** _not yet deployed — deploy as a new Vercel project, not the existing Black Perch one_
 
 ## Development Notes
 

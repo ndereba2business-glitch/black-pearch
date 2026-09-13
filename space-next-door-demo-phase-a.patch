@@ -1,0 +1,958 @@
+From d5680501e00c86fd02ede66eba7bf4d998491d13 Mon Sep 17 00:00:00 2001
+From: "Fidelis (via Claude)" <fidelis@forgeeleven.dev>
+Date: Sat, 12 Sep 2026 10:44:04 +0000
+Subject: [PATCH 1/7] chore: rebrand package name and page metadata for Space
+ Next Door demo
+
+---
+ app/layout.tsx | 7 +++++--
+ package.json   | 2 +-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/app/layout.tsx b/app/layout.tsx
+index c9af168..5224339 100644
+--- a/app/layout.tsx
++++ b/app/layout.tsx
+@@ -21,8 +21,11 @@ const cormorant = Cormorant_Garamond({
+ })
+ 
+ export const metadata: Metadata = {
+-  title: 'The Black Pearch — Meru\'s Premier Lifestyle & Entertainment Hub',
+-  description: 'Lounge, cafe, spa, creamery, and auto care — one destination in Milimani, Meru. Open 24/7.',
++  // TODO (verify before launch): confirm final wording with the client once
++  // real hours, menu and photography are locked in.
++  title: 'Space Next Door — Sports Bar, Grill & Nightclub in Nakuru',
++  description:
++    'Space Next Door Nakuru — food, drinks, live music and nightlife under one roof in the former Tuskys building, Nakuru, Kenya.',
+ }
+ 
+ export default function RootLayout({
+diff --git a/package.json b/package.json
+index c5b0c70..e6bd68e 100644
+--- a/package.json
++++ b/package.json
+@@ -1,5 +1,5 @@
+ {
+-  "name": "the-black-perch",
++  "name": "space-next-door-demo",
+   "version": "0.1.0",
+   "private": true,
+   "scripts": {
+-- 
+2.43.0
+
+
+From 46de120f9987e76baa11ed4a5789acbd1b6f0c43 Mon Sep 17 00:00:00 2001
+From: "Fidelis (via Claude)" <fidelis@forgeeleven.dev>
+Date: Sat, 12 Sep 2026 10:44:09 +0000
+Subject: [PATCH 2/7] docs: rewrite README for Space Next Door demo branch
+
+---
+ README.md | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/README.md b/README.md
+index 32c39c8..8238a8b 100644
+--- a/README.md
++++ b/README.md
+@@ -1,8 +1,12 @@
+-# The Black Perch
++# Space Next Door (Sales Demo)
+ 
+-A premium lifestyle hub website for **The Black Perch** — a nightclub/lounge, artisan cafe, spa & wellness, ice cream parlor, and auto care/detailing venue in Milimani, Meru, Kenya. Built as a single-page, scroll-driven, cinematic experience.
++> Branch: `space-next-door-demo` — forked from the Black Perch codebase. The original Black Perch project (`main` branch) is untouched.
+ 
+-Developed under the Forge Eleven portfolio brand, adapted from an original Forge Eleven template.
++A premium sports bar, grill & nightclub website demo for **Space Next Door**, Nakuru, Kenya — built for a Forge Eleven client pitch. Built as a single-page, scroll-driven, cinematic experience.
++
++Developed under the Forge Eleven portfolio brand, adapted from the Black Perch build.
++
++**Status:** Phase A (structural rebrand + placeholders). Real photography, confirmed menu, verified hours, and social links are still pending client-supplied assets — see `[PLACEHOLDER]`/`TODO` markers throughout the code.
+ 
+ ## Getting Started
+ 
+@@ -59,10 +63,10 @@ Set `RESEND_API_KEY` in your deployment environment (Vercel dashboard → Settin
+ 
+ ## Deploy on Vercel
+ 
+-Connect this GitHub repo, add the `RESEND_API_KEY` environment variable in the dashboard, and deploy.
++Connect this GitHub repo (on the `space-next-door-demo` branch), add the `RESEND_API_KEY` environment variable in the dashboard, and deploy as a separate Vercel project so it doesn't overwrite the live Black Perch deployment.
+ 
+-- **Repo:** `github.com/ndereba2business-glitch/black-pearch`
+-- **Live:** `the-black-pearch-one.vercel.app`
++- **Repo:** `github.com/ndereba2business-glitch/black-pearch` (branch: `space-next-door-demo`)
++- **Live:** _not yet deployed — deploy as a new Vercel project, not the existing Black Perch one_
+ 
+ ## Development Notes
+ 
+-- 
+2.43.0
+
+
+From 2b56bffadff6e2326d22f63446dd33485554e036 Mon Sep 17 00:00:00 2001
+From: "Fidelis (via Claude)" <fidelis@forgeeleven.dev>
+Date: Sat, 12 Sep 2026 10:44:09 +0000
+Subject: [PATCH 3/7] feat: rebrand Hero section copy, badges and socials for
+ Space Next Door
+
+---
+ components/sections/Hero.tsx | 37 ++++++++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
+
+diff --git a/components/sections/Hero.tsx b/components/sections/Hero.tsx
+index 8bb99f1..fab8eaa 100644
+--- a/components/sections/Hero.tsx
++++ b/components/sections/Hero.tsx
+@@ -14,13 +14,13 @@ import { magneticHover } from '@/lib/animations'
+ 
+ gsap.registerPlugin(ScrollTrigger)
+ 
+-// TODO: paste real profile URLs here when ready, e.g.
+-// instagram: 'https://instagram.com/theblackperch'
+-// facebook: 'https://facebook.com/theblackperch'
++// Facebook + TikTok + Instagaram confirmed via public search. 
+ const SOCIAL_LINKS = {
+-  instagram: 'https://www.instagram.com/the_blackperch/',
+-  facebook: 'https://www.facebook.com/p/The-Black-Perch-100054397995777/',
+-  tiktok: 'https://www.tiktok.com/@theblackperch',
++  instagram: 'https://www.instagram.com/spacenextdoor_nakuru/',
++  facebook: 'https://www.facebook.com/p/Space-Next-Door-Nakuru-61553804610351/',
++  tiktok: 'https://www.tiktok.com/@spacenextdoornkr',
+ }
+ 
+ export default function Hero() {
+@@ -110,9 +110,12 @@ export default function Hero() {
+           willChange: 'transform',
+         }}
+       >
++        {/* PLACEHOLDER — drop the real venue photo at
++            /public/hero/space-next-door-hero.png (exterior or interior
++            night shot recommended) and it replaces this automatically. */}
+         <img
+-          src="/hero/black-perch-hero.png"
+-          alt="The Black Perch Exterior"
++          src="/hero/d:\system files\SpaceNextDoor\space-next-door-hero.png"
++          alt="Space Next Door exterior at night"
+           style={{
+             width: '100%',
+             height: '100%',
+@@ -159,7 +162,7 @@ export default function Hero() {
+             margin: 0,
+           }}
+         >
+-          The Black Perch
++          Space Next Door
+         </h2>
+         <span
+           style={{
+@@ -172,7 +175,7 @@ export default function Hero() {
+             marginTop: '6px',
+           }}
+         >
+-          DINE. CHILL. INDULGE.
++          EAT. WATCH. PLAY.
+         </span>
+       </div>
+ 
+@@ -208,12 +211,12 @@ export default function Hero() {
+         >
+           <span style={{ display: 'block', overflow: 'hidden' }}>
+             <span className="line-inner" style={{ display: 'block' }}>
+-              An unforgettable dining
++              Good food, great games
+             </span>
+           </span>
+           <span style={{ display: 'block', overflow: 'hidden' }}>
+             <span className="line-inner" style={{ display: 'block' }}>
+-              and lifestyle experience
++              and Nakuru&apos;s best nights
+             </span>
+           </span>
+         </h1>
+@@ -230,7 +233,7 @@ export default function Hero() {
+             maxWidth: '28rem',
+           }}
+         >
+-          — lounge, cafe, spa and sherehe nights, all under one roof
++          — sports bar, grill and nightclub, all under one roof
+         </p>
+ 
+         {/* Status Badges */}
+@@ -242,13 +245,15 @@ export default function Hero() {
+             marginBottom: '32px',
+           }}
+         >
++          {/* Real hours not yet verified publicly — swap for confirmed
++              opening hours once the client provides them. */}
+           <GlassBadge>
+             <IconClock width={12} height={12} style={{ marginRight: 6 }} />
+-            OPEN 24/7
++            CALL FOR HOURS
+           </GlassBadge>
+           <GlassBadge>
+             <IconMapPin width={12} height={12} style={{ marginRight: 6 }} />
+-            MILIMANI ROAD, MERU
++            FORMER TUSKYS BUILDING, NAKURU
+           </GlassBadge>
+         </div>
+ 
+@@ -275,7 +280,7 @@ export default function Hero() {
+               transition: 'all 0.3s ease',
+             }}
+           >
+-            Reserve a Table &rarr;
++            RSVP a Table &rarr;
+           </a>
+         </div>
+       </div>
+-- 
+2.43.0
+
+
+From d90b94e776c38fae93e3ec94b6e0a05dcccb9312 Mon Sep 17 00:00:00 2001
+From: "Fidelis (via Claude)" <fidelis@forgeeleven.dev>
+Date: Sat, 12 Sep 2026 10:44:09 +0000
+Subject: [PATCH 4/7] feat: rebrand About/Our Story section for Space Next Door
+
+---
+ components/sections/About.tsx | 41 +++++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 19 deletions(-)
+
+diff --git a/components/sections/About.tsx b/components/sections/About.tsx
+index c333388..bd0df95 100644
+--- a/components/sections/About.tsx
++++ b/components/sections/About.tsx
+@@ -26,22 +26,22 @@ const VALUES = [
+ // exact filenames, or update the paths below once final assets are ready.
+ const MOSAIC_IMAGES = {
+   large: {
+-    src: '/images/about/exterior-facade-sunset.png',
+-    alt: 'The Black Perch architectural facade at sunset',
++    src: '/images/about/venue-exterior-night.png',
++    alt: 'Space Next Door venue exterior at night',
+     label: '[IMG-ABOUT-MOSAIC-LARGE]',
+-    caption: 'Architectural facade at sunset',
++    caption: 'Venue exterior at night',
+   },
+   small1: {
+-    src: '/images/about/chef-preparing-ingredients.png',
+-    alt: 'Chef preparing ingredients',
++    src: '/images/about/grill-food-prep.png',
++    alt: 'Grill and food preparation',
+     label: '[IMG-ABOUT-MOSAIC-SMALL-1]',
+-    caption: 'Chef preparing ingredients',
++    caption: 'Grill and food preparation',
+   },
+   small2: {
+-    src: '/images/about/community-charity-event.png',
+-    alt: 'Community charity event',
++    src: '/images/about/live-dj-crowd.png',
++    alt: 'Live DJ set with crowd',
+     label: '[IMG-ABOUT-MOSAIC-SMALL-2]',
+-    caption: 'Community charity event',
++    caption: 'Live DJ / event night',
+   },
+ }
+ 
+@@ -169,17 +169,17 @@ export default function About() {
+           >
+             <span style={{ display: 'block', overflow: 'hidden' }}>
+               <span className="line-inner" style={{ display: 'block' }}>
+-                Redefining hospitality
++                Redefining nightlife
+               </span>
+             </span>
+             <span style={{ display: 'block', overflow: 'hidden' }}>
+               <span className="line-inner" style={{ display: 'block' }}>
+-                in the heart of <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Mount Kenya</span> —
++                in the heart of <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Nakuru</span> —
+               </span>
+             </span>
+             <span style={{ display: 'block', overflow: 'hidden' }}>
+               <span className="line-inner" style={{ display: 'block', color: 'rgba(240,237,230,0.35)' }}>
+-                born in Milimani, Meru Town.
++                the former Tuskys building, reborn.
+               </span>
+             </span>
+           </h2>
+@@ -195,7 +195,11 @@ export default function About() {
+               marginBottom: '20px',
+             }}
+           >
+-            To bridge the gap between premium international luxury standards and local cultural authenticity.
++            {/* PLACEHOLDER copy — grounded in Space Next Door's own public
++                positioning (FB/TikTok). Refine once the client shares their
++                preferred brand voice / official description. */}
++            Good food, cold drinks, live music and Nakuru&apos;s most electric nightlife — all under
++            one roof.
+           </p>
+ 
+           <p
+@@ -209,12 +213,11 @@ export default function About() {
+               marginBottom: '40px',
+             }}
+           >
+-            The Black Perch emerged from a clear vision: to create a fluid, premium destination that
+-            effortlessly adapts to your day. We believe that modern life shouldn&apos;t be segmented.
+-            Your morning remote workspace, your afternoon relaxation hour, and your late-night
+-            celebration crew all deserve an uncompromised home. Built on the core values of absolute
+-            safety, exceptional service speed, and deep local community connection, we invite you to
+-            experience hospitality crafted with intentional luxury.
++            Since opening its doors in February 2024, Space Next Door has grown into a fixture of
++            Nakuru&apos;s social calendar — a sports bar and grill by day, and one of the city&apos;s
++            go-to nightclub destinations after dark. Whether you&apos;re here for the grill, the game
++            on screen, or a night out with friends, it&apos;s one address for however you want to
++            spend your evening.
+           </p>
+ 
+           {/* ── Fixed CTA Tag ── */}
+-- 
+2.43.0
+
+
+From 5d6c79892a4eb3f8db7d387c4b60dc17414ed6ea Mon Sep 17 00:00:00 2001
+From: "Fidelis (via Claude)" <fidelis@forgeeleven.dev>
+Date: Sat, 12 Sep 2026 10:44:12 +0000
+Subject: [PATCH 5/7] feat: rebrand gallery section and remove fabricated
+ testimonials
+
+---
+ components/sections/Experience.tsx |  4 +-
+ data/experience.ts                 | 71 +++++++++++++++---------------
+ 2 files changed, 38 insertions(+), 37 deletions(-)
+
+diff --git a/components/sections/Experience.tsx b/components/sections/Experience.tsx
+index 7f2f0c7..f8efd05 100644
+--- a/components/sections/Experience.tsx
++++ b/components/sections/Experience.tsx
+@@ -1,6 +1,6 @@
+ // components/sections/Experience.tsx
+ //
+-// "Experience The Black Perch" — sits between Featured Menu and the
++// "Experience Space Next Door" — sits between Featured Menu and the
+ // Brand Heritage / Reservation flow (id="gallery", already linked from
+ // Navbar.tsx and SectionNav.tsx).
+ //
+@@ -212,7 +212,7 @@ export default function Experience() {
+       >
+         <span style={{ display: 'block', overflow: 'hidden' }}>
+           <span className="line-inner" style={{ display: 'block' }}>
+-            Experience The <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Black Perch</span>
++            Experience <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Space Next Door</span>
+           </span>
+         </span>
+       </h2>
+diff --git a/data/experience.ts b/data/experience.ts
+index 08ed9c9..4843e40 100644
+--- a/data/experience.ts
++++ b/data/experience.ts
+@@ -1,7 +1,7 @@
+ // data/experience.ts
+ //
+-// Content for the "Experience The Black Perch" section (sits between
+-// Featured Menu and the Brand Heritage / Reservation flow).
++// Content for the "Experience Space Next Door" section (sits between
++// Featured Menu and the Reservation flow).
+ //
+ // IMAGES:
+ // Drop your files into public/images/experience/ using the exact
+@@ -9,20 +9,21 @@
+ // in `src` to match what you add). Each `src` is already wired up, so
+ // once a file lands at that path it just appears — nothing else to
+ // change. Every image should be atmosphere/lifestyle, not food (the
+-// Featured Menu section already covers the cuisine):
++// Featured Menu section already covers the food/drinks):
+ //
+ //   public/images/experience/exterior-night.jpg     — exterior at night
+-//   public/images/experience/interior.jpg            — elegant interior
+-//   public/images/experience/candlelit-table.jpg     — candlelit dining table
+-//   public/images/experience/guests-dinner.jpg        — guests enjoying dinner together
+-//   public/images/experience/friends-cocktails.jpg    — friends sharing cocktails
+-//   public/images/experience/live-music.jpg           — live music / DJ ambience
+-//   public/images/experience/bartender-craft.jpg      — bartender crafting a cocktail
++//   public/images/experience/interior.jpg            — interior / seating area
++//   public/images/experience/sports-screens.jpg      — sports bar TV/screen setup
++//   public/images/experience/guests-crowd.jpg         — guests / crowd enjoying a night out
++//   public/images/experience/friends-drinks.jpg       — friends sharing drinks
++//   public/images/experience/dj-live-music.jpg        — live DJ / nightclub ambience
++//   public/images/experience/grill-action.jpg         — grill / food being prepared
+ //
+ // TESTIMONIALS:
+-// Paste real Google review text + reviewer first name + last initial
+-// into the `quote` / `name` fields below. Keep to 3 — the layout is
+-// built around exactly 3 floating testimonial cards.
++// PLACEHOLDER — do not invent reviews. Paste real Google/Facebook review
++// text + reviewer first name + last initial into the `quote` / `name`
++// fields below once available. Keep to 3 — the layout is built around
++// exactly 3 floating testimonial cards.
+ 
+ import type { ExperienceImage, Testimonial } from '@/types/experience'
+ 
+@@ -30,55 +31,55 @@ export const EXPERIENCE_IMAGES: ExperienceImage[] = [
+   {
+     id: 'exterior-night',
+     src: '/images/experience/exterior-night.png',
+-    alt: 'The Black Perch exterior glowing warmly at night',
++    alt: 'Space Next Door exterior glowing at night',
+   },
+   {
+     id: 'interior',
+     src: '/images/experience/interior.png',
+-    alt: 'Elegant, dimly lit interior seating',
++    alt: 'Space Next Door interior seating area',
+   },
+   {
+-    id: 'candlelit-table',
+-    src: '/images/experience/candlelit-table.png',
+-    alt: 'A candlelit dining table set for an evening',
++    id: 'sports-screens',
++    src: '/images/experience/sports-screens.png',
++    alt: 'Sports bar screens showing a live match',
+   },
+   {
+-    id: 'guests-dinner',
+-    src: '/images/experience/guests-dinner.png',
+-    alt: 'Guests laughing together over dinner',
++    id: 'guests-crowd',
++    src: '/images/experience/guests-crowd.png',
++    alt: 'Guests enjoying a night out together',
+   },
+   {
+-    id: 'friends-cocktails',
+-    src: '/images/experience/friends-cocktails.png',
+-    alt: 'Friends sharing cocktails at the bar',
++    id: 'friends-drinks',
++    src: '/images/experience/friends-drinks.png',
++    alt: 'Friends sharing drinks at the bar',
+   },
+   {
+-    id: 'live-music',
+-    src: '/images/experience/live-music.png',
+-    alt: 'Live DJ setting the mood for the evening',
++    id: 'dj-live-music',
++    src: '/images/experience/dj-live-music.png',
++    alt: 'Live DJ setting the mood for the night',
+   },
+   {
+-    id: 'bartender-craft',
+-    src: '/images/experience/bartender-craft.jpg',
+-    alt: 'A bartender crafting a premium cocktail',
++    id: 'grill-action',
++    src: '/images/experience/grill-action.jpg',
++    alt: 'Food being prepared on the grill',
+   },
+ ]
+ 
+ export const EXPERIENCE_TESTIMONIALS: Testimonial[] = [
+   {
+     id: 't1',
+-    quote: 'I had a great time. Fun was had. Your to go place in Meru.',
+-    name: 'Sharon Makena',
++    quote: '[PLACEHOLDER — paste a real, verified review here before launch]',
++    name: '[Reviewer name — TBC]',
+   },
+   {
+     id: 't2',
+-    quote: 'Awesome place for making good memories.',
+-    name: 'Emmanuel Daris Njua',
++    quote: '[PLACEHOLDER — paste a real, verified review here before launch]',
++    name: '[Reviewer name — TBC]',
+   },
+   {
+     id: 't3',
+-    quote: 'Perfect place for lunch meetings. Loved the ambience, top notch kwa kweli.',
+-    name: 'Isaac Mbugua',
++    quote: '[PLACEHOLDER — paste a real, verified review here before launch]',
++    name: '[Reviewer name — TBC]',
+   },
+ ]
+ 
+-- 
+2.43.0
+
+
+From c0da25d28260ad663001a7e0bd0ed10b3b1d668d Mon Sep 17 00:00:00 2001
+From: "Fidelis (via Claude)" <fidelis@forgeeleven.dev>
+Date: Sat, 12 Sep 2026 10:44:12 +0000
+Subject: [PATCH 6/7] feat: rebrand reservation/contact section with verified
+ RSVP details
+
+---
+ components/sections/Contact.tsx | 69 +++++++++++++++++++--------------
+ 1 file changed, 40 insertions(+), 29 deletions(-)
+
+diff --git a/components/sections/Contact.tsx b/components/sections/Contact.tsx
+index 8cd993c..5ce6ca1 100644
+--- a/components/sections/Contact.tsx
++++ b/components/sections/Contact.tsx
+@@ -12,19 +12,22 @@ gsap.registerPlugin(ScrollTrigger)
+ 
+ // ── Reservation copy — edit freely, no structural changes needed ────────
+ const RESERVATION_BENEFITS = [
+-  { icon: CalendarCheck, label: 'Instant Reservation' },
+-  { icon: Trees, label: 'Indoor & Outdoor Seating' },
+-  { icon: Lock, label: 'Private Dining Available' },
+-  { icon: Sparkles, label: 'Perfect for Special Occasions' },
++  { icon: CalendarCheck, label: 'RSVP for Groups' },
++  { icon: Trees, label: 'Sports Screening Nights' },
++  { icon: Lock, label: 'Private Events Available' },
++  { icon: Sparkles, label: 'Live DJ Nights' },
+ ]
+ 
+-const RESERVATION_PHONE_DISPLAY = '+254 118 688 226'
+-const RESERVATION_PHONE_TEL = '+254118688226'
++// Phone number confirmed via Space Next Door's public Facebook page (RSVP line).
++const RESERVATION_PHONE_DISPLAY = '+254 140 524140'
++const RESERVATION_PHONE_TEL = '+254140524140'
+ 
+-// wa.me requires the number in international format with no "+", spaces, or leading zeros
+-const RESERVATION_WHATSAPP_NUMBER = '254118688226'
++// wa.me requires the number in international format with no "+", spaces, or leading zeros.
++// TODO (verify): confirm this line also accepts WhatsApp before launch — it's
++// currently listed as their RSVP phone number, not confirmed as a WhatsApp number.
++const RESERVATION_WHATSAPP_NUMBER = '254140524140'
+ const RESERVATION_WHATSAPP_MESSAGE =
+-  "Hi Black Perch, I'd like to reserve a table."
++  "Hi Space Next Door, I'd like to reserve a table."
+ const RESERVATION_WHATSAPP_URL = `https://wa.me/${RESERVATION_WHATSAPP_NUMBER}?text=${encodeURIComponent(
+   RESERVATION_WHATSAPP_MESSAGE
+ )}`
+@@ -217,7 +220,7 @@ export default function Contact() {
+           >
+             <span style={{ display: 'block', overflow: 'hidden' }}>
+               <span className="line-inner" style={{ display: 'block' }}>
+-                Reserve Your
++                RSVP Your
+               </span>
+             </span>
+             <span style={{ display: 'block', overflow: 'hidden' }}>
+@@ -238,9 +241,8 @@ export default function Contact() {
+               marginBottom: '40px',
+             }}
+           >
+-            Whether it&apos;s an intimate dinner for two, a joyful family gathering, a milestone
+-            celebration or an important business meeting — our team is ready to set the perfect
+-            table for you.
++            Whether it&apos;s match day, a group night out, or a private event — get in touch and
++            we&apos;ll set you up.
+           </p>
+ 
+           {/* ── Benefits ── */}
+@@ -285,9 +287,9 @@ export default function Contact() {
+               target="_blank"
+               rel="noopener noreferrer"
+               className="reserve-cta-primary"
+-              aria-label="Reserve a table via WhatsApp"
++              aria-label="RSVP a table via WhatsApp"
+             >
+-              Reserve a Table
++              RSVP a Table
+             </a>
+ 
+             <a
+@@ -311,12 +313,13 @@ export default function Contact() {
+               paddingTop: '28px',
+             }}
+           >
++            {/* TODO (verify): confirm real opening hours with the client before launch */}
+             <div className="reserve-info-item" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+               <IconClock width={13} height={13} color="rgba(201,169,110,0.8)" />
+-              <span style={infoLabelStyle}>Open Daily &middot; 24 Hours</span>
++              <span style={infoLabelStyle}>Call or WhatsApp to Confirm Hours</span>
+             </div>
+             <div className="reserve-info-item" style={infoLabelStyle}>
+-              Reservations Recommended After 6 PM
++              Busiest on Weekend Nights — Arrive Early
+             </div>
+             <div className="reserve-info-item" style={infoLabelStyle}>
+               Private Events &amp; Group Bookings Available
+@@ -327,14 +330,15 @@ export default function Contact() {
+         {/* ── RIGHT — cinematic dining photograph ───────────────── */}
+         <div className="reserve-image-wrap">
+           <GlassBadge>
+-            <span style={{ display: 'inline' }}>An Intimate Setting</span>
++            <span style={{ display: 'inline' }}>The Space To Be</span>
+           </GlassBadge>
+ 
+-          {/* Drop the real photo at /public/images/reservation/black-perch.jpg
+-              and it will replace this placeholder automatically — no code changes needed. */}
++          {/* PLACEHOLDER — drop the real photo at
++              /public/images/reservation/space-next-door.jpg and it will
++              replace this placeholder automatically — no code changes needed. */}
+           <img
+-            src="/images/reservation/black-perch.jpg"
+-            alt="The Black Perch official logo"
++            src="/images/reservation/space-next-door.jpg"
++            alt="Space Next Door venue photo"
+             className="reserve-photo"
+             onError={(e) => {
+               e.currentTarget.style.display = 'none'
+@@ -370,7 +374,7 @@ export default function Contact() {
+             color: '#f0ede6',
+             fontWeight: 300,
+           }}>
+-            Meru, Kenya
++            Nakuru, Kenya
+           </p>
+         </div>
+ 
+@@ -391,7 +395,7 @@ export default function Contact() {
+             color: '#f0ede6',
+             fontWeight: 300,
+           }}>
+-            Open for Reservations 24/7
++            Call or WhatsApp to Confirm Hours
+           </p>
+         </div>
+ 
+@@ -406,11 +410,18 @@ export default function Contact() {
+           }}>
+             Social media
+           </p>
++          {/* Instagram not yet verified — links to '#' until confirmed. */}
+           <div style={{ display: 'flex', gap: '20px' }}>
+-            {['Instagram', 'Facebook', 'TikTok'].map((s) => (
++            {[
++              { label: 'Instagram', href: '#' },
++              { label: 'Facebook', href: 'https://www.facebook.com/p/Space-Next-Door-Nakuru-61553804610351/' },
++              { label: 'TikTok', href: 'https://www.tiktok.com/@spacenextdoornkr' },
++            ].map(({ label, href }) => (
+               <a
+-                key={s}
+-                href="#"
++                key={label}
++                href={href}
++                target={href !== '#' ? '_blank' : undefined}
++                rel={href !== '#' ? 'noopener noreferrer' : undefined}
+                 style={{
+                   fontFamily: 'var(--font-cormorant), serif',
+                   fontSize: '1.4rem',
+@@ -418,7 +429,7 @@ export default function Contact() {
+                   fontWeight: 300,
+                 }}
+               >
+-                {s}
++                {label}
+               </a>
+             ))}
+           </div>
+@@ -441,7 +452,7 @@ export default function Contact() {
+           letterSpacing: '0.1em',
+           color: 'rgba(240,237,230,0.25)',
+         }}>
+-          © 2024 The Black Pearch. All rights reserved.
++          © 2026 Space Next Door. All rights reserved.
+         </span>
+         <span style={{
+           fontFamily: 'var(--font-dm-sans), sans-serif',
+-- 
+2.43.0
+
+
+From 7b53bc2e50a3e32b671b5d112cd6109f887a044f Mon Sep 17 00:00:00 2001
+From: "Fidelis (via Claude)" <fidelis@forgeeleven.dev>
+Date: Sat, 12 Sep 2026 10:44:12 +0000
+Subject: [PATCH 7/7] feat: replace menu content with placeholder Space Next
+ Door items
+
+---
+ components/sections/FeaturedMenu.tsx |   5 +-
+ data/menu.ts                         | 219 +++++++++++----------------
+ 2 files changed, 95 insertions(+), 129 deletions(-)
+
+diff --git a/components/sections/FeaturedMenu.tsx b/components/sections/FeaturedMenu.tsx
+index ebf3a4c..7fcf932 100644
+--- a/components/sections/FeaturedMenu.tsx
++++ b/components/sections/FeaturedMenu.tsx
+@@ -149,8 +149,9 @@ export default function FeaturedMenu() {
+           marginBottom: '64px',
+         }}
+       >
+-        Fresh local ingredients elevated through modern culinary artistry. Explore our
+-        carefully curated menu using the interactive category filters below.
++        {/* PLACEHOLDER copy pending confirmed menu — refine once real dishes are in. */}
++        Bar bites, grill favourites, pizzas and cocktails — explore the menu using the
++        interactive category filters below.
+       </p>
+ 
+       <div className="menu-filter-wrap" style={{ marginBottom: '64px' }}>
+diff --git a/data/menu.ts b/data/menu.ts
+index ce53b92..91c7cd4 100644
+--- a/data/menu.ts
++++ b/data/menu.ts
+@@ -1,8 +1,17 @@
+ // data/menu.ts
+ //
+-// Single source of truth for Featured Menu content. Swap the `image` paths
+-// for real photography once it's shot — everything else (cards, filters,
+-// badges) reads from here, nothing is hardcoded in the components.
++// PLACEHOLDER MENU — Space Next Door demo (space-next-door-demo branch).
++// No real menu, dish names, or prices could be publicly verified for this
++// venue, so every item below is a clearly-labeled placeholder rather than
++// an invented dish. Replace with the client's real menu (names, descriptions,
++// prices, photos) before this demo goes live. Category keys are unchanged
++// from the original site (see types/menu.ts) to avoid touching MenuFilter/
++// MenuCard component logic; only their display labels are re-themed for a
++// sports bar & grill.
++//
++// Swap the `image` paths for real photography once it's shot — everything
++// else (cards, filters, badges) reads from here, nothing is hardcoded in
++// the components.
+ 
+ import type {
+   DietaryTag,
+@@ -13,10 +22,10 @@ import type {
+ 
+ export const CATEGORY_LABELS: Record<MenuFilterCategory, string> = {
+   all: 'All Selection',
+-  breakfast: 'Breakfast & Café',
+-  mains: 'Signature Mains',
++  breakfast: 'Bar Bites & Starters',
++  mains: 'Grill & Mains',
+   'pizzas-burgers': 'Pizzas & Burgers',
+-  cocktails: 'Craft Cocktails',
++  cocktails: 'Cocktails & Spirits',
+ }
+ 
+ export const MENU_CATEGORIES: MenuFilterCategory[] = [
+@@ -43,159 +52,115 @@ export const DIETARY_TAG_META: Record<DietaryTag, { label: string; icon: string
+   spicy: { label: 'Hot / Spicy', icon: '🌶' },
+ }
+ 
+-// NOTE: placeholder images — these files don't exist yet. Drop real photos
+-// into /public/images/menu/ using these exact filenames, or update the
+-// paths below once real assets are ready.
++// PLACEHOLDER ITEMS — none of these are real dishes. `rating` and `price`
++// are set to 0 with currency "TBC" so nothing on screen reads as a real,
++// confirmed price. Replace every field with the client's actual menu.
+ export const MENU_ITEMS: MenuItem[] = [
+-  // ── Breakfast & Café ─────────────────────────────────────────
+-  {
+-    id: 'golden-croissant-benedict',
+-    title: 'Golden Croissant Benedict',
+-    category: 'breakfast',
+-    description:
+-      'Butter-laminated croissant, slow-poached egg, hollandaise, smoked salmon ribbons.',
+-    image: '/images/menu/golden-croissant-benedict.png',
+-    badge: 'chefs-selection',
+-    dietaryTags: ['dairy'],
+-    pairing: 'Fresh Orange Press',
+-    rating: 4.8,
+-    price: 950,
+-  },
++  // ── Bar Bites & Starters ───────────────────────────────────────
+   {
+-    id: 'truffle-avocado-toast',
+-    title: 'Truffle Avocado Toast',
++    id: 'starter-placeholder-1',
++    title: '[Starter — name TBC]',
+     category: 'breakfast',
+-    description:
+-      'Charred sourdough, whipped avocado, black truffle oil, chili flake, microgreens.',
+-    image: '/images/menu/truffle-avocado-toast.png',
+-    badge: 'house-favourite',
+-    dietaryTags: ['vegetarian'],
+-    rating: 4.7,
+-    price: 850,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/starter-placeholder-1.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+   {
+-    id: 'artisan-french-toast-flight',
+-    title: 'Artisan French Toast Flight',
++    id: 'starter-placeholder-2',
++    title: '[Starter — name TBC]',
+     category: 'breakfast',
+-    description:
+-      'Brioche trio dusted in cinnamon sugar, salted caramel, roasted hazelnut.',
+-    image: '/images/menu/artisan-french-toast-flight.png',
+-    badge: 'signature-dish',
+-    dietaryTags: ['dairy', 'contains-nuts'],
+-    rating: 4.9,
+-    price: 900,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/starter-placeholder-2.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+ 
+-  // ── Signature Mains ──────────────────────────────────────────
++  // ── Grill & Mains ────────────────────────────────────────────
+   {
+-    id: 'creamy-garlic-chicken',
+-    title: 'Creamy Garlic Chicken',
++    id: 'grill-placeholder-1',
++    title: '[Grill dish — name TBC]',
+     category: 'mains',
+-    description:
+-      'Pan-fried artisan chicken with garlic butter cream, fresh coriander, walnuts.',
+-    image: '/images/menu/creamy-garlic-chicken.png',
+-    badge: 'chefs-selection',
+-    dietaryTags: ['dairy', 'contains-nuts'],
+-    pairing: 'Chardonnay',
+-    rating: 4.9,
+-    price: 1200,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/grill-placeholder-1.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+   {
+-    id: 'slow-braised-lamb-shank',
+-    title: 'Slow-Braised Lamb Shank',
++    id: 'grill-placeholder-2',
++    title: '[Grill dish — name TBC]',
+     category: 'mains',
+-    description:
+-      'Twelve-hour braise, red wine jus, root vegetable purée, rosemary oil.',
+-    image: '/images/menu/slow-braised-lamb-shank.jpeg',
+-    badge: 'premium-cut',
+-    dietaryTags: ['gluten-free'],
+-    pairing: 'Malbec',
+-    rating: 4.8,
+-    price: 1800,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/grill-placeholder-2.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+   {
+-    id: 'pan-seared-nile-perch',
+-    title: 'Pan-Seared Nile Perch',
++    id: 'grill-placeholder-3',
++    title: '[Grill dish — name TBC]',
+     category: 'mains',
+-    description:
+-      'Crisp-skin perch, brown butter, capers, charred lemon, seasonal greens.',
+-    image: '/images/menu/pan-seared-nile-perch.png',
+-    badge: 'house-favourite',
+-    dietaryTags: ['gluten-free', 'dairy'],
+-    pairing: 'Sauvignon Blanc',
+-    rating: 4.7,
+-    price: 1450,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/grill-placeholder-3.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+ 
+   // ── Pizzas & Burgers ─────────────────────────────────────────
+   {
+-    id: 'wagyu-smash-burger',
+-    title: 'Wagyu Smash Burger',
++    id: 'pizza-burger-placeholder-1',
++    title: '[Pizza or burger — name TBC]',
+     category: 'pizzas-burgers',
+-    description:
+-      'Double-smashed wagyu, aged cheddar, caramelized onion, truffle aioli, brioche bun.',
+-    image: '/images/menu/wagyu-smash-burger.png',
+-    badge: 'signature-dish',
+-    dietaryTags: ['dairy'],
+-    rating: 4.9,
+-    price: 1350,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/pizza-burger-placeholder-1.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+   {
+-    id: 'ugali-and-fish',
+-    title: 'Ugali and Fish',
+-    category: 'mains',
+-    description:
+-      'Well cooked maize flour with a side of vegetables and fish.',
+-    image: '/images/menu/ugali-and-fish.png',
+-    badge: 'chefs-selection',
+-    dietaryTags: ['vegetarian', 'dairy'],
+-    rating: 4.8,
+-    price: 800,
+-  },
+-  {
+-    id: 'smoked-bbq-pulled-pork-pizza',
+-    title: 'Smoked BBQ Pulled Pork Pizza',
++    id: 'pizza-burger-placeholder-2',
++    title: '[Pizza or burger — name TBC]',
+     category: 'pizzas-burgers',
+-    description:
+-      'Twelve-hour smoked pork, house BBQ glaze, pickled red onion, smoked mozzarella.',
+-    image: '/images/menu/smoked-bbq-pulled-pork-pizza.png',
+-    badge: 'house-favourite',
+-    dietaryTags: ['spicy', 'dairy'],
+-    rating: 4.6,
+-    price: 1250,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/pizza-burger-placeholder-2.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+ 
+-  // ── Craft Cocktails ──────────────────────────────────────────
++  // ── Cocktails & Spirits ──────────────────────────────────────
+   {
+-    id: 'black-perch-old-fashioned',
+-    title: 'The Black Perch Old Fashioned',
++    id: 'cocktail-placeholder-1',
++    title: '[Cocktail — name TBC]',
+     category: 'cocktails',
+-    description:
+-      'Bourbon, smoked demerara, orange bitters, hand-cut ice, torched orange peel.',
+-    image: '/images/menu/black-perch-old-fashioned.png',
+-    badge: 'signature-dish',
+-    rating: 4.9,
+-    price: 2000,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/cocktail-placeholder-1.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+   {
+-    id: 'golden-hour-spritz',
+-    title: 'Golden Hour Spritz',
++    id: 'cocktail-placeholder-2',
++    title: '[Cocktail — name TBC]',
+     category: 'cocktails',
+-    description:
+-      'Prosecco, elderflower, fresh grapefruit, soda, edible gold leaf.',
+-    image: '/images/menu/golden-hour-spritz.png',
+-    badge: 'house-favourite',
+-    rating: 4.7,
+-    price: 850,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/cocktail-placeholder-2.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+   {
+-    id: 'smoked-whiskey-sour',
+-    title: 'Smoked Whiskey Sour',
++    id: 'cocktail-placeholder-3',
++    title: '[Cocktail — name TBC]',
+     category: 'cocktails',
+-    description:
+-      'Rye whiskey, fresh lemon, egg white foam, applewood smoke finish.',
+-    image: '/images/menu/smoked-whiskey-sour.jpeg',
+-    rating: 4.8,
+-    price: 1050,
++    description: '[Add real description once the menu is confirmed]',
++    image: '/images/menu/cocktail-placeholder-3.png',
++    rating: 0,
++    price: 0,
++    currency: 'TBC',
+   },
+-]
+\ No newline at end of file
++]
+-- 
+2.43.0
+

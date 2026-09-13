@@ -1,7 +1,7 @@
 // data/experience.ts
 //
-// Content for the "Experience The Black Perch" section (sits between
-// Featured Menu and the Brand Heritage / Reservation flow).
+// Content for the "Experience Space Next Door" section (sits between
+// Featured Menu and the Reservation flow).
 //
 // IMAGES:
 // Drop your files into public/images/experience/ using the exact
@@ -9,20 +9,21 @@
 // in `src` to match what you add). Each `src` is already wired up, so
 // once a file lands at that path it just appears — nothing else to
 // change. Every image should be atmosphere/lifestyle, not food (the
-// Featured Menu section already covers the cuisine):
+// Featured Menu section already covers the food/drinks):
 //
 //   public/images/experience/exterior-night.jpg     — exterior at night
-//   public/images/experience/interior.jpg            — elegant interior
-//   public/images/experience/candlelit-table.jpg     — candlelit dining table
-//   public/images/experience/guests-dinner.jpg        — guests enjoying dinner together
-//   public/images/experience/friends-cocktails.jpg    — friends sharing cocktails
-//   public/images/experience/live-music.jpg           — live music / DJ ambience
-//   public/images/experience/bartender-craft.jpg      — bartender crafting a cocktail
+//   public/images/experience/interior.jpg            — interior / seating area
+//   public/images/experience/sports-screens.jpg      — sports bar TV/screen setup
+//   public/images/experience/guests-crowd.jpg         — guests / crowd enjoying a night out
+//   public/images/experience/friends-drinks.jpg       — friends sharing drinks
+//   public/images/experience/dj-live-music.jpg        — live DJ / nightclub ambience
+//   public/images/experience/grill-action.jpg         — grill / food being prepared
 //
 // TESTIMONIALS:
-// Paste real Google review text + reviewer first name + last initial
-// into the `quote` / `name` fields below. Keep to 3 — the layout is
-// built around exactly 3 floating testimonial cards.
+// PLACEHOLDER — do not invent reviews. Paste real Google/Facebook review
+// text + reviewer first name + last initial into the `quote` / `name`
+// fields below once available. Keep to 3 — the layout is built around
+// exactly 3 floating testimonial cards.
 
 import type { ExperienceImage, Testimonial } from '@/types/experience'
 
@@ -30,55 +31,55 @@ export const EXPERIENCE_IMAGES: ExperienceImage[] = [
   {
     id: 'exterior-night',
     src: '/images/experience/exterior-night.png',
-    alt: 'The Black Perch exterior glowing warmly at night',
+    alt: 'Space Next Door exterior glowing at night',
   },
   {
     id: 'interior',
     src: '/images/experience/interior.png',
-    alt: 'Elegant, dimly lit interior seating',
+    alt: 'Space Next Door interior seating area',
   },
   {
-    id: 'candlelit-table',
-    src: '/images/experience/candlelit-table.png',
-    alt: 'A candlelit dining table set for an evening',
+    id: 'sports-screens',
+    src: '/images/experience/sports-screens.png',
+    alt: 'Sports bar screens showing a live match',
   },
   {
-    id: 'guests-dinner',
-    src: '/images/experience/guests-dinner.png',
-    alt: 'Guests laughing together over dinner',
+    id: 'guests-crowd',
+    src: '/images/experience/guests-crowd.png',
+    alt: 'Guests enjoying a night out together',
   },
   {
-    id: 'friends-cocktails',
-    src: '/images/experience/friends-cocktails.png',
-    alt: 'Friends sharing cocktails at the bar',
+    id: 'friends-drinks',
+    src: '/images/experience/friends-drinks.png',
+    alt: 'Friends sharing drinks at the bar',
   },
   {
-    id: 'live-music',
-    src: '/images/experience/live-music.png',
-    alt: 'Live DJ setting the mood for the evening',
+    id: 'dj-live-music',
+    src: '/images/experience/dj-live-music.png',
+    alt: 'Live DJ setting the mood for the night',
   },
   {
-    id: 'bartender-craft',
-    src: '/images/experience/bartender-craft.jpg',
-    alt: 'A bartender crafting a premium cocktail',
+    id: 'grill-action',
+    src: '/images/experience/grill-action.jpg',
+    alt: 'Food being prepared on the grill',
   },
 ]
 
 export const EXPERIENCE_TESTIMONIALS: Testimonial[] = [
   {
     id: 't1',
-    quote: 'I had a great time. Fun was had. Your to go place in Meru.',
-    name: 'Sharon Makena',
+    quote: '[PLACEHOLDER — paste a real, verified review here before launch]',
+    name: '[Reviewer name — TBC]',
   },
   {
     id: 't2',
-    quote: 'Awesome place for making good memories.',
-    name: 'Emmanuel Daris Njua',
+    quote: '[PLACEHOLDER — paste a real, verified review here before launch]',
+    name: '[Reviewer name — TBC]',
   },
   {
     id: 't3',
-    quote: 'Perfect place for lunch meetings. Loved the ambience, top notch kwa kweli.',
-    name: 'Isaac Mbugua',
+    quote: '[PLACEHOLDER — paste a real, verified review here before launch]',
+    name: '[Reviewer name — TBC]',
   },
 ]
 

@@ -26,22 +26,22 @@ const VALUES = [
 // exact filenames, or update the paths below once final assets are ready.
 const MOSAIC_IMAGES = {
   large: {
-    src: '/images/about/exterior-facade-sunset.png',
-    alt: 'The Black Perch architectural facade at sunset',
+    src: '/images/about/venue-exterior-night.png',
+    alt: 'Space Next Door venue exterior at night',
     label: '[IMG-ABOUT-MOSAIC-LARGE]',
-    caption: 'Architectural facade at sunset',
+    caption: 'Venue exterior at night',
   },
   small1: {
-    src: '/images/about/chef-preparing-ingredients.png',
-    alt: 'Chef preparing ingredients',
+    src: '/images/about/grill-food-prep.png',
+    alt: 'Grill and food preparation',
     label: '[IMG-ABOUT-MOSAIC-SMALL-1]',
-    caption: 'Chef preparing ingredients',
+    caption: 'Grill and food preparation',
   },
   small2: {
-    src: '/images/about/community-charity-event.png',
-    alt: 'Community charity event',
+    src: '/images/about/live-dj-crowd.png',
+    alt: 'Live DJ set with crowd',
     label: '[IMG-ABOUT-MOSAIC-SMALL-2]',
-    caption: 'Community charity event',
+    caption: 'Live DJ / event night',
   },
 }
 
@@ -169,17 +169,17 @@ export default function About() {
           >
             <span style={{ display: 'block', overflow: 'hidden' }}>
               <span className="line-inner" style={{ display: 'block' }}>
-                Redefining hospitality
+                Redefining nightlife
               </span>
             </span>
             <span style={{ display: 'block', overflow: 'hidden' }}>
               <span className="line-inner" style={{ display: 'block' }}>
-                in the heart of <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Mount Kenya</span> —
+                in the heart of <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Nakuru</span> —
               </span>
             </span>
             <span style={{ display: 'block', overflow: 'hidden' }}>
               <span className="line-inner" style={{ display: 'block', color: 'rgba(240,237,230,0.35)' }}>
-                born in Milimani, Meru Town.
+                the former Tuskys building, reborn.
               </span>
             </span>
           </h2>
@@ -195,7 +195,11 @@ export default function About() {
               marginBottom: '20px',
             }}
           >
-            To bridge the gap between premium international luxury standards and local cultural authenticity.
+            {/* PLACEHOLDER copy — grounded in Space Next Door's own public
+                positioning (FB/TikTok). Refine once the client shares their
+                preferred brand voice / official description. */}
+            Good food, cold drinks, live music and Nakuru&apos;s most electric nightlife — all under
+            one roof.
           </p>
 
           <p
@@ -209,12 +213,11 @@ export default function About() {
               marginBottom: '40px',
             }}
           >
-            The Black Perch emerged from a clear vision: to create a fluid, premium destination that
-            effortlessly adapts to your day. We believe that modern life shouldn&apos;t be segmented.
-            Your morning remote workspace, your afternoon relaxation hour, and your late-night
-            celebration crew all deserve an uncompromised home. Built on the core values of absolute
-            safety, exceptional service speed, and deep local community connection, we invite you to
-            experience hospitality crafted with intentional luxury.
+            Since opening its doors in February 2024, Space Next Door has grown into a fixture of
+            Nakuru&apos;s social calendar — a sports bar and grill by day, and one of the city&apos;s
+            go-to nightclub destinations after dark. Whether you&apos;re here for the grill, the game
+            on screen, or a night out with friends, it&apos;s one address for however you want to
+            spend your evening.
           </p>
 
           {/* ── Fixed CTA Tag ── */}
