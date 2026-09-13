@@ -131,7 +131,7 @@ index 8bb99f1..fab8eaa 100644
          <img
 -          src="/hero/black-perch-hero.png"
 -          alt="The Black Perch Exterior"
-+          src="/hero/space-next-door-hero.png"
++          src="/hero/d:\system files\SpaceNextDoor\space-next-door-hero.png"
 +          alt="Space Next Door exterior at night"
            style={{
              width: '100%',
