@@ -12,22 +12,19 @@ gsap.registerPlugin(ScrollTrigger)
 
 // ── Reservation copy — edit freely, no structural changes needed ────────
 const RESERVATION_BENEFITS = [
-  { icon: CalendarCheck, label: 'RSVP for Groups' },
-  { icon: Trees, label: 'Sports Screening Nights' },
-  { icon: Lock, label: 'Private Events Available' },
-  { icon: Sparkles, label: 'Live DJ Nights' },
+  { icon: CalendarCheck, label: 'Instant Reservation' },
+  { icon: Trees, label: 'Indoor & Outdoor Seating' },
+  { icon: Lock, label: 'Private Dining Available' },
+  { icon: Sparkles, label: 'Perfect for Special Occasions' },
 ]
 
-// Phone number confirmed via Space Next Door's public Facebook page (RSVP line).
-const RESERVATION_PHONE_DISPLAY = '+254 140 524140'
-const RESERVATION_PHONE_TEL = '+254140524140'
+const RESERVATION_PHONE_DISPLAY = '+254 118 688 226'
+const RESERVATION_PHONE_TEL = '+254118688226'
 
-// wa.me requires the number in international format with no "+", spaces, or leading zeros.
-// TODO (verify): confirm this line also accepts WhatsApp before launch — it's
-// currently listed as their RSVP phone number, not confirmed as a WhatsApp number.
-const RESERVATION_WHATSAPP_NUMBER = '254140524140'
+// wa.me requires the number in international format with no "+", spaces, or leading zeros
+const RESERVATION_WHATSAPP_NUMBER = '254118688226'
 const RESERVATION_WHATSAPP_MESSAGE =
-  "Hi Space Next Door, I'd like to reserve a table."
+  "Hi Black Perch, I'd like to reserve a table."
 const RESERVATION_WHATSAPP_URL = `https://wa.me/${RESERVATION_WHATSAPP_NUMBER}?text=${encodeURIComponent(
   RESERVATION_WHATSAPP_MESSAGE
 )}`
@@ -220,7 +217,7 @@ export default function Contact() {
           >
             <span style={{ display: 'block', overflow: 'hidden' }}>
               <span className="line-inner" style={{ display: 'block' }}>
-                RSVP Your
+                Reserve Your
               </span>
             </span>
             <span style={{ display: 'block', overflow: 'hidden' }}>
@@ -241,8 +238,9 @@ export default function Contact() {
               marginBottom: '40px',
             }}
           >
-            Whether it&apos;s match day, a group night out, or a private event — get in touch and
-            we&apos;ll set you up.
+            Whether it&apos;s an intimate dinner for two, a joyful family gathering, a milestone
+            celebration or an important business meeting — our team is ready to set the perfect
+            table for you.
           </p>
 
           {/* ── Benefits ── */}
@@ -287,9 +285,9 @@ export default function Contact() {
               target="_blank"
               rel="noopener noreferrer"
               className="reserve-cta-primary"
-              aria-label="RSVP a table via WhatsApp"
+              aria-label="Reserve a table via WhatsApp"
             >
-              RSVP a Table
+              Reserve a Table
             </a>
 
             <a
@@ -313,13 +311,12 @@ export default function Contact() {
               paddingTop: '28px',
             }}
           >
-            {/* TODO (verify): confirm real opening hours with the client before launch */}
             <div className="reserve-info-item" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <IconClock width={13} height={13} color="rgba(201,169,110,0.8)" />
-              <span style={infoLabelStyle}>Call or WhatsApp to Confirm Hours</span>
+              <span style={infoLabelStyle}>Open Daily &middot; 24 Hours</span>
             </div>
             <div className="reserve-info-item" style={infoLabelStyle}>
-              Busiest on Weekend Nights — Arrive Early
+              Reservations Recommended After 6 PM
             </div>
             <div className="reserve-info-item" style={infoLabelStyle}>
               Private Events &amp; Group Bookings Available
@@ -330,15 +327,14 @@ export default function Contact() {
         {/* ── RIGHT — cinematic dining photograph ───────────────── */}
         <div className="reserve-image-wrap">
           <GlassBadge>
-            <span style={{ display: 'inline' }}>The Space To Be</span>
+            <span style={{ display: 'inline' }}>An Intimate Setting</span>
           </GlassBadge>
 
-          {/* PLACEHOLDER — drop the real photo at
-              /public/images/reservation/space-next-door.jpg and it will
-              replace this placeholder automatically — no code changes needed. */}
+          {/* Drop the real photo at /public/images/reservation/black-perch.jpg
+              and it will replace this placeholder automatically — no code changes needed. */}
           <img
-            src="/images/reservation/space-next-door.jpg"
-            alt="Space Next Door venue photo"
+            src="/images/reservation/black-perch.jpg"
+            alt="The Black Perch official logo"
             className="reserve-photo"
             onError={(e) => {
               e.currentTarget.style.display = 'none'
@@ -374,7 +370,7 @@ export default function Contact() {
             color: '#f0ede6',
             fontWeight: 300,
           }}>
-            Nakuru, Kenya
+            Meru, Kenya
           </p>
         </div>
 
@@ -395,7 +391,7 @@ export default function Contact() {
             color: '#f0ede6',
             fontWeight: 300,
           }}>
-            Call or WhatsApp to Confirm Hours
+            Open for Reservations 24/7
           </p>
         </div>
 
@@ -410,18 +406,11 @@ export default function Contact() {
           }}>
             Social media
           </p>
-          {/* Instagram not yet verified — links to '#' until confirmed. */}
           <div style={{ display: 'flex', gap: '20px' }}>
-            {[
-              { label: 'Instagram', href: '#' },
-              { label: 'Facebook', href: 'https://www.facebook.com/p/Space-Next-Door-Nakuru-61553804610351/' },
-              { label: 'TikTok', href: 'https://www.tiktok.com/@spacenextdoornkr' },
-            ].map(({ label, href }) => (
+            {['Instagram', 'Facebook', 'TikTok'].map((s) => (
               <a
-                key={label}
-                href={href}
-                target={href !== '#' ? '_blank' : undefined}
-                rel={href !== '#' ? 'noopener noreferrer' : undefined}
+                key={s}
+                href="#"
                 style={{
                   fontFamily: 'var(--font-cormorant), serif',
                   fontSize: '1.4rem',
@@ -429,7 +418,7 @@ export default function Contact() {
                   fontWeight: 300,
                 }}
               >
-                {label}
+                {s}
               </a>
             ))}
           </div>
@@ -452,7 +441,7 @@ export default function Contact() {
           letterSpacing: '0.1em',
           color: 'rgba(240,237,230,0.25)',
         }}>
-          © 2026 Space Next Door. All rights reserved.
+          © 2024 The Black Pearch. All rights reserved.
         </span>
         <span style={{
           fontFamily: 'var(--font-dm-sans), sans-serif',

@@ -14,13 +14,13 @@ import { magneticHover } from '@/lib/animations'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Facebook + TikTok confirmed via public search. Instagram handle could not
-// be verified — paste the real URL here once confirmed; left blank on
-// purpose so the icon safely links nowhere (`#`) instead of a guess.
+// TODO: paste real profile URLs here when ready, e.g.
+// instagram: 'https://instagram.com/theblackperch'
+// facebook: 'https://facebook.com/theblackperch'
 const SOCIAL_LINKS = {
-  instagram: '', // TODO (verify): confirm real Instagram handle
-  facebook: 'https://www.facebook.com/p/Space-Next-Door-Nakuru-61553804610351/',
-  tiktok: 'https://www.tiktok.com/@spacenextdoornkr',
+  instagram: 'https://www.instagram.com/the_blackperch/',
+  facebook: 'https://www.facebook.com/p/The-Black-Perch-100054397995777/',
+  tiktok: 'https://www.tiktok.com/@theblackperch',
 }
 
 export default function Hero() {
@@ -110,12 +110,9 @@ export default function Hero() {
           willChange: 'transform',
         }}
       >
-        {/* PLACEHOLDER — drop the real venue photo at
-            /public/hero/space-next-door-hero.png (exterior or interior
-            night shot recommended) and it replaces this automatically. */}
         <img
-          src="/hero/space-next-door-hero.png"
-          alt="Space Next Door exterior at night"
+          src="/hero/black-perch-hero.png"
+          alt="The Black Perch Exterior"
           style={{
             width: '100%',
             height: '100%',
@@ -162,7 +159,7 @@ export default function Hero() {
             margin: 0,
           }}
         >
-          Space Next Door
+          The Black Perch
         </h2>
         <span
           style={{
@@ -175,7 +172,7 @@ export default function Hero() {
             marginTop: '6px',
           }}
         >
-          EAT. WATCH. PLAY.
+          DINE. CHILL. INDULGE.
         </span>
       </div>
 
@@ -211,12 +208,12 @@ export default function Hero() {
         >
           <span style={{ display: 'block', overflow: 'hidden' }}>
             <span className="line-inner" style={{ display: 'block' }}>
-              Good food, great games
+              An unforgettable dining
             </span>
           </span>
           <span style={{ display: 'block', overflow: 'hidden' }}>
             <span className="line-inner" style={{ display: 'block' }}>
-              and Nakuru&apos;s best nights
+              and lifestyle experience
             </span>
           </span>
         </h1>
@@ -233,7 +230,7 @@ export default function Hero() {
             maxWidth: '28rem',
           }}
         >
-          — sports bar, grill and nightclub, all under one roof
+          — lounge, cafe, spa and sherehe nights, all under one roof
         </p>
 
         {/* Status Badges */}
@@ -245,15 +242,13 @@ export default function Hero() {
             marginBottom: '32px',
           }}
         >
-          {/* Real hours not yet verified publicly — swap for confirmed
-              opening hours once the client provides them. */}
           <GlassBadge>
             <IconClock width={12} height={12} style={{ marginRight: 6 }} />
-            CALL FOR HOURS
+            OPEN 24/7
           </GlassBadge>
           <GlassBadge>
             <IconMapPin width={12} height={12} style={{ marginRight: 6 }} />
-            FORMER TUSKYS BUILDING, NAKURU
+            MILIMANI ROAD, MERU
           </GlassBadge>
         </div>
 
@@ -280,7 +275,7 @@ export default function Hero() {
               transition: 'all 0.3s ease',
             }}
           >
-            RSVP a Table &rarr;
+            Reserve a Table &rarr;
           </a>
         </div>
       </div>

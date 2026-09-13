@@ -21,11 +21,8 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  // TODO (verify before launch): confirm final wording with the client once
-  // real hours, menu and photography are locked in.
-  title: 'Space Next Door — Sports Bar, Grill & Nightclub in Nakuru',
-  description:
-    'Space Next Door Nakuru — food, drinks, live music and nightlife under one roof in the former Tuskys building, Nakuru, Kenya.',
+  title: 'The Black Pearch — Meru\'s Premier Lifestyle & Entertainment Hub',
+  description: 'Lounge, cafe, spa, creamery, and auto care — one destination in Milimani, Meru. Open 24/7.',
 }
 
 export default function RootLayout({

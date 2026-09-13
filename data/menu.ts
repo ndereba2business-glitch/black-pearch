@@ -1,17 +1,8 @@
 // data/menu.ts
 //
-// PLACEHOLDER MENU — Space Next Door demo (space-next-door-demo branch).
-// No real menu, dish names, or prices could be publicly verified for this
-// venue, so every item below is a clearly-labeled placeholder rather than
-// an invented dish. Replace with the client's real menu (names, descriptions,
-// prices, photos) before this demo goes live. Category keys are unchanged
-// from the original site (see types/menu.ts) to avoid touching MenuFilter/
-// MenuCard component logic; only their display labels are re-themed for a
-// sports bar & grill.
-//
-// Swap the `image` paths for real photography once it's shot — everything
-// else (cards, filters, badges) reads from here, nothing is hardcoded in
-// the components.
+// Single source of truth for Featured Menu content. Swap the `image` paths
+// for real photography once it's shot — everything else (cards, filters,
+// badges) reads from here, nothing is hardcoded in the components.
 
 import type {
   DietaryTag,
@@ -22,10 +13,10 @@ import type {
 
 export const CATEGORY_LABELS: Record<MenuFilterCategory, string> = {
   all: 'All Selection',
-  breakfast: 'Bar Bites & Starters',
-  mains: 'Grill & Mains',
+  breakfast: 'Breakfast & Café',
+  mains: 'Signature Mains',
   'pizzas-burgers': 'Pizzas & Burgers',
-  cocktails: 'Cocktails & Spirits',
+  cocktails: 'Craft Cocktails',
 }
 
 export const MENU_CATEGORIES: MenuFilterCategory[] = [
@@ -52,115 +43,159 @@ export const DIETARY_TAG_META: Record<DietaryTag, { label: string; icon: string 
   spicy: { label: 'Hot / Spicy', icon: '🌶' },
 }
 
-// PLACEHOLDER ITEMS — none of these are real dishes. `rating` and `price`
-// are set to 0 with currency "TBC" so nothing on screen reads as a real,
-// confirmed price. Replace every field with the client's actual menu.
+// NOTE: placeholder images — these files don't exist yet. Drop real photos
+// into /public/images/menu/ using these exact filenames, or update the
+// paths below once real assets are ready.
 export const MENU_ITEMS: MenuItem[] = [
-  // ── Bar Bites & Starters ───────────────────────────────────────
+  // ── Breakfast & Café ─────────────────────────────────────────
   {
-    id: 'starter-placeholder-1',
-    title: '[Starter — name TBC]',
+    id: 'golden-croissant-benedict',
+    title: 'Golden Croissant Benedict',
     category: 'breakfast',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/starter-placeholder-1.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Butter-laminated croissant, slow-poached egg, hollandaise, smoked salmon ribbons.',
+    image: '/images/menu/golden-croissant-benedict.png',
+    badge: 'chefs-selection',
+    dietaryTags: ['dairy'],
+    pairing: 'Fresh Orange Press',
+    rating: 4.8,
+    price: 950,
   },
   {
-    id: 'starter-placeholder-2',
-    title: '[Starter — name TBC]',
+    id: 'truffle-avocado-toast',
+    title: 'Truffle Avocado Toast',
     category: 'breakfast',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/starter-placeholder-2.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Charred sourdough, whipped avocado, black truffle oil, chili flake, microgreens.',
+    image: '/images/menu/truffle-avocado-toast.png',
+    badge: 'house-favourite',
+    dietaryTags: ['vegetarian'],
+    rating: 4.7,
+    price: 850,
+  },
+  {
+    id: 'artisan-french-toast-flight',
+    title: 'Artisan French Toast Flight',
+    category: 'breakfast',
+    description:
+      'Brioche trio dusted in cinnamon sugar, salted caramel, roasted hazelnut.',
+    image: '/images/menu/artisan-french-toast-flight.png',
+    badge: 'signature-dish',
+    dietaryTags: ['dairy', 'contains-nuts'],
+    rating: 4.9,
+    price: 900,
   },
 
-  // ── Grill & Mains ────────────────────────────────────────────
+  // ── Signature Mains ──────────────────────────────────────────
   {
-    id: 'grill-placeholder-1',
-    title: '[Grill dish — name TBC]',
+    id: 'creamy-garlic-chicken',
+    title: 'Creamy Garlic Chicken',
     category: 'mains',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/grill-placeholder-1.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Pan-fried artisan chicken with garlic butter cream, fresh coriander, walnuts.',
+    image: '/images/menu/creamy-garlic-chicken.png',
+    badge: 'chefs-selection',
+    dietaryTags: ['dairy', 'contains-nuts'],
+    pairing: 'Chardonnay',
+    rating: 4.9,
+    price: 1200,
   },
   {
-    id: 'grill-placeholder-2',
-    title: '[Grill dish — name TBC]',
+    id: 'slow-braised-lamb-shank',
+    title: 'Slow-Braised Lamb Shank',
     category: 'mains',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/grill-placeholder-2.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Twelve-hour braise, red wine jus, root vegetable purée, rosemary oil.',
+    image: '/images/menu/slow-braised-lamb-shank.jpeg',
+    badge: 'premium-cut',
+    dietaryTags: ['gluten-free'],
+    pairing: 'Malbec',
+    rating: 4.8,
+    price: 1800,
   },
   {
-    id: 'grill-placeholder-3',
-    title: '[Grill dish — name TBC]',
+    id: 'pan-seared-nile-perch',
+    title: 'Pan-Seared Nile Perch',
     category: 'mains',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/grill-placeholder-3.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Crisp-skin perch, brown butter, capers, charred lemon, seasonal greens.',
+    image: '/images/menu/pan-seared-nile-perch.png',
+    badge: 'house-favourite',
+    dietaryTags: ['gluten-free', 'dairy'],
+    pairing: 'Sauvignon Blanc',
+    rating: 4.7,
+    price: 1450,
   },
 
   // ── Pizzas & Burgers ─────────────────────────────────────────
   {
-    id: 'pizza-burger-placeholder-1',
-    title: '[Pizza or burger — name TBC]',
+    id: 'wagyu-smash-burger',
+    title: 'Wagyu Smash Burger',
     category: 'pizzas-burgers',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/pizza-burger-placeholder-1.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Double-smashed wagyu, aged cheddar, caramelized onion, truffle aioli, brioche bun.',
+    image: '/images/menu/wagyu-smash-burger.png',
+    badge: 'signature-dish',
+    dietaryTags: ['dairy'],
+    rating: 4.9,
+    price: 1350,
   },
   {
-    id: 'pizza-burger-placeholder-2',
-    title: '[Pizza or burger — name TBC]',
+    id: 'ugali-and-fish',
+    title: 'Ugali and Fish',
+    category: 'mains',
+    description:
+      'Well cooked maize flour with a side of vegetables and fish.',
+    image: '/images/menu/ugali-and-fish.png',
+    badge: 'chefs-selection',
+    dietaryTags: ['vegetarian', 'dairy'],
+    rating: 4.8,
+    price: 800,
+  },
+  {
+    id: 'smoked-bbq-pulled-pork-pizza',
+    title: 'Smoked BBQ Pulled Pork Pizza',
     category: 'pizzas-burgers',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/pizza-burger-placeholder-2.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Twelve-hour smoked pork, house BBQ glaze, pickled red onion, smoked mozzarella.',
+    image: '/images/menu/smoked-bbq-pulled-pork-pizza.png',
+    badge: 'house-favourite',
+    dietaryTags: ['spicy', 'dairy'],
+    rating: 4.6,
+    price: 1250,
   },
 
-  // ── Cocktails & Spirits ──────────────────────────────────────
+  // ── Craft Cocktails ──────────────────────────────────────────
   {
-    id: 'cocktail-placeholder-1',
-    title: '[Cocktail — name TBC]',
+    id: 'black-perch-old-fashioned',
+    title: 'The Black Perch Old Fashioned',
     category: 'cocktails',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/cocktail-placeholder-1.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Bourbon, smoked demerara, orange bitters, hand-cut ice, torched orange peel.',
+    image: '/images/menu/black-perch-old-fashioned.png',
+    badge: 'signature-dish',
+    rating: 4.9,
+    price: 2000,
   },
   {
-    id: 'cocktail-placeholder-2',
-    title: '[Cocktail — name TBC]',
+    id: 'golden-hour-spritz',
+    title: 'Golden Hour Spritz',
     category: 'cocktails',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/cocktail-placeholder-2.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Prosecco, elderflower, fresh grapefruit, soda, edible gold leaf.',
+    image: '/images/menu/golden-hour-spritz.png',
+    badge: 'house-favourite',
+    rating: 4.7,
+    price: 850,
   },
   {
-    id: 'cocktail-placeholder-3',
-    title: '[Cocktail — name TBC]',
+    id: 'smoked-whiskey-sour',
+    title: 'Smoked Whiskey Sour',
     category: 'cocktails',
-    description: '[Add real description once the menu is confirmed]',
-    image: '/images/menu/cocktail-placeholder-3.png',
-    rating: 0,
-    price: 0,
-    currency: 'TBC',
+    description:
+      'Rye whiskey, fresh lemon, egg white foam, applewood smoke finish.',
+    image: '/images/menu/smoked-whiskey-sour.jpeg',
+    rating: 4.8,
+    price: 1050,
   },
 ]

@@ -1,6 +1,6 @@
 // components/sections/Experience.tsx
 //
-// "Experience Space Next Door" — sits between Featured Menu and the
+// "Experience The Black Perch" — sits between Featured Menu and the
 // Brand Heritage / Reservation flow (id="gallery", already linked from
 // Navbar.tsx and SectionNav.tsx).
 //
@@ -212,7 +212,7 @@ export default function Experience() {
       >
         <span style={{ display: 'block', overflow: 'hidden' }}>
           <span className="line-inner" style={{ display: 'block' }}>
-            Experience <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Space Next Door</span>
+            Experience The <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Black Perch</span>
           </span>
         </span>
       </h2>
