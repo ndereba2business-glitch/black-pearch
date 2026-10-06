@@ -1,214 +1,130 @@
-// components/sections/FeaturedMenu.tsx
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+import Image from 'next/image'
+import mark from '@/public/images/brand/mark.png'
 import MenuFilter from '@/components/menu/MenuFilter'
-import MenuCard from '@/components/menu/MenuCard'
-import { CATEGORY_LABELS, MENU_ITEMS } from '@/data/menu'
+import MenuRow from '@/components/menu/MenuRow'
+import ButtonLink from '@/components/ui/ButtonLink'
+import Reveal from '@/components/ui/Reveal'
+import RevealHeading from '@/components/ui/RevealHeading'
+import { IconWhatsapp } from '@/components/ui/icons'
+import { MENU_ITEMS } from '@/data/menu'
+import { SITE } from '@/lib/site'
 import type { MenuFilterCategory } from '@/types/menu'
+import { cn } from '@/lib/cn'
 
-gsap.registerPlugin(ScrollTrigger)
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24, scale: 0.96, filter: 'blur(4px)' },
-  visible: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
-  exit: { opacity: 0, y: -12, scale: 0.96, filter: 'blur(4px)' },
-}
+const PANEL_ID = 'menu-panel'
 
 export default function FeaturedMenu() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const headingRef = useRef<HTMLHeadingElement>(null)
-  const [activeCategory, setActiveCategory] = useState<MenuFilterCategory>('all')
+  const [category, setCategory] = useState<MenuFilterCategory>('all')
+  const [activeId, setActiveId] = useState(MENU_ITEMS[0].id)
+  // Large preview photographs are only mounted once a dish has been looked at.
+  const [seen, setSeen] = useState<string[]>([MENU_ITEMS[0].id])
 
-  const filteredItems = useMemo(() => {
-    if (activeCategory === 'all') return MENU_ITEMS
-    return MENU_ITEMS.filter((item) => item.category === activeCategory)
-  }, [activeCategory])
+  const items =
+    category === 'all' ? MENU_ITEMS : MENU_ITEMS.filter((item) => item.category === category)
+  const activeItem = items.find((item) => item.id === activeId) ?? items[0]
 
-  // ── Scroll-triggered entrance (GSAP) — mirrors About.tsx / Contact.tsx ──
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const lines = headingRef.current?.querySelectorAll('.line-inner')
-      gsap.set(lines || [], { y: '110%' })
-      gsap.to(lines || [], {
-        y: '0%',
-        duration: 1.1,
-        stagger: 0.12,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none none',
-        },
-      })
+  const activate = (id: string) => {
+    setActiveId(id)
+    setSeen((ids) => (ids.includes(id) ? ids : [...ids, id]))
+  }
 
-      gsap.from('.menu-label', {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none none',
-        },
-      })
-
-      gsap.from('.menu-supporting-text', {
-        opacity: 0,
-        y: 20,
-        duration: 0.9,
-        delay: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none none',
-        },
-      })
-
-      gsap.from('.menu-filter-wrap', {
-        opacity: 0,
-        y: 24,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.menu-filter-wrap',
-          start: 'top 85%',
-          toggleActions: 'play none none none',
-        },
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
+  const changeCategory = (next: MenuFilterCategory) => {
+    setCategory(next)
+    const first = next === 'all' ? MENU_ITEMS[0] : MENU_ITEMS.find((item) => item.category === next)
+    if (first) activate(first.id)
+  }
 
   return (
-    <section
-      ref={sectionRef}
-      id="menu"
-      className="section-padding"
-      style={{
-        position: 'relative',
-        width: '100%',
-        paddingTop: '120px',
-        paddingBottom: '120px',
-        background: '#080808',
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        className="menu-label"
-        style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '28px' }}
-      >
-        <div style={{ width: '40px', height: '1px', background: '#c9a96e' }} />
-        <span
-          style={{
-            fontFamily: 'var(--font-dm-sans), sans-serif',
-            fontSize: '10px',
-            letterSpacing: '0.4em',
-            textTransform: 'uppercase',
-            color: '#c9a96e',
-          }}
-        >
-          Featured Menu
-        </span>
+    <section id="menu" aria-labelledby="menu-title" className="on-paper section-y bg-paper text-ink">
+      <div className="shell">
+        <div className="grid gap-y-8 lg:grid-cols-12 lg:items-end lg:gap-x-10">
+          <div className="lg:col-span-8">
+            <Reveal as="p" className="eyebrow text-brass-deep">
+              Featured menu
+            </Reveal>
+            <RevealHeading
+              id="menu-title"
+              className="mt-6 text-display-lg"
+              lines={['From first coffee', <em key="last">to last call.</em>]}
+            />
+          </div>
+          <Reveal as="p" delay={120} className="max-w-md text-ink/75 lg:col-span-4 lg:pb-3">
+            A selection from the kitchen and the bar — breakfast plates, signature mains, pizzas,
+            burgers and cocktails. Prices are in Kenyan shillings.
+          </Reveal>
+        </div>
+
+        <Reveal className="mt-12 md:mt-16">
+          <MenuFilter active={category} onChange={changeCategory} panelId={PANEL_ID} />
+        </Reveal>
+
+        <div className="lg:grid lg:grid-cols-12 lg:gap-x-10">
+          {/* Large photograph of whichever dish the pointer is on. It repeats
+              the row thumbnails, so it is hidden from assistive tech. */}
+          <div aria-hidden="true" className="hidden lg:col-span-5 lg:block">
+            <div className="sticky top-[calc(var(--header-h)+2rem)] pt-10">
+              <div className="relative aspect-[4/5] overflow-hidden bg-moss">
+                <span className="absolute inset-0 grid place-items-center">
+                  <Image src={mark} alt="" className="h-auto w-24 opacity-70" />
+                </span>
+                {MENU_ITEMS.filter((item) => item.image && seen.includes(item.id)).map((item) => (
+                  <Image
+                    key={item.id}
+                    src={item.image!}
+                    alt=""
+                    fill
+                    sizes="(min-width: 100rem) 600px, 38vw"
+                    placeholder="blur"
+                    className={cn(
+                      'object-cover transition-[opacity,transform] duration-700 ease-out-expo',
+                      item.id === activeItem.id ? 'scale-100 opacity-100' : 'scale-105 opacity-0'
+                    )}
+                  />
+                ))}
+              </div>
+              <p className="eyebrow mt-4 text-ink/70">{activeItem.title}</p>
+            </div>
+          </div>
+
+          <div
+            id={PANEL_ID}
+            role="tabpanel"
+            aria-labelledby={`menu-tab-${category}`}
+            className="lg:col-span-7"
+          >
+            {/* Re-keyed per category so the rows replay their entrance. */}
+            <ul key={category} className="lg:pt-4">
+              {items.map((item, index) => (
+                <MenuRow
+                  key={item.id}
+                  item={item}
+                  index={index}
+                  active={item.id === activeItem.id}
+                  onActivate={() => activate(item.id)}
+                />
+              ))}
+            </ul>
+
+            <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+              <p className="max-w-xs text-sm text-ink/75">
+                Looking for something that isn’t listed here? Ask and we’ll send the full menu.
+              </p>
+              <ButtonLink
+                href={SITE.menuUrl}
+                external
+                tone="light"
+                variant="outline"
+                icon={<IconWhatsapp />}
+              >
+                Ask for the full menu
+              </ButtonLink>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <h2
-        ref={headingRef}
-        style={{
-          fontFamily: 'var(--font-cormorant), serif',
-          fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-          fontWeight: 300,
-          color: '#f0ede6',
-          lineHeight: 1.05,
-          letterSpacing: '-0.02em',
-          marginBottom: '28px',
-          maxWidth: '900px',
-        }}
-      >
-        <span style={{ display: 'block', overflow: 'hidden' }}>
-          <span className="line-inner" style={{ display: 'block' }}>
-            Taste the <span style={{ color: '#c9a96e', fontStyle: 'italic' }}>Craftsmanship</span>
-          </span>
-        </span>
-      </h2>
-
-      <p
-        className="menu-supporting-text"
-        style={{
-          fontFamily: 'var(--font-dm-sans), sans-serif',
-          fontSize: '15px',
-          lineHeight: 1.8,
-          color: 'rgba(240,237,230,0.5)',
-          maxWidth: '560px',
-          marginBottom: '64px',
-        }}
-      >
-        Fresh local ingredients elevated through modern culinary artistry. Explore our
-        carefully curated menu using the interactive category filters below.
-      </p>
-
-      <div className="menu-filter-wrap" style={{ marginBottom: '64px' }}>
-        <MenuFilter active={activeCategory} onChange={setActiveCategory} />
-      </div>
-
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeCategory}
-          id="featured-menu-panel"
-          role="tabpanel"
-          aria-label={CATEGORY_LABELS[activeCategory]}
-          className="menu-grid"
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          {filteredItems.map((item, i) => (
-            <motion.div
-              key={item.id}
-              variants={cardVariants}
-              transition={{ duration: 0.45, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <MenuCard item={item} />
-            </motion.div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
-
-      <style jsx>{`
-        .menu-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 48px 32px;
-        }
-        @media (max-width: 1024px) {
-          .menu-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-        @media (max-width: 640px) {
-          .menu-grid {
-            grid-template-columns: 1fr;
-            gap: 56px;
-          }
-        }
-
-        /* ── Cinematic focus: dim every other card while one is hovered ──
-           Pure CSS (:has), scoped to hover-capable pointers only, so it
-           never touches React state, never re-triggers the AnimatePresence
-           entrance animation above, and never causes "stuck hover" on
-           touch devices. */
-        @media (hover: hover) and (pointer: fine) {
-          .menu-grid:has(.menu-card:hover) :global(.menu-card):not(:hover) {
-            filter: brightness(0.9);
-          }
-        }
-      `}</style>
     </section>
   )
 }

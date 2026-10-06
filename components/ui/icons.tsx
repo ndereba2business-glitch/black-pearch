@@ -1,76 +1,78 @@
-// components/ui/icons.tsx
-//
-// Minimal inline SVG icons, styled to match lucide's stroke conventions
-// (24x24 viewBox, round joins, currentColor). Used instead of importing
-// from lucide-react directly, since the installed version in this project
-// doesn't reliably export the icons we need (see: Hero.tsx build error,
-// "Export Instagram doesn't exist in target module").
-//
-// If you confirm lucide-react does export these in your installed version,
-// feel free to swap back — but this removes the dependency risk entirely.
+// Inline SVG icons on a shared 24×24 grid. They inherit `currentColor` and
+// are decorative by default — pair them with visible text or an aria-label.
 
 import type { SVGProps } from 'react'
 
-const base = {
-  width: 16,
-  height: 16,
+type IconProps = SVGProps<SVGSVGElement>
+
+const stroke = {
+  width: 18,
+  height: 18,
   viewBox: '0 0 24 24',
   fill: 'none',
   stroke: 'currentColor',
-  strokeWidth: 1.8,
+  strokeWidth: 1.5,
   strokeLinecap: 'round' as const,
   strokeLinejoin: 'round' as const,
+  'aria-hidden': true,
+  focusable: false,
 }
 
-export function IconInstagram(props: SVGProps<SVGSVGElement>) {
+export function IconArrowRight(props: IconProps) {
   return (
-    <svg {...base} {...props}>
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-      <path d="M16 11.37a4 4 0 1 1-7.914 1.174A4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    <svg {...stroke} {...props}>
+      <path d="M4 12h16M14 6l6 6-6 6" />
     </svg>
   )
 }
 
-export function IconFacebook(props: SVGProps<SVGSVGElement>) {
+export function IconArrowUpRight(props: IconProps) {
   return (
-    <svg {...base} {...props}>
+    <svg {...stroke} {...props}>
+      <path d="M7 17 17 7M8 7h9v9" />
+    </svg>
+  )
+}
+
+export function IconPhone(props: IconProps) {
+  return (
+    <svg {...stroke} {...props}>
+      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+    </svg>
+  )
+}
+
+export function IconWhatsapp(props: IconProps) {
+  return (
+    <svg {...stroke} {...props}>
+      <path d="M3 21l1.6-4.7A8.5 8.5 0 1 1 8 19.6L3 21z" />
+      <path d="M9 9.2c0 3 2.8 5.8 5.8 5.8.6 0 1.2-.5 1.2-1.1l-1.9-.9-.9.8a4.8 4.8 0 0 1-2.2-2.2l.8-.9-.9-1.9C9.5 8 9 8.6 9 9.2z" />
+    </svg>
+  )
+}
+
+export function IconInstagram(props: IconProps) {
+  return (
+    <svg {...stroke} {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="M17.5 6.5h.01" />
+    </svg>
+  )
+}
+
+export function IconFacebook(props: IconProps) {
+  return (
+    <svg {...stroke} {...props}>
       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
     </svg>
   )
 }
 
-export function IconTiktok(props: SVGProps<SVGSVGElement>) {
+export function IconTiktok(props: IconProps) {
   return (
-    <svg {...base} {...props} fill="currentColor" stroke="none">
-      <path d="M16.5 2c.5 2.2 2 3.9 4.2 4.2v3.1c-1.5.1-2.9-.4-4.2-1.2v6.6c0 3.5-2.8 6.3-6.3 6.3S4 17.8 4 14.3s2.8-6.3 6.3-6.3c.4 0 .8 0 1.2.1v3.2c-.4-.1-.8-.2-1.2-.2-1.7 0-3.1 1.4-3.1 3.1s1.4 3.1 3.1 3.1 3.2-1.3 3.2-3V2h3z" />
-    </svg>
-  )
-}
-
-export function IconMapPin(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg {...base} {...props}>
-      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  )
-}
-
-export function IconClock(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg {...base} {...props}>
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
-    </svg>
-  )
-}
-
-export function IconArrowDown(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg {...base} {...props}>
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <polyline points="19 12 12 19 5 12" />
+    <svg {...stroke} {...props}>
+      <path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.3 2.6 2 4.4 4.5 4.7" />
     </svg>
   )
 }

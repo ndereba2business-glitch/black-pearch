@@ -1,229 +1,247 @@
-﻿// components/layout/Navbar.tsx
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import Image from 'next/image'
+import mark from '@/public/images/brand/mark.png'
+import { NAV_LINKS, SITE } from '@/lib/site'
+import { lockScroll } from '@/lib/scroll'
+import { cn } from '@/lib/cn'
 
-const LEFT_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'Menu', href: '#menu' },
-  { label: 'Contact', href: '#reserve' },
-]
-
-const RIGHT_LINKS = [
-  { label: 'Our Story', href: '#story' },
-  { label: 'Gallery', href: '#gallery' },
-]
+const FOCUSABLE = 'a[href], button:not([disabled])'
 
 export default function Navbar() {
-  const navRef = useRef<HTMLElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
   const [scrolled, setScrolled] = useState(false)
-  const [activeHref, setActiveHref] = useState('#home')
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('')
 
+  // Solid bar once the page moves; tuck away on the way down, return on the way up.
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.nav-item', {
-        y: -20,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.06,
-        ease: 'power3.out',
-        delay: 1.2,
-      })
-    }, navRef)
-    return () => ctx.revert()
-  }, [])
+    let last = window.scrollY
+    let frame = 0
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Lock background scroll while the mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
+    const update = () => {
+      frame = 0
+      const y = window.scrollY
+      setScrolled(y > 24)
+      if (Math.abs(y - last) > 6) {
+        setHidden(y > last && y > window.innerHeight * 0.6)
+        last = y
+      }
     }
-  }, [mobileMenuOpen])
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
 
-  const handleNavClick = (href: string) => (e: React.MouseEvent) => {
-    e.preventDefault()
-    setActiveHref(href)
-    setMobileMenuOpen(false)
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
-  }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(frame)
+    }
+  }, [])
 
-  const linkStyle = (href: string): React.CSSProperties => ({
-    fontFamily: 'var(--font-dm-sans), sans-serif',
-    fontSize: '10px',
-    letterSpacing: '0.25em',
-    textTransform: 'uppercase',
-    color: activeHref === href ? '#f0ede6' : 'rgba(240,237,230,0.45)',
-    position: 'relative',
-    transition: 'color 0.3s ease',
-    whiteSpace: 'nowrap',
-  })
+  // Highlight the link for whichever section sits across the middle of the viewport.
+  useEffect(() => {
+    const sections = ['#top', ...NAV_LINKS.map((link) => link.href)]
+      .map((hash) => document.querySelector<HTMLElement>(hash))
+      .filter((el): el is HTMLElement => el !== null)
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(`#${entry.target.id}`)
+        }
+      },
+      { rootMargin: '-50% 0px -50% 0px' }
+    )
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
+
+  // While the mobile menu is open: freeze the page, trap focus, close on Escape.
+  useEffect(() => {
+    if (!open) return
+    lockScroll(true)
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false)
+        toggleRef.current?.focus()
+        return
+      }
+      if (event.key !== 'Tab' || !rootRef.current) return
+
+      const items = Array.from(rootRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+        (el) => el.offsetParent !== null
+      )
+      const first = items[0]
+      const last = items[items.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last?.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first?.focus()
+      }
+    }
+
+    // The overlay only exists below the desktop breakpoint.
+    const desktop = window.matchMedia('(min-width: 64rem)')
+    const onBreakpoint = () => desktop.matches && setOpen(false)
+
+    document.addEventListener('keydown', onKeyDown)
+    desktop.addEventListener('change', onBreakpoint)
+    return () => {
+      lockScroll(false)
+      document.removeEventListener('keydown', onKeyDown)
+      desktop.removeEventListener('change', onBreakpoint)
+    }
+  }, [open])
 
   return (
-    <>
-      <nav
-        ref={navRef}
-        className="absolute top-0 left-0 right-0 w-full z-[100] section-padding py-6 transition-all duration-700"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          ...(scrolled
-            ? {
-                background: 'rgba(8,8,8,0.85)',
-                backdropFilter: 'blur(12px)',
-                borderBottom: '1px solid rgba(255,255,255,0.05)',
-              }
-            : {}),
-        }}
+    <div ref={rootRef}>
+      <header
+        onFocusCapture={() => setHidden(false)}
+        className={cn(
+          'fixed inset-x-0 top-0 z-50 border-b transition-[transform,background-color,border-color] duration-500 ease-out-expo',
+          scrolled || open ? 'border-bone/10 bg-ink/95' : 'border-transparent bg-transparent',
+          hidden && !open && '-translate-y-full'
+        )}
       >
-        {/* Left links — visible on desktop/tablet, hidden on mobile */}
-        <div className="hidden md:flex items-center" style={{ gap: '32px' }}>
-          {LEFT_LINKS.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={handleNavClick(item.href)}
-              className="nav-item"
-              style={linkStyle(item.href)}
-            >
-              {item.label}
-              {activeHref === item.href && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    bottom: '-8px',
-                    left: 0,
-                    width: '100%',
-                    height: '1px',
-                    background: '#c9a96e',
-                  }}
-                />
-              )}
-            </a>
-          ))}
-        </div>
-
-        {/* Right links + toggle — pushed right via margin-left:auto so
-            it stays correctly placed regardless of what's hidden beside it */}
-        <div className="flex items-center" style={{ gap: '32px', marginLeft: 'auto' }}>
-          <div className="hidden md:flex items-center" style={{ gap: '32px' }}>
-            {RIGHT_LINKS.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={handleNavClick(item.href)}
-                className="nav-item"
-                style={linkStyle(item.href)}
-              >
-                {item.label}
-                {activeHref === item.href && (
-                  <span
-                    style={{
-                      position: 'absolute',
-                      bottom: '-8px',
-                      left: 0,
-                      width: '100%',
-                      height: '1px',
-                      background: '#c9a96e',
-                    }}
-                  />
-                )}
-              </a>
-            ))}
-          </div>
-
-          <button
-            className="nav-item"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '4px',
-              width: '40px',
-              height: '40px',
-              flexShrink: 0,
-              borderRadius: '9999px',
-              border: '1px solid rgba(240,237,230,0.25)',
-              background: 'transparent',
-              cursor: 'pointer',
-            }}
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            <span
-              style={{
-                display: 'block',
-                width: '16px',
-                height: '1.5px',
-                background: '#f0ede6',
-                transition: 'transform 0.3s ease, opacity 0.3s ease',
-                transform: mobileMenuOpen ? 'translateY(5.5px) rotate(45deg)' : 'none',
-              }}
-            />
-            <span
-              style={{
-                display: 'block',
-                width: '16px',
-                height: '1.5px',
-                background: '#f0ede6',
-                transition: 'opacity 0.3s ease',
-                opacity: mobileMenuOpen ? 0 : 1,
-              }}
-            />
-            <span
-              style={{
-                display: 'block',
-                width: '16px',
-                height: '1.5px',
-                background: '#f0ede6',
-                transition: 'transform 0.3s ease, opacity 0.3s ease',
-                transform: mobileMenuOpen ? 'translateY(-5.5px) rotate(-45deg)' : 'none',
-              }}
-            />
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile menu overlay — only reachable on < md, since the toggle
-          button is the only way to open it there (links are always
-          visible directly on md+) */}
-      <div
-        className="md:hidden fixed inset-0 flex flex-col items-center justify-center transition-opacity duration-500"
-        style={{
-          gap: '28px',
-          background: '#080808',
-          zIndex: 200,
-          opacity: mobileMenuOpen ? 1 : 0,
-          pointerEvents: mobileMenuOpen ? 'auto' : 'none',
-        }}
-      >
-        {[...LEFT_LINKS, ...RIGHT_LINKS].map((item) => (
+        <div className="shell flex h-(--header-h) items-center justify-between gap-6">
           <a
-            key={item.href}
-            href={item.href}
-            onClick={handleNavClick(item.href)}
-            style={{
-              fontFamily: 'var(--font-cormorant), serif',
-              fontSize: '2.2rem',
-              fontWeight: 300,
-              color: activeHref === item.href ? '#c9a96e' : '#f0ede6',
-              transition: 'color 0.3s ease',
-            }}
+            href="#top"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3"
+            aria-label={`${SITE.name} — back to top`}
           >
-            {item.label}
+            <Image src={mark} alt="" className="h-6 w-auto md:h-7" />
+            <span className="font-display text-[1.125rem] leading-none tracking-[-0.01em] md:text-[1.25rem]">
+              {SITE.name}
+            </span>
           </a>
-        ))}
+
+          <nav aria-label="Primary" className="hidden lg:block">
+            <ul className="flex items-center gap-10">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    aria-current={active === link.href ? 'true' : undefined}
+                    className={cn(
+                      'link-line text-[0.8125rem] tracking-[0.04em] transition-colors duration-300',
+                      active === link.href ? 'text-bone' : 'text-bone/70 hover:text-bone'
+                    )}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="flex items-center gap-2 sm:gap-4">
+            <a
+              href={SITE.reserveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden min-h-11 items-center border border-brass/70 px-5 text-[0.6875rem] font-medium uppercase tracking-[0.18em] text-bone transition-colors duration-300 hover:bg-brass hover:text-ink xs:inline-flex"
+            >
+              Reserve
+              <span className="sr-only"> a table on WhatsApp (opens in a new tab)</span>
+            </a>
+
+            <button
+              ref={toggleRef}
+              type="button"
+              onClick={() => setOpen((value) => !value)}
+              aria-expanded={open}
+              aria-controls="site-menu"
+              className="-mr-2 flex size-11 items-center justify-center lg:hidden"
+            >
+              <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
+              <span aria-hidden="true" className="relative block h-2.5 w-6">
+                <span
+                  className={cn(
+                    'absolute inset-x-0 top-0 h-px bg-bone transition-transform duration-500 ease-out-expo',
+                    open && 'translate-y-[4.5px] rotate-45'
+                  )}
+                />
+                <span
+                  className={cn(
+                    'absolute inset-x-0 bottom-0 h-px bg-bone transition-transform duration-500 ease-out-expo',
+                    open && '-translate-y-[4.5px] -rotate-45'
+                  )}
+                />
+              </span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div
+        id="site-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
+        inert={!open}
+        data-lenis-prevent
+        className={cn(
+          'fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink pt-(--header-h) transition-[clip-path,visibility] duration-700 ease-in-out-quart lg:hidden',
+          open ? 'visible [clip-path:inset(0)]' : 'invisible [clip-path:inset(0_0_100%_0)]'
+        )}
+      >
+        <nav aria-label="Mobile" className="shell flex flex-1 flex-col justify-center py-10">
+          <ul>
+            {NAV_LINKS.map((link, index) => (
+              <li key={link.href} className="overflow-clip border-b border-bone/10">
+                <a
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  style={{ '--i': index } as CSSProperties}
+                  className={cn(
+                    'block py-4 font-display text-[clamp(2.25rem,11vw,3.5rem)] leading-[1.1] tracking-[-0.02em] transition-transform duration-700 ease-out-expo',
+                    open ? 'translate-y-0 delay-[calc(var(--i)*70ms+180ms)]' : 'translate-y-full',
+                    active === link.href && 'italic text-brass'
+                  )}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div
+          className={cn(
+            'shell pb-8 transition-opacity duration-700',
+            open ? 'opacity-100 delay-500' : 'opacity-0'
+          )}
+        >
+          <a
+            href={SITE.reserveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-13 items-center justify-center bg-brass text-[0.75rem] font-medium uppercase tracking-[0.18em] text-ink"
+          >
+            Reserve a table
+            <span className="sr-only"> on WhatsApp (opens in a new tab)</span>
+          </a>
+          <div className="mt-7 flex flex-wrap items-end justify-between gap-x-8 gap-y-4 text-sm text-bone/70">
+            <p>
+              {SITE.address.street}, {SITE.address.locality}
+              <br />
+              {SITE.hours}
+            </p>
+            <a href={SITE.phone.href} className="link-line text-bone">
+              {SITE.phone.display}
+            </a>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   )
 }

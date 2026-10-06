@@ -1,20 +1,21 @@
-﻿import Hero from '@/components/sections/Hero'
-import Marquee from '@/components/sections/Marquee'
+import Hero from '@/components/sections/Hero'
+import Intro from '@/components/sections/Intro'
+import Space from '@/components/sections/Space'
 import FeaturedMenu from '@/components/sections/FeaturedMenu'
-import About from '@/components/sections/About'
-import Contact from '@/components/sections/Contact'
-import Experience from '@/components/sections/Experience'
-
+import Story from '@/components/sections/Story'
+import GuestWords from '@/components/sections/GuestWords'
+import Visit from '@/components/sections/Visit'
 
 export default function Home() {
   return (
-    <main style={{ background: '#080808' }}>
+    <>
       <Hero />
-      <Marquee />
+      <Intro />
+      <Space />
       <FeaturedMenu />
-      <Experience />
-      <About />
-      <Contact />
-    </main>
+      <Story />
+      <GuestWords />
+      <Visit />
+    </>
   )
 }

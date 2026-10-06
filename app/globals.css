@@ -1,395 +1,294 @@
-﻿/* app/globals.css */
+@import 'tailwindcss';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ── Design tokens ─────────────────────────────────────────────────────── */
+@theme {
+  /* Palette drawn from the venue itself: black steel, foliage, woven
+     rattan and the brass of the crest. */
+  --color-ink: #0b0d0b;
+  --color-ink-raised: #131613;
+  --color-moss: #18241c;
+  --color-bone: #efe9dd;
+  --color-paper: #ebe4d5;
+  --color-brass: #c6a467;
+  --color-brass-deep: #7a5a20;
 
-/* ============================================
-   ROOT VARIABLES — Your design system tokens
-   ============================================ */
-:root {
-  --color-bg: #080808;
-  --color-text: #f0ede6;
-  --color-accent: #c9a96e;
-  --color-muted: #4a4a4a;
-  --font-heading: 'Cormorant Garamond', serif;
-  --font-body: 'DM Sans', sans-serif;
-}
+  --font-display: var(--font-bodoni), 'Bodoni MT', Didot, Georgia, serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
 
-/* ============================================
-   BASE RESET
-   ============================================ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  --text-display-xl: clamp(2.75rem, 1.35rem + 6.2vw, 7.25rem);
+  --text-display-xl--line-height: 0.96;
+  --text-display-xl--letter-spacing: -0.025em;
+  --text-display-lg: clamp(2.25rem, 1.5rem + 3.4vw, 4.75rem);
+  --text-display-lg--line-height: 1.02;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-md: clamp(1.625rem, 1.3rem + 1.5vw, 2.75rem);
+  --text-display-md--line-height: 1.16;
+  --text-display-md--letter-spacing: -0.012em;
+  --text-display-sm: clamp(1.3125rem, 1.2rem + 0.5vw, 1.625rem);
+  --text-display-sm--line-height: 1.2;
+  --text-display-sm--letter-spacing: -0.005em;
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.22em;
 
-html {
-  scroll-behavior: auto; /* Lenis handles smooth scroll */
-  background-color: var(--color-bg);
-}
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-body);
-  overflow-x: hidden;
-  cursor: none;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+  --breakpoint-xs: 23.4375rem;
 
-body::-webkit-scrollbar {
-  display: none;
-}
+  --animate-settle: settle 2.6s var(--ease-out-expo) both;
+  --animate-rise: rise 0.7s var(--ease-out-expo) both;
+  --animate-scroll-cue: scroll-cue 2.4s var(--ease-in-out-quart) infinite;
 
-/* ============================================
-   TYPOGRAPHY SCALE
-   ============================================ */
-h1, h2, h3, h4 {
-  font-family: var(--font-heading);
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* ============================================
-   SELECTION COLOR
-   ============================================ */
-::selection {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
-}
-
-/* ============================================
-   RESPONSIVE SECTION PADDING SYSTEM
-   ============================================ */
-.section-padding {
-  padding-left: 80px;
-  padding-right: 80px;
-}
-
-@media (max-width: 1024px) {
-  .section-padding {
-    padding-left: 48px;
-    padding-right: 48px;
+  @keyframes settle {
+    from {
+      transform: scale(1.12);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes scroll-cue {
+    0% {
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+    45% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    55% {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+    100% {
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
   }
 }
 
-@media (max-width: 640px) {
-  .section-padding {
-    padding-left: 24px;
-    padding-right: 24px;
+/* ── Base ──────────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --gutter: 1.25rem;
+    --header-h: 4.25rem;
+    color-scheme: dark;
   }
-}
-
-/* ============================================
-   RESPONSIVE GRID COLLAPSE
-   ============================================ */
-.responsive-grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-}
-
-@media (max-width: 768px) {
-  .responsive-grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+  @media (width >= 48rem) {
+    :root {
+      --gutter: 2.5rem;
+      --header-h: 5rem;
+    }
   }
-}
-
-.responsive-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-}
-
-@media (max-width: 768px) {
-  .responsive-grid-3 {
-    grid-template-columns: 1fr;
-    gap: 32px;
+  @media (width >= 80rem) {
+    :root {
+      --gutter: 4rem;
+    }
   }
-}
 
-/* ============================================
-   WORK ROW / PROJECT STYLING
-   ============================================ */
-.work-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@media (max-width: 640px) {
-  .work-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+  html {
+    background: var(--color-ink);
+    scroll-padding-top: 0;
+    -webkit-text-size-adjust: 100%;
   }
-}
 
-@media (min-width: 768px) {
-  .project-category {
-    display: block !important;
-  }
-}
-
-/* ============================================
-   ANIMATIONS & EFFECTS
-   ============================================ */
-@keyframes scrollLine {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(200%); }
-}
-
-.animate-scroll-line {
-  animation: scrollLine 1.8s ease-in-out infinite;
-}
-
-.word-wrapper {
-  overflow: hidden;
-  display: inline-block;
-}
-
-.word {
-  display: inline-block;
-}
-
-/* ============================================
-   HIDE CUSTOM CURSOR ON TOUCH DEVICES
-   ============================================ */
-@media (hover: none) and (pointer: coarse) {
   body {
-    cursor: auto;
+    background: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-optical-sizing: auto;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-brass);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 3px;
+  }
+  .on-paper :focus-visible {
+    outline-color: var(--color-ink);
+  }
+
+  /* Lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
   }
 }
 
-/* ============================================
-   MOBILE RESPONSIVENESS PASS
-   ============================================ */
-
-/* Work section */
-@media (max-width: 900px) {
-  .accordion-row {
-    flex-direction: column;
-    align-items: stretch !important;
-  }
-
-  .accordion-track {
-    width: 100%;
-    overflow-x: auto;
-  }
+/* ── Layout primitives ─────────────────────────────────────────────────── */
+@utility shell {
+  width: 100%;
+  max-width: 100rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
 
-/* Contact section */
-@media (max-width: 768px) {
-  .contact-section-padding {
-    padding: 100px 24px 40px 24px !important;
-  }
+@utility section-y {
+  padding-block: clamp(5rem, 3rem + 9vw, 11rem);
 }
 
-@media (max-width: 480px) {
-  .contact-section-padding {
-    padding: 80px 16px 32px 16px !important;
-  }
-}
-
-/* ============================================
-   HERO — Layered cinematic hero
-   ============================================ */
-@media (max-width: 1024px) {
-  .hero-content-padding {
-    padding: 0 48px 80px 48px !important;
-  }
-
-  .hero-social-rail {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .hero-content-padding {
-    padding: 0 24px 70px 24px !important;
-  }
-
-  .hero-scroll-indicator {
-    bottom: 20px !important;
-  }
-}
-
-/* Prevent horizontal scroll from oversized elements anywhere */
-html, body {
-  max-width: 100vw;
-}
-
-@media (max-width: 480px) {
-  .responsive-grid-4 {
-    gap: 24px !important;
-  }
-}
-
-/* Hide standard cursor only on non-touch devices with fine pointer */
-@media (pointer: fine) {
-  body, a, button, input, textarea, select, [role="button"] {
-    cursor: none !important;
-  }
-}
-
-/* Our Story: stack mosaic below text, drop secondary images on mobile */
-@media (max-width: 900px) {
-  .story-grid {
-    grid-template-columns: 1fr !important;
-    gap: 48px !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .mosaic-small {
-    display: none;
-  }
-}
-
-/* ============================================
-   RESERVATION SECTION
-   ============================================ */
-
-/* ── CTA buttons ── */
-.reserve-cta-primary,
-.reserve-cta-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 11px;
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
   font-weight: 500;
-  letter-spacing: 0.25em;
   text-transform: uppercase;
-  padding: 17px 36px;
-  border-radius: 2px;
-  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, transform 0.35s ease;
-  white-space: nowrap;
 }
 
-.reserve-cta-primary {
-  color: #080808;
-  background: #c9a96e;
-  border: 1px solid #c9a96e;
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-.reserve-cta-primary:hover {
-  background: #ddbf8a;
-  border-color: #ddbf8a;
-  transform: translateY(-2px);
+/* ── Components ────────────────────────────────────────────────────────── */
+@layer components {
+  /* Underline that draws in from the left on hover/focus. */
+  .link-line {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    padding-bottom: 0.2em;
+    transition: background-size 0.5s var(--ease-out-expo);
+  }
+  .link-line:hover,
+  .link-line:focus-visible,
+  .link-line[aria-current='true'] {
+    background-size: 100% 1px;
+  }
+
+  /* Film grain, used sparingly over photography. */
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+    mix-blend-mode: overlay;
+  }
 }
 
-.reserve-cta-secondary {
-  color: #f0ede6;
-  background: transparent;
-  border: 1px solid rgba(240, 237, 230, 0.25);
+/* ── Scroll reveals ────────────────────────────────────────────────────────
+   Hidden states only apply once JS has confirmed it is running (html.js),
+   so content is never lost if scripts fail. ScrollEffects adds .is-visible. */
+html.js [data-reveal] {
+  transition-property: opacity, transform, clip-path;
+  transition-duration: 1.1s;
+  transition-timing-function: var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
-.reserve-cta-secondary:hover {
-  border-color: #c9a96e;
-  color: #c9a96e;
+html.js [data-reveal='up']:not(.is-visible) {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
 }
 
-/* ── Cinematic dining photograph ── */
-.reserve-image-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 2px;
-  background: linear-gradient(135deg, #1a1611 0%, #0c0a08 100%);
+html.js [data-reveal='fade']:not(.is-visible) {
+  opacity: 0;
 }
 
-.reserve-image-wrap > *:first-child {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 3;
+/* Image wipe: the frame opens upward while the picture settles inside it.
+   The clip lives on an inner element — a fully clipped element reports no
+   intersection, so the observed element itself must stay unclipped. */
+html.js [data-reveal='mask'] > [data-reveal-inner] {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.4s var(--ease-out-expo) var(--reveal-delay, 0ms);
+}
+html.js [data-reveal='mask']:not(.is-visible) > [data-reveal-inner] {
+  clip-path: inset(100% 0 0 0);
+}
+html.js [data-reveal='mask'] img {
+  transition: transform 1.8s var(--ease-out-expo) var(--reveal-delay, 0ms);
+}
+html.js [data-reveal='mask']:not(.is-visible) img {
+  transform: scale(1.14);
 }
 
-.reserve-photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* Headline lines rise out of their own baseline. */
+[data-reveal='lines'] .line {
   display: block;
-  transform: scale(1);
-  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: clip;
+  /* room for descenders without loosening the leading */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
 }
-
-.reserve-image-wrap:hover .reserve-photo {
-  transform: scale(1.06);
+[data-reveal='lines'] .line > span {
+  display: block;
 }
-
-.reserve-image-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px dashed rgba(240, 237, 230, 0.15);
-  text-align: center;
-  padding: 0 32px;
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 10px;
-  line-height: 1.7;
-  letter-spacing: 0.08em;
-  color: rgba(240, 237, 230, 0.25);
+html.js [data-reveal='lines']:not([data-on-load]) .line > span {
+  transition: transform 1.2s var(--ease-out-expo);
+  transition-delay: calc(var(--reveal-delay, 0ms) + var(--line, 0) * 90ms);
 }
-
-.reserve-image-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(8, 8, 8, 0.05) 0%, rgba(8, 8, 8, 0) 40%, rgba(8, 8, 8, 0.55) 100%);
+html.js [data-reveal='lines']:not([data-on-load]):not(.is-visible) .line > span {
+  transform: translate3d(0, 112%, 0);
 }
-
-/* ── Responsive: tablet ── */
-@media (max-width: 1024px) {
-  .reserve-grid {
-    gap: 56px !important;
+/* Above-the-fold headlines play on load in pure CSS, so the first paint
+   never waits on hydration. */
+[data-reveal='lines'][data-on-load] .line > span {
+  animation: line-rise 1.3s var(--ease-out-expo) both;
+  animation-delay: calc(var(--reveal-delay, 0ms) + var(--line, 0) * 110ms);
+}
+@keyframes line-rise {
+  from {
+    transform: translate3d(0, 112%, 0);
+  }
+  to {
+    transform: none;
   }
 }
 
-/* ── Responsive: stack to single column ── */
-@media (max-width: 900px) {
-  .reserve-grid {
-    grid-template-columns: 1fr !important;
-    gap: 56px !important;
-    margin-bottom: 80px !important;
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal],
+  html.js [data-reveal] > [data-reveal-inner],
+  html.js [data-reveal='mask'] img,
+  html.js [data-reveal='lines'] .line > span {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
   }
 
-  .reserve-image-wrap {
-    aspect-ratio: 4 / 3;
-  }
-}
-
-/* ── Responsive: mobile ── */
-@media (max-width: 640px) {
-  .reserve-benefits {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
-  }
-
-  .reserve-cta-row {
-    flex-direction: column;
-    align-items: stretch !important;
-  }
-
-  .reserve-cta-primary,
-  .reserve-cta-secondary {
-    width: 100%;
-    padding: 16px 24px;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
   }
 }

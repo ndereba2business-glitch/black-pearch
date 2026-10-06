@@ -1,377 +1,106 @@
-﻿'use client'
-
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { IconInstagram, IconFacebook, IconTiktok, IconMapPin, IconClock, IconArrowDown } from '@/components/ui/icons'
-
-import GlassBadge from '@/components/ui/GlassBadge'
-import GrainOverlay from '@/components/ui/GrainOverlay'
-import CinematicFog from '@/components/ui/CinematicFog'
-import CursorGlow from '@/components/ui/CursorGlow'
-import AmbientParticles from '@/components/ui/AmbientParticles'
-import { magneticHover } from '@/lib/animations'
-
-gsap.registerPlugin(ScrollTrigger)
-
-// TODO: paste real profile URLs here when ready, e.g.
-// instagram: 'https://instagram.com/theblackperch'
-// facebook: 'https://facebook.com/theblackperch'
-const SOCIAL_LINKS = {
-  instagram: 'https://www.instagram.com/the_blackperch/',
-  facebook: 'https://www.facebook.com/p/The-Black-Perch-100054397995777/',
-  tiktok: 'https://www.tiktok.com/@theblackperch',
-}
+import Image from 'next/image'
+import heroImage from '@/public/images/hero/dining-room.jpg'
+import { SITE } from '@/lib/site'
+import ButtonLink from '@/components/ui/ButtonLink'
+import Magnetic from '@/components/ui/Magnetic'
+import RevealHeading from '@/components/ui/RevealHeading'
+import { IconWhatsapp } from '@/components/ui/icons'
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const imageWrapRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-  const headingRef = useRef<HTMLHeadingElement>(null)
-  const subRef = useRef<HTMLParagraphElement>(null)
-  const primaryBtnRef = useRef<HTMLAnchorElement>(null)
-
-  // ── Entrance timeline + scroll parallax ─────────────────────
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        contentRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1.2, delay: 0.2, ease: 'power3.out' }
-      )
-
-      // Subtle parallax on scroll
-      gsap.to(imageWrapRef.current, {
-        yPercent: 10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
-
-  // ── Soft camera movement on mouse move ───────────────────
-  useEffect(() => {
-    const wrap = imageWrapRef.current
-    if (!wrap || window.matchMedia('(hover: none)').matches) return
-
-    const xTo = gsap.quickTo(wrap, 'x', { duration: 1.4, ease: 'power3.out' })
-    const yTo = gsap.quickTo(wrap, 'y', { duration: 1.4, ease: 'power3.out' })
-
-    const onMove = (e: MouseEvent) => {
-      const relX = e.clientX / window.innerWidth - 0.5
-      const relY = e.clientY / window.innerHeight - 0.5
-      xTo(relX * 16)
-      yTo(relY * 10)
-    }
-
-    window.addEventListener('mousemove', onMove)
-    return () => window.removeEventListener('mousemove', onMove)
-  }, [])
-
-  // ── Magnetic hover ──────────────────────────────────────────
-  useEffect(() => {
-    const cleanup = magneticHover(primaryBtnRef.current, 0.3)
-    return () => cleanup && cleanup()
-  }, [])
-
-  const scrollToId = (id: string) => (e: React.MouseEvent) => {
-    e.preventDefault()
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
     <section
-      ref={sectionRef}
-      id="home"
-      style={{
-        position: 'relative',
-        height: '100vh',
-        width: '100%',
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        background: '#080808',
-      }}
+      id="top"
+      aria-labelledby="hero-title"
+      className="relative isolate flex min-h-svh flex-col overflow-clip bg-ink"
     >
-      {/* ══════════════ LAYER 1 — Background Image ══════════════ */}
-      <div
-        ref={imageWrapRef}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          willChange: 'transform',
-        }}
-      >
-        <img
-          src="/hero/black-perch-hero.png"
-          alt="The Black Perch Exterior"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center 25%',
-            display: 'block',
-          }}
-          onError={(e) => {
-            e.currentTarget.style.display = 'none'
-          }}
-        />
-
-        {/* Cinematic Vignette & Readability Gradient */}
+      {/* Atmosphere — on wide screens the photograph's own colours, blown
+          out of focus, wash the stage behind the type. */}
+      <div aria-hidden="true" className="absolute inset-0 -z-20 hidden lg:block">
         <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(180deg, rgba(8,8,8,0.7) 0%, rgba(8,8,8,0.2) 35%, rgba(8,8,8,0.75) 80%, #080808 100%)',
-          }}
+          className="absolute inset-0 scale-125 bg-cover bg-center opacity-45 blur-3xl"
+          style={{ backgroundImage: `url(${heroImage.blurDataURL})` }}
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-ink via-ink/85 to-ink/30" />
+      </div>
+
+      {/* The photograph: full-bleed on small screens, a tall panel on wide ones. */}
+      <div className="absolute inset-0 -z-10 overflow-clip lg:left-auto lg:w-[46%]">
+        <div data-parallax className="absolute inset-x-0 -inset-y-[7%]">
+          <Image
+            src={heroImage}
+            alt="Candlelit tables set for dinner beneath a ceiling of woven basket lamps and trailing greenery"
+            fill
+            preload
+            sizes="(min-width: 64rem) 46vw, 100vw"
+            placeholder="blur"
+            className="animate-settle object-cover object-[62%_50%] lg:object-[56%_50%]"
+          />
+        </div>
+        <div aria-hidden="true" className="grain absolute inset-0 opacity-[0.08]" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-linear-to-b from-ink/75 via-ink/25 via-35% to-ink lg:hidden"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 hidden bg-linear-to-r from-ink/70 via-ink/10 to-transparent lg:block"
         />
       </div>
 
-      {/* ══════════════ TOP BRAND HEADER ══════════════ */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '28px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 20,
-          textAlign: 'center',
-          pointerEvents: 'none',
-        }}
-      >
-        <h2
-          style={{
-            fontFamily: 'var(--font-cormorant), serif',
-            fontSize: 'clamp(1.4rem, 2.2vw, 2.2rem)',
-            color: '#c9a96e',
-            fontWeight: 300,
-            letterSpacing: '0.08em',
-            lineHeight: 1,
-            margin: 0,
-          }}
-        >
-          The Black Perch
-        </h2>
-        <span
-          style={{
-            display: 'block',
-            fontFamily: 'var(--font-dm-sans), sans-serif',
-            fontSize: '8px',
-            letterSpacing: '0.35em',
-            textTransform: 'uppercase',
-            color: 'rgba(240,237,230,0.5)',
-            marginTop: '6px',
-          }}
-        >
-          DINE. CHILL. INDULGE.
-        </span>
-      </div>
+      <div className="shell flex flex-1 flex-col justify-end pt-[calc(var(--header-h)+2rem)]">
+        <div className="pb-10 md:pb-14">
+          <p className="eyebrow animate-rise text-brass">
+            {SITE.address.street} · {SITE.address.locality}, {SITE.address.country}
+          </p>
 
-      {/* ══════════════ LAYER 2 — Atmosphere ══════════════ */}
-      <CinematicFog />
-      <GrainOverlay opacity={0.045} />
-      <AmbientParticles />
-      <CursorGlow range={36} />
+          <RevealHeading
+            as="h1"
+            id="hero-title"
+            onLoad
+            delay={150}
+            className="mt-5 text-display-xl md:mt-7"
+            lines={[
+              'Day into night,',
+              'under one',
+              <em key="roof" className="text-brass">
+                woven roof.
+              </em>,
+            ]}
+          />
 
-      {/* ══════════════ LAYER 3 — Main Hero Content ══════════════ */}
-      <div
-        ref={contentRef}
-        className="hero-content-padding"
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          padding: '0 80px 85px 80px',
-          maxWidth: '750px',
-        }}
-      >
-        {/* Main Headline */}
-        <h1
-          ref={headingRef}
-          style={{
-            fontFamily: 'var(--font-cormorant), serif',
-            fontSize: 'clamp(1.9rem, 3.4vw, 3.4rem)',
-            lineHeight: '1.2',
-            color: '#f0ede6',
-            marginBottom: '24px',
-            fontWeight: 300,
-            maxWidth: '620px',
-          }}
-        >
-          <span style={{ display: 'block', overflow: 'hidden' }}>
-            <span className="line-inner" style={{ display: 'block' }}>
-              An unforgettable dining
-            </span>
-          </span>
-          <span style={{ display: 'block', overflow: 'hidden' }}>
-            <span className="line-inner" style={{ display: 'block' }}>
-              and lifestyle experience
-            </span>
-          </span>
-        </h1>
+          <p className="mt-7 max-w-[30rem] animate-rise text-[1.0625rem] leading-relaxed text-bone/85 [animation-delay:650ms] md:mt-9 md:text-lg">
+            {SITE.name} is a restaurant, lounge, café and spa in Milimani, Meru — open
+            twenty-four hours, every day.
+          </p>
 
-        <p
-          ref={subRef}
-          style={{
-            fontFamily: 'var(--font-dm-sans), sans-serif',
-            fontSize: '15px',
-            color: 'rgba(240,237,230,0.55)',
-            letterSpacing: '0.12em',
-            marginBottom: '28px',
-            lineHeight: 1.7,
-            maxWidth: '28rem',
-          }}
-        >
-          — lounge, cafe, spa and sherehe nights, all under one roof
-        </p>
-
-        {/* Status Badges */}
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '12px',
-            marginBottom: '32px',
-          }}
-        >
-          <GlassBadge>
-            <IconClock width={12} height={12} style={{ marginRight: 6 }} />
-            OPEN 24/7
-          </GlassBadge>
-          <GlassBadge>
-            <IconMapPin width={12} height={12} style={{ marginRight: 6 }} />
-            MILIMANI ROAD, MERU
-          </GlassBadge>
+          <div className="mt-9 flex animate-rise flex-col gap-3 [animation-delay:800ms] xs:flex-row xs:flex-wrap xs:items-center xs:gap-4">
+            <Magnetic className="w-full xs:w-auto">
+              <ButtonLink
+                href={SITE.reserveUrl}
+                external
+                icon={<IconWhatsapp />}
+                className="w-full xs:w-auto"
+              >
+                Reserve a table
+              </ButtonLink>
+            </Magnetic>
+            <ButtonLink href="#menu" variant="outline">
+              See the menu
+            </ButtonLink>
+          </div>
         </div>
 
-        {/* CTA Button */}
-        <div>
-          <a
-            ref={primaryBtnRef}
-            href="#reserve"
-            onClick={scrollToId('reserve')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '12px',
-              fontFamily: 'var(--font-dm-sans), sans-serif',
-              fontSize: '11px',
-              fontWeight: 500,
-              letterSpacing: '0.25em',
-              textTransform: 'uppercase',
-              color: '#f0ede6',
-              background: 'transparent',
-              border: '1px solid rgba(201, 169, 110, 0.6)',
-              padding: '16px 32px',
-              borderRadius: '2px',
-              transition: 'all 0.3s ease',
-            }}
-          >
-            Reserve a Table &rarr;
+        <div className="flex animate-rise items-center justify-between gap-6 border-t border-bone/15 py-5 text-bone/70 [animation-delay:1000ms]">
+          <p className="eyebrow">{SITE.hours}</p>
+          <p className="eyebrow hidden md:block">{SITE.tagline}</p>
+          <a href="#about" className="eyebrow group flex items-center gap-3 hover:text-bone">
+            Scroll
+            <span aria-hidden="true" className="block h-8 w-px overflow-hidden bg-bone/20">
+              <span className="block size-full animate-scroll-cue bg-brass" />
+            </span>
           </a>
         </div>
       </div>
-
-      {/* Social Rail (Right) */}
-      <div
-        className="hero-social-rail"
-        style={{
-          position: 'absolute',
-          right: '40px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          zIndex: 10,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '20px',
-        }}
-      >
-        <span style={{ width: '1px', height: '48px', background: 'rgba(240,237,230,0.2)' }} />
-        
-        <a
-          href={SOCIAL_LINKS.instagram || '#'}
-          target={SOCIAL_LINKS.instagram ? '_blank' : undefined}
-          rel={SOCIAL_LINKS.instagram ? 'noopener noreferrer' : undefined}
-          aria-label="Instagram"
-          style={{ color: 'rgba(240,237,230,0.5)' }}
-        >
-          <IconInstagram />
-        </a>
-
-        <a
-          href={SOCIAL_LINKS.facebook || '#'}
-          target={SOCIAL_LINKS.facebook ? '_blank' : undefined}
-          rel={SOCIAL_LINKS.facebook ? 'noopener noreferrer' : undefined}
-          aria-label="Facebook"
-          style={{ color: 'rgba(240,237,230,0.5)' }}
-        >
-          <IconFacebook />
-        </a>
-
-        <a
-          href={SOCIAL_LINKS.tiktok || '#'}
-          target={SOCIAL_LINKS.tiktok ? '_blank' : undefined}
-          rel={SOCIAL_LINKS.tiktok ? 'noopener noreferrer' : undefined}
-          aria-label="TikTok"
-          style={{ color: 'rgba(240,237,230,0.5)' }}
-        >
-          <IconTiktok />
-        </a>
-
-        <span style={{ width: '1px', height: '48px', background: 'rgba(240,237,230,0.2)' }} />
-      </div>
-
-      {/* Scroll Indicator (Bottom Center) */}
-      <div
-        className="hero-scroll-indicator"
-        style={{
-          position: 'absolute',
-          bottom: '24px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 10,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '6px',
-        }}
-      >
-        <span
-          style={{
-            fontFamily: 'var(--font-dm-sans), sans-serif',
-            fontSize: '9px',
-            letterSpacing: '0.4em',
-            textTransform: 'uppercase',
-            color: 'rgba(240,237,230,0.35)',
-          }}
-        >
-          Scroll
-        </span>
-        <IconArrowDown width={12} height={12} color="rgba(240,237,230,0.35)" />
-      </div>
-
-      {/* Bottom Fade Gradient */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: '120px',
-          background: 'linear-gradient(to bottom, transparent 0%, #080808 100%)',
-          pointerEvents: 'none',
-          zIndex: 5,
-        }}
-      />
     </section>
   )
 }

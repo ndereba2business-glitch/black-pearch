@@ -1,47 +1,105 @@
-// app/layout.tsx
-import type { Metadata } from 'next'
-import { DM_Sans, Cormorant_Garamond } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Bodoni_Moda, Instrument_Sans } from 'next/font/google'
 import './globals.css'
-import SmoothScroll from '@/components/layout/SmoothScroll'
-import CustomCursor from '@/components/ui/CustomCursor'
 import Navbar from '@/components/layout/Navbar'
-import SectionNav from '@/components/ui/SectionNav'
+import Footer from '@/components/layout/Footer'
+import ScrollEffects from '@/components/motion/ScrollEffects'
+import { SITE } from '@/lib/site'
 
-const dmSans = DM_Sans({
+const bodoni = Bodoni_Moda({
   subsets: ['latin'],
-  variable: '--font-dm-sans',
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
+  variable: '--font-bodoni',
   display: 'swap',
 })
 
-const cormorant = Cormorant_Garamond({
+const instrument = Instrument_Sans({
   subsets: ['latin'],
-  variable: '--font-cormorant',
-  weight: ['300', '400', '500', '600'],
+  variable: '--font-instrument',
   display: 'swap',
 })
+
+const title = `${SITE.name} — Restaurant, Lounge & Café in Meru, Kenya`
 
 export const metadata: Metadata = {
-  title: 'The Black Pearch — Meru\'s Premier Lifestyle & Entertainment Hub',
-  description: 'Lounge, cafe, spa, creamery, and auto care — one destination in Milimani, Meru. Open 24/7.',
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: title,
+    template: `%s — ${SITE.name}`,
+  },
+  description: SITE.description,
+  applicationName: SITE.name,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    url: '/',
+    siteName: SITE.name,
+    locale: SITE.locale,
+    title,
+    description: SITE.description,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description: SITE.description,
+  },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export const viewport: Viewport = {
+  themeColor: '#0b0d0b',
+  colorScheme: 'dark',
+}
+
+// Structured data for search engines. Only facts stated on the page itself.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: SITE.name,
+  description: SITE.description,
+  url: SITE.url,
+  image: `${SITE.url}/opengraph-image.jpg`,
+  telephone: SITE.phone.e164,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.address.street,
+    addressLocality: SITE.address.locality,
+    addressCountry: SITE.address.countryCode,
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '00:00',
+    closes: '23:59',
+  },
+  acceptsReservations: true,
+  hasMenu: `${SITE.url}/#menu`,
+  sameAs: SITE.socials.map((social) => social.href),
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${dmSans.variable} ${cormorant.variable}`}
-    >
-      <body className="bg-noir-bg text-noir-text antialiased">
-        <SmoothScroll>
-          <CustomCursor />
-          <Navbar />
-          <SectionNav />
-          {children}
-        </SmoothScroll>
+    // The inline script below adds a class to <html> before hydration.
+    <html lang="en" className={`${bodoni.variable} ${instrument.variable}`} suppressHydrationWarning>
+      <body>
+        {/* Scroll reveals only hide content once we know scripts are running. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+        />
+
+        <a
+          href="#main"
+          className="fixed left-4 top-4 z-[60] -translate-y-24 bg-bone px-5 py-3 text-sm font-medium text-ink transition-transform focus-visible:translate-y-0"
+        >
+          Skip to content
+        </a>
+
+        <Navbar />
+        <main id="main">{children}</main>
+        <Footer />
+        <ScrollEffects />
       </body>
     </html>
   )
