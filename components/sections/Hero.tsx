@@ -45,6 +45,15 @@ export default function Hero() {
           aria-hidden="true"
           className="absolute inset-0 hidden bg-linear-to-r from-ink/70 via-ink/10 to-transparent lg:block"
         />
+        {/* keeps the navigation and the footer strip legible over the picture */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 hidden bg-linear-to-b from-ink/70 from-0% via-transparent via-25% to-transparent lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 hidden h-1/3 bg-linear-to-t from-ink/85 to-transparent lg:block"
+        />
       </div>
 
       <div className="shell flex flex-1 flex-col justify-end pt-[calc(var(--header-h)+2rem)]">
@@ -93,7 +102,7 @@ export default function Hero() {
         <div className="flex animate-rise items-center justify-between gap-6 border-t border-bone/15 py-5 text-bone/70 [animation-delay:1000ms]">
           <p className="eyebrow">{SITE.hours}</p>
           <p className="eyebrow hidden md:block">{SITE.tagline}</p>
-          <a href="#about" className="eyebrow group flex items-center gap-3 hover:text-bone">
+          <a href="#about" className="eyebrow flex min-h-11 items-center gap-3 transition-colors duration-300 hover:text-bone">
             Scroll
             <span aria-hidden="true" className="block h-8 w-px overflow-hidden bg-bone/20">
               <span className="block size-full animate-scroll-cue bg-brass" />

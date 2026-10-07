@@ -192,7 +192,9 @@
   }
   .link-line:hover,
   .link-line:focus-visible,
-  .link-line[aria-current='true'] {
+  a[aria-current='true'] > .link-line,
+  :is(a, button):hover > .link-line,
+  :is(a, button):focus-visible > .link-line {
     background-size: 100% 1px;
   }
 

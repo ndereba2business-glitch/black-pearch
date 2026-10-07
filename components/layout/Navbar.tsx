@@ -115,7 +115,7 @@ export default function Navbar() {
           <a
             href="#top"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-3"
+            className="flex min-h-11 items-center gap-3"
             aria-label={`${SITE.name} — back to top`}
           >
             <Image src={mark} alt="" className="h-6 w-auto md:h-7" />
@@ -132,11 +132,11 @@ export default function Navbar() {
                     href={link.href}
                     aria-current={active === link.href ? 'true' : undefined}
                     className={cn(
-                      'link-line text-[0.8125rem] tracking-[0.04em] transition-colors duration-300',
+                      'inline-flex min-h-11 items-center text-[0.8125rem] tracking-[0.04em] transition-colors duration-300',
                       active === link.href ? 'text-bone' : 'text-bone/70 hover:text-bone'
                     )}
                   >
-                    {link.label}
+                    <span className="link-line">{link.label}</span>
                   </a>
                 </li>
               ))}
@@ -148,7 +148,11 @@ export default function Navbar() {
               href={SITE.reserveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden min-h-11 items-center border border-brass/70 px-5 text-[0.6875rem] font-medium uppercase tracking-[0.18em] text-bone transition-colors duration-300 hover:bg-brass hover:text-ink xs:inline-flex"
+              className={cn(
+                'hidden min-h-11 items-center border border-brass/70 px-5 text-[0.6875rem] font-medium uppercase tracking-[0.18em] text-bone transition-[color,background-color,opacity] duration-300 hover:bg-brass hover:text-ink xs:inline-flex',
+                open && 'pointer-events-none opacity-0'
+              )}
+              tabIndex={open ? -1 : undefined}
             >
               Reserve
               <span className="sr-only"> a table on WhatsApp (opens in a new tab)</span>
@@ -236,8 +240,8 @@ export default function Navbar() {
               <br />
               {SITE.hours}
             </p>
-            <a href={SITE.phone.href} className="link-line text-bone">
-              {SITE.phone.display}
+            <a href={SITE.phone.href} className="inline-flex min-h-11 items-center text-bone">
+              <span className="link-line">{SITE.phone.display}</span>
             </a>
           </div>
         </div>

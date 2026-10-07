@@ -9,12 +9,12 @@ import { cn } from '@/lib/cn'
 // Wide screens: an offset twelve-column grid, sized so no photograph is
 // ever shown larger than its source can carry.
 const LAYOUT = [
-  { shape: 'aspect-[3/4]', grid: 'lg:col-span-3 lg:col-start-1', drift: 0, sizes: '25vw' },
-  { shape: 'aspect-[3/4]', grid: 'lg:col-span-4 lg:col-start-5 lg:mt-28', drift: 36, sizes: '33vw' },
-  { shape: 'aspect-[2/3]', grid: 'lg:col-span-3 lg:col-start-10 lg:mt-10', drift: -24, sizes: '25vw' },
-  { shape: 'aspect-[3/2]', grid: 'lg:col-span-5 lg:col-start-1 lg:mt-24', drift: 0, sizes: '42vw' },
-  { shape: 'aspect-[3/4]', grid: 'lg:col-span-3 lg:col-start-7 lg:mt-40', drift: 44, sizes: '25vw' },
-  { shape: 'aspect-[3/4]', grid: 'lg:col-span-2 lg:col-start-11 lg:mt-16', drift: -20, sizes: '17vw' },
+  { shape: 'aspect-[3/4]', grid: 'lg:col-span-4 lg:col-start-1', drift: 0, sizes: '33vw' },
+  { shape: 'aspect-[6/5]', grid: 'lg:col-span-4 lg:col-start-6 lg:mt-44', drift: 40, sizes: '33vw' },
+  { shape: 'aspect-[2/3]', grid: 'lg:col-span-2 lg:col-start-11 lg:mt-12', drift: -24, sizes: '17vw' },
+  { shape: 'aspect-[3/2]', grid: 'lg:col-span-5 lg:col-start-2 lg:mt-20', drift: 0, sizes: '42vw' },
+  { shape: 'aspect-[3/4]', grid: 'lg:col-span-3 lg:col-start-8 lg:mt-36', drift: 44, sizes: '25vw' },
+  { shape: 'aspect-[3/4]', grid: 'lg:col-span-2 lg:col-start-11 lg:mt-14', drift: -20, sizes: '17vw' },
 ]
 
 export default function Space() {
@@ -59,7 +59,7 @@ export default function Space() {
       </div>
 
       <div
-        className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-(--gutter) pb-2 lg:shell lg:mt-24 lg:grid lg:snap-none lg:grid-cols-12 lg:items-start lg:gap-x-10 lg:gap-y-0 lg:overflow-visible lg:pb-0"      >
+        className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-(--gutter) px-(--gutter) pb-2 lg:shell lg:mt-24 lg:grid lg:snap-none lg:grid-cols-12 lg:items-start lg:gap-x-10 lg:gap-y-0 lg:overflow-visible lg:pb-0"      >
         {SPACE_IMAGES.map((item, index) => {
           const layout = LAYOUT[index]
           return (
@@ -73,7 +73,7 @@ export default function Space() {
                 alt={item.alt}
                 position={item.position}
                 sizes={`(min-width: 64rem) ${layout.sizes}, 70vw`}
-                className={cn('h-[21rem] lg:h-auto lg:w-full', layout.shape)}
+                className={cn('h-[21rem] max-w-[78vw] lg:h-auto lg:w-full lg:max-w-none', layout.shape)}
               />
               <figcaption className="eyebrow mt-4 text-bone/60">{item.caption}</figcaption>
             </figure>

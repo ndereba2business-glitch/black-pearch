@@ -29,11 +29,14 @@ export default function Footer() {
 
           <nav aria-label="Footer" className="md:col-span-2 md:col-start-7">
             <h2 className="eyebrow text-bone/60">Explore</h2>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-3">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="link-line text-bone/85 hover:text-bone">
-                    {link.label}
+                  <a
+                    href={link.href}
+                    className="inline-flex min-h-11 items-center text-bone/85 hover:text-bone"
+                  >
+                    <span className="link-line">{link.label}</span>
                   </a>
                 </li>
               ))}
@@ -42,15 +45,15 @@ export default function Footer() {
 
           <div className="md:col-span-2">
             <h2 className="eyebrow text-bone/60">Find us</h2>
-            <address className="mt-5 space-y-3 not-italic text-bone/85">
+            <address className="mt-5 not-italic text-bone/85">
               <p>
                 {SITE.address.street}
                 <br />
                 {SITE.address.locality}, {SITE.address.country}
               </p>
               <p>
-                <a href={SITE.phone.href} className="link-line hover:text-bone">
-                  {SITE.phone.display}
+                <a href={SITE.phone.href} className="inline-flex min-h-11 items-center hover:text-bone">
+                  <span className="link-line">{SITE.phone.display}</span>
                 </a>
               </p>
             </address>
@@ -58,7 +61,7 @@ export default function Footer() {
 
           <div className="md:col-span-2">
             <h2 className="eyebrow text-bone/60">Follow</h2>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-3">
               {SITE.socials.map((social) => {
                 const Icon = SOCIAL_ICONS[social.label]
                 return (
@@ -67,7 +70,7 @@ export default function Footer() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-3 text-bone/85 transition-colors duration-300 hover:text-brass"
+                      className="inline-flex min-h-11 items-center gap-3 text-bone/85 transition-colors duration-300 hover:text-brass"
                     >
                       <Icon width={16} height={16} />
                       <span className="link-line">{social.label}</span>

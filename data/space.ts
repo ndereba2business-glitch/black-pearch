@@ -40,7 +40,6 @@ export const SPACE_IMAGES: SpaceImage[] = [
     image: bar,
     alt: 'Shelves of spirits against a brick wall behind the bar',
     caption: 'The bar',
-    position: '50% 22%',
   },
   {
     id: 'full-house',
