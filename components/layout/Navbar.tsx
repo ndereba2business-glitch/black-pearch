@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import mark from '@/public/images/brand/mark.png'
 import { NAV_LINKS, SITE } from '@/lib/site'
 import { lockScroll } from '@/lib/scroll'
@@ -16,6 +18,7 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
+  const onHome = usePathname() === '/'
 
   // Solid bar once the page moves; tuck away on the way down, return on the way up.
   useEffect(() => {
@@ -45,14 +48,14 @@ export default function Navbar() {
 
   // Highlight the link for whichever section sits across the middle of the viewport.
   useEffect(() => {
-    const sections = ['#top', ...NAV_LINKS.map((link) => link.href)]
-      .map((hash) => document.querySelector<HTMLElement>(hash))
+    const sections = ['top', ...NAV_LINKS.map((link) => link.id)]
+      .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null)
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) setActive(`#${entry.target.id}`)
+          if (entry.isIntersecting) setActive(entry.target.id)
         }
       },
       { rootMargin: '-50% 0px -50% 0px' }
@@ -101,6 +104,15 @@ export default function Navbar() {
     }
   }, [open])
 
+  const wordmark = (
+    <>
+      <Image src={mark} alt="" className="h-6 w-auto md:h-7" />
+      <span className="font-display text-[1.125rem] leading-none tracking-[-0.01em] md:text-[1.25rem]">
+        {SITE.name}
+      </span>
+    </>
+  )
+
   return (
     <div ref={rootRef}>
       <header
@@ -112,28 +124,37 @@ export default function Navbar() {
         )}
       >
         <div className="shell flex h-(--header-h) items-center justify-between gap-6">
-          <a
-            href="#top"
-            onClick={() => setOpen(false)}
-            className="flex min-h-11 items-center gap-3"
-            aria-label={`${SITE.name} — back to top`}
-          >
-            <Image src={mark} alt="" className="h-6 w-auto md:h-7" />
-            <span className="font-display text-[1.125rem] leading-none tracking-[-0.01em] md:text-[1.25rem]">
-              {SITE.name}
-            </span>
-          </a>
+          {/* On the home page the wordmark scrolls to the top; elsewhere it leads home. */}
+          {onHome ? (
+            <a
+              href="#top"
+              onClick={() => setOpen(false)}
+              className="flex min-h-11 items-center gap-3"
+              aria-label={`${SITE.name} — back to top`}
+            >
+              {wordmark}
+            </a>
+          ) : (
+            <Link
+              href="/"
+              onClick={() => setOpen(false)}
+              className="flex min-h-11 items-center gap-3"
+              aria-label={`${SITE.name} — home`}
+            >
+              {wordmark}
+            </Link>
+          )}
 
           <nav aria-label="Primary" className="hidden lg:block">
             <ul className="flex items-center gap-10">
               {NAV_LINKS.map((link) => (
-                <li key={link.href}>
+                <li key={link.id}>
                   <a
                     href={link.href}
-                    aria-current={active === link.href ? 'true' : undefined}
+                    aria-current={active === link.id ? 'true' : undefined}
                     className={cn(
                       'inline-flex min-h-11 items-center text-[0.8125rem] tracking-[0.04em] transition-colors duration-300',
-                      active === link.href ? 'text-bone' : 'text-bone/70 hover:text-bone'
+                      active === link.id ? 'text-bone' : 'text-bone/70 hover:text-bone'
                     )}
                   >
                     <span className="link-line">{link.label}</span>
@@ -201,7 +222,7 @@ export default function Navbar() {
         <nav aria-label="Mobile" className="shell flex flex-1 flex-col justify-center py-10">
           <ul>
             {NAV_LINKS.map((link, index) => (
-              <li key={link.href} className="overflow-clip border-b border-bone/10">
+              <li key={link.id} className="overflow-clip border-b border-bone/10">
                 <a
                   href={link.href}
                   onClick={() => setOpen(false)}
@@ -209,7 +230,7 @@ export default function Navbar() {
                   className={cn(
                     'block py-4 font-display text-[clamp(2.25rem,11vw,3.5rem)] leading-[1.1] tracking-[-0.02em] transition-transform duration-700 ease-out-expo',
                     open ? 'translate-y-0 delay-[calc(var(--i)*70ms+180ms)]' : 'translate-y-full',
-                    active === link.href && 'italic text-brass'
+                    active === link.id && 'italic text-brass'
                   )}
                 >
                   {link.label}

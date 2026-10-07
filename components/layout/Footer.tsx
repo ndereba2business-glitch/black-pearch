@@ -31,7 +31,7 @@ export default function Footer() {
             <h2 className="eyebrow text-bone/60">Explore</h2>
             <ul className="mt-3">
               {NAV_LINKS.map((link) => (
-                <li key={link.href}>
+                <li key={link.id}>
                   <a
                     href={link.href}
                     className="inline-flex min-h-11 items-center text-bone/85 hover:text-bone"

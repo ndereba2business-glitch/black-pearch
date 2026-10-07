@@ -36,9 +36,11 @@ export const SITE = {
   ],
 } as const
 
+// Sections of the home page. Links are root-relative so they also work
+// from any other route (the 404 page, for one).
 export const NAV_LINKS = [
-  { label: 'The Space', href: '#space' },
-  { label: 'Menu', href: '#menu' },
-  { label: 'Story', href: '#story' },
-  { label: 'Visit', href: '#visit' },
+  { label: 'The Space', id: 'space', href: '/#space' },
+  { label: 'Menu', id: 'menu', href: '/#menu' },
+  { label: 'Story', id: 'story', href: '/#story' },
+  { label: 'Visit', id: 'visit', href: '/#visit' },
 ] as const
